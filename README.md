@@ -1,5 +1,5 @@
 
-# R package streamConnect - Connecting Stream Mining Components
+# <img src="man/figures/logo.svg" align="right" height="139" /> R package streamConnect - Connecting Stream Mining Components
 
 [![CRAN
 version](http://www.r-pkg.org/badges/version/streamConnect)](https://CRAN.R-project.org/package=streamConnect)
@@ -9,7 +9,7 @@ status](https://mhahsler.r-universe.dev/badges/streamConnect)](https://mhahsler.
 downloads](http://cranlogs.r-pkg.org/badges/streamConnect)](https://CRAN.R-project.org/package=streamConnect)
 
 The R package is part of the
-[stream](https://github.com/mhahsler/streamMOA) ecosystem. It supports
+[stream](https://github.com/mhahsler/stream) ecosystem. It supports
 connecting stream mining components to be deployed and connected using
 web services.
 
