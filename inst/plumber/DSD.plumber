@@ -1,0 +1,25 @@
+# Plumber task file created by package streamConnect (no not edit!)
+#
+# Run with:
+# library("plumber")
+# pr("${task_file}") %>% pr_run(port = 8002)
+
+library("stream")
+dsd <- ${dsd}
+
+#* @apiTitle DSD
+
+#* Get Data Points from the Stream
+#* @serializer ${serializer}
+#* @param n number of points
+#* @get /get_points
+function(n = 1, info = TRUE) {
+  get_points(dsd, n)
+}
+
+#* Data Stream Info
+#* @serializer ${serializer}
+#* @get /info
+function() {
+  data.frame(description = dsd$description, d = dsd$d, k = dsd$k)
+}

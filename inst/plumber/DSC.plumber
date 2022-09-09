@@ -1,0 +1,36 @@
+# Plumber task file created by package streamConnect (no not edit!)
+#
+# Run with:
+# library("plumber")
+# pr("${task_file}") %>% pr_run(port = 8002)
+
+library("stream")
+dsc <- ${dsc}
+
+#* Info
+#* @get info
+#* @serializer ${serializer}
+function() {
+  data.frame(description = dsc$description)
+}
+
+#* Update Clusterer
+#* @param x: data.frame with the data
+#* @serializer ${serializer}
+#* @post /update
+function(req){
+  multipart <- mime::parse_multipart(req)
+  dsd <- DSD_ReadStream(multipart$upload$datapath, header = TRUE)
+
+  update(dsc, dsd, n = -1)
+  data.frame(result = "Update OK")
+}
+
+
+#* Get Clustering
+#* @param type: cluster type ("auto", "micro", "macro")
+#* @serializer ${serializer}
+#* @get /get_centers
+function(type = "auto") {
+  get_centers(dsc)
+}

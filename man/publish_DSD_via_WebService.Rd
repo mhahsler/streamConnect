@@ -9,7 +9,8 @@ publish_DSD_via_WebService(
   port = 8001,
   task_file = NULL,
   serializer = "csv",
-  serve = TRUE
+  serve = TRUE,
+  debug = FALSE
 )
 }
 \arguments{
@@ -24,6 +25,8 @@ is used. Other methods are \code{json} (see \link[plumber:serializers]{plumber::
 
 \item{serve}{if \code{TRUE}, then a task file is written and a server started, otherwise,
 only a plumber task file is written.}
+
+\item{debug}{if \code{TRUE}, then the service is started locally and a web client is started to explore the interface.}
 }
 \description{
 Uses the package \link{plumber} to publish a data stream as a web service.
@@ -33,24 +36,29 @@ The function writes a plumber task script file and starts the web server to serv
 the content of the stream using the endpoints \verb{http://localhost:port/get_points?n=100}) and
 \verb{http://localhost:port/info}.
 
-APIs generated using plumber can be easily deployed. See: \href{https://www.rplumber.io/articles/hosting.html}{Hosting}
+APIs generated using plumber can be easily deployed. See: \href{https://www.rplumber.io/articles/hosting.html}{Hosting}. By setting a \code{task_file} and \code{serve = FALSE} a plumber
+task script file is generated that can be deployment.
+
+A convenient reader for stream data over web services is available as \link{DSD_ReadWebService}.
 }
 \examples{
 # create a background DSD process sending data to port 8001
-rp1 <- "DSD_Gaussians(k = 3, d = 3)" \%>\% 
+rp1 <- "DSD_Gaussians(k = 3, d = 3)" \%>\%
          publish_DSD_via_WebService(port = 8001)
 rp1
 
-#' Sys.sleep(1) # wait for the socket to become available
+# connect to the port and read manually. See DSD_ReadWebService for
+# a more convenient way to connect to the WebService in R.
+library("httr")
+Sys.sleep(2)  # give the server time to spin up
 
-# connect to the port and read
-resp <- httr::GET("localhost:8001/info")
-d <- httr::content(resp, show_col_types = FALSE)
+resp <- GET("localhost:8001/info")
+d <- content(resp, show_col_types = FALSE)
 d
 
 # example: Get 100 points and plot them
-resp <- httr::GET("http://localhost:8001/get_points?n=100")
-d <- httr::content(resp, show_col_types = FALSE)
+resp <- GET("http://localhost:8001/get_points?n=100")
+d <- content(resp, show_col_types = FALSE)
 head(d)
 
 dsd <- DSD_Memory(d)
@@ -64,21 +72,33 @@ rp1
 
 # Publish using json
 
-rp2 <- "DSD_Gaussians(k = 3, d = 3)" \%>\% 
+rp2 <- "DSD_Gaussians(k = 3, d = 3)" \%>\%
          publish_DSD_via_WebService(port = 8001, serializer = "json")
 rp2
 
-#' Sys.sleep(1) # wait for the socket to become available
+Sys.sleep(2)  # give the server time to spin up
 
 # connect to the port and read
-resp <- httr::GET("localhost:8001/info")
-httr::content(resp, as = "text")
+resp <- GET("localhost:8001/info")
+content(resp, as = "text")
 
-resp <- httr::GET("http://localhost:8001/get_points?n=5")
-httr::content(resp, as = "text")
+resp <- GET("http://localhost:8001/get_points?n=5")
+content(resp, as = "text")
 
 # cleanup
 rp2$kill()
 rp2
 
+# Debug the interface (run the service and start a web interface)
+\dontrun{
+"DSD_Gaussians(k = 3, d = 3)" \%>\%
+         publish_DSD_via_WebService(port = 8002, debug = TRUE)
 }
+}
+\seealso{
+Other dsd: 
+\code{\link{DSD_ReadSocket}()},
+\code{\link{DSD_ReadWebService}()},
+\code{\link{publish_DSD_via_Socket}()}
+}
+\concept{dsd}

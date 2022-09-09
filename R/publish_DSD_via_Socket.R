@@ -9,6 +9,8 @@
 #' 
 #' This method does not provide a header.  
 #' 
+#' @family dsd
+#' 
 #' @param dsd A DSD object.  
 #' @param port port used to serve the DSD. 
 #' @param blocksize number of data points pushed on the buffer at once.  

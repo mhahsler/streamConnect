@@ -16,9 +16,12 @@ format.
 }
 \examples{
 # create a background DSD process sending data to port 8001
-rp1 <- "DSD_Gaussians(k = 3, d = 3)" \%>\% publish_DSD_via_WebService(port = 8001)
+rp1 <- "DSD_Gaussians(k = 3, d = 3)" \%>\% 
+   publish_DSD_via_WebService(port = 8001)
+
 ## use json instead of csv
-#rp1 <- "DSD_Gaussians(k = 3, d = 3)" \%>\% publish_DSD_via_WebService(port = 8001, serialize = "json")
+# rp1 <- "DSD_Gaussians(k = 3, d = 3)" \%>\% 
+#  publish_DSD_via_WebService(port = 8001, serialize = "json")
 rp1
 
 # give the server time to spin up
@@ -37,3 +40,10 @@ plot(dsd)
 rp1$kill()
 rp1
 }
+\seealso{
+Other dsd: 
+\code{\link{DSD_ReadSocket}()},
+\code{\link{publish_DSD_via_Socket}()},
+\code{\link{publish_DSD_via_WebService}()}
+}
+\concept{dsd}

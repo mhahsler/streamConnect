@@ -2,6 +2,8 @@
 #'
 #' Creates a `DSD_ReadStream` that reads from a port.
 #'
+#' @family dsd
+#' 
 #' @param host hostname.
 #' @param port host port.
 #' @param ... further arguments are passed on to [DSD_ReadStream()].

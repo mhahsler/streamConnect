@@ -3,7 +3,9 @@
 #' Reads from a web service that published an operation called
 #' `get_points` which takes a parameter `n` and returns `n` data points in CSV or json
 #' format.
-#'
+#' 
+#' @family dsd
+#' 
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
 #'
 #' @examples

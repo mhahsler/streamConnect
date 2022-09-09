@@ -38,3 +38,10 @@ close_stream(dsd)
 rp1$kill()
 rp1
 }
+\seealso{
+Other dsd: 
+\code{\link{DSD_ReadWebService}()},
+\code{\link{publish_DSD_via_Socket}()},
+\code{\link{publish_DSD_via_WebService}()}
+}
+\concept{dsd}
