@@ -32,6 +32,6 @@
 #' @export
 DSD_ReadSocket <- function(host = "localhost", port, ...) {
   con <- socketConnection(host, port, open = 'r')
-  Sys.sleep(1)
+  Sys.sleep(2)
   DSD_ReadStream(con, ...)
 }
