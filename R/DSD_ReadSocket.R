@@ -13,7 +13,7 @@
 #' rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = 6011)
 #' rp1
 #'
-#' Sys.sleep(1)  # wait for the socket to become available
+#' Sys.sleep(2)  # wait for the socket to become available
 #'
 #' # create a DSD that connects to the web service
 #' dsd <- DSD_ReadSocket(port = 6011, col.names = c("x", "y", "z", ".class"))
