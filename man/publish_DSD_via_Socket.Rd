@@ -36,8 +36,7 @@ con <- socketConnection(port = 6011, open = 'r')
 Sys.sleep(2) # wait for the connection to establish
 dsd <- DSD_ReadStream(con, col.names = c("x", "y", "z", ".class"))
 
-get_points(dsd, n = -1)
-get_points(dsd, n = -1)
+get_points(dsd, n = 10)
 
 plot(dsd)
 
