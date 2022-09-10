@@ -52,7 +52,7 @@ rp1
 library("httr")
 Sys.sleep(2)  # give the server time to spin up
 
-resp <- GET("localhost:8001/info")
+resp <- GET("http://localhost:8001/info")
 d <- content(resp, show_col_types = FALSE)
 d
 
@@ -79,7 +79,7 @@ rp2
 Sys.sleep(2)  # give the server time to spin up
 
 # connect to the port and read
-resp <- GET("localhost:8001/info")
+resp <- GET("http://localhost:8001/info")
 content(resp, as = "text")
 
 resp <- GET("http://localhost:8001/get_points?n=5")

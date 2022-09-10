@@ -29,11 +29,11 @@ This method does not provide a header.
 rp1 <- DSD_Gaussians(k = 3, d = 3) \%>\% publish_DSD_via_Socket(port = 6011)
 rp1
 
-Sys.sleep(1) # wait for the socket to become available
+Sys.sleep(2) # wait for the socket to become available
 
 # connect to the port and read
 con <- socketConnection(port = 6011, open = 'r') 
-Sys.sleep(1) # wait for the connection to establish
+Sys.sleep(2) # wait for the connection to establish
 dsd <- DSD_ReadStream(con, col.names = c("x", "y", "z", ".class"))
 
 get_points(dsd, n = -1)
