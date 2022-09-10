@@ -31,7 +31,7 @@
 #' library(httr)
 #' Sys.sleep(2)  # give the server time to spin up
 #' 
-#' resp <- GET("localhost:8001/info")
+#' resp <- GET("http://localhost:8001/info")
 #' d <- content(resp, show_col_types = FALSE)
 #' d
 #'
@@ -40,12 +40,12 @@
 #'
 #' tmp <- tempfile()
 #' stream::write_stream(dsd, tmp, n = 500, header = TRUE)
-#' resp <- POST("localhost:8001/update", body = list(upload = upload_file(tmp)))
+#' resp <- POST("http://localhost:8001/update", body = list(upload = upload_file(tmp)))
 #' unlink(tmp)
 #' resp
 #'
 #' # retrieve the cluster centers
-#' resp <- GET("localhost:8001/get_centers")
+#' resp <- GET("http://localhost:8001/get_centers")
 #' d <- content(resp, show_col_types = FALSE)
 #' head(d)
 #' 
