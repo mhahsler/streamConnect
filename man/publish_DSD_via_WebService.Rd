@@ -51,7 +51,6 @@ rp1
 # a more convenient way to connect to the WebService in R.
 library("httr")
 
-# connect to the port and read
 # we use RETRY to give the server time to spin up
 resp <- RETRY("GET", "http://localhost:8001/info")
 d <- content(resp, show_col_types = FALSE)
