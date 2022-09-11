@@ -18,9 +18,6 @@
 #' #  publish_DSD_via_WebService(port = 8001, serialize = "json")
 #' rp1
 #'
-#' # give the server time to spin up
-#' Sys.sleep(2)
-#'
 #' # create a DSD that connects to the web service
 #' dsd <- DSD_ReadWebService("http://localhost:8001/")
 #' dsd
@@ -38,7 +35,9 @@ DSD_ReadWebService <- function(url) {
   # trailing / for url
   url <- gsub("/$", "", url)
   
-  resp <- httr::GET(paste0(url, "/info"))
+  # we retry to give the server time to spin up
+  #resp <- httr::GET(paste0(url, "/info"))
+  resp <- httr::RETRY("GET", paste0(url, "/info"), quiet = TRUE)
   if (httr::http_error(resp))
     d <- "No info"
   else
@@ -59,7 +58,7 @@ get_points.DSD_ReadWebService <- function(x,
   n = 1L,
   info = TRUE,
   ...) {
-  resp <- httr::GET(paste0(x$url, "/get_points?n=", n))
+  resp <- httr::RETRY("GET", paste0(x$url, "/get_points?n=", n))
   
   ## complains about missing encoding for json
   suppressMessages(d <- httr::content(resp, as = "text"))

@@ -24,9 +24,6 @@ rp1 <- "DSD_Gaussians(k = 3, d = 3)" \%>\%
 #  publish_DSD_via_WebService(port = 8001, serialize = "json")
 rp1
 
-# give the server time to spin up
-Sys.sleep(2)
-
 # create a DSD that connects to the web service
 dsd <- DSD_ReadWebService("http://localhost:8001/")
 dsd

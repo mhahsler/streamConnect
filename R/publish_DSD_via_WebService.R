@@ -31,9 +31,10 @@
 #' # connect to the port and read manually. See DSD_ReadWebService for
 #' # a more convenient way to connect to the WebService in R.
 #' library("httr")
-#' Sys.sleep(2)  # give the server time to spin up
 #' 
-#' resp <- GET("http://localhost:8001/info")
+#' # connect to the port and read
+#' # we use RETRY to give the server time to spin up
+#' resp <- RETRY("GET", "http://localhost:8001/info")
 #' d <- content(resp, show_col_types = FALSE)
 #' d
 #'
@@ -57,10 +58,9 @@
 #'          publish_DSD_via_WebService(port = 8001, serializer = "json")
 #' rp2
 #'
-#' Sys.sleep(2)  # give the server time to spin up
-#'
 #' # connect to the port and read
-#' resp <- GET("http://localhost:8001/info")
+#' # we use RETRY to give the server time to spin up
+#' resp <- RETRY("GET", "http://localhost:8001/info")
 #' content(resp, as = "text")
 #'
 #' resp <- GET("http://localhost:8001/get_points?n=5")
