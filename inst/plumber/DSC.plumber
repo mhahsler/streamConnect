@@ -26,11 +26,33 @@ function(req){
   data.frame(result = "Update OK")
 }
 
-
 #* Get Clustering
 #* @param type: cluster type ("auto", "micro", "macro")
 #* @serializer ${serializer}
 #* @get /get_centers
 function(type = "auto") {
-  get_centers(dsc)
+  centers <- get_centers(dsc, type = type)
+  if (nrow(centers) < 1L)
+    return (data.frame(error = "0 centers"))
+  
+  centers
+}
+
+#* Get Weights
+#* @param type: cluster type ("auto", "micro", "macro").
+#* @param scale_from: cluster a range (from, to) to scale the weights.
+#* @param scale_to: cluster a range (from, to) to scale the weights.
+#* @serializer ${serializer}
+#* @get /get_weights
+function(type = "auto", scale_from = NULL, scale_to = NULL) {
+  if(!is.null(scale_from) && !is.null(scale_to))
+    scale <- as.numeric(c(scale_from, scale_to))
+  else
+    scale <- NULL
+  
+  weights <- get_weights(dsc, type = type, scale = scale)
+  if (length(weights) < 1L)
+    return (data.frame(error = "0 centers"))
+  
+  data.frame(weight = weights)
 }

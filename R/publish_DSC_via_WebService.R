@@ -29,9 +29,8 @@
 #'
 #' # connect to the port and read manually.
 #' library(httr)
-#' Sys.sleep(2)  # give the server time to spin up
 #' 
-#' resp <- GET("http://localhost:8001/info")
+#' resp <- RETRY("GET", "http://localhost:8001/info")
 #' d <- content(resp, show_col_types = FALSE)
 #' d
 #'

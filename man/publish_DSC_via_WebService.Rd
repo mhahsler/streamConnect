@@ -49,9 +49,8 @@ rp1
 
 # connect to the port and read manually.
 library(httr)
-Sys.sleep(2)  # give the server time to spin up
 
-resp <- GET("http://localhost:8001/info")
+resp <- RETRY("GET", "http://localhost:8001/info")
 d <- content(resp, show_col_types = FALSE)
 d
 
@@ -81,5 +80,9 @@ rp1
 "DSC_DBSTREAM(r = .05)" \%>\%
          publish_DST_via_WebService(port = 8001, debug = TRUE)
 }
+}
+\seealso{
+Other dsc: 
+\code{\link{DSC_WebService}()}
 }
 \concept{dsc}
