@@ -34,13 +34,19 @@ get_weights(dsc)
 
 plot(dsc)
 
-# kill the process.
+# kill the background clustering process.
 rp1$kill()
 rp1
 
 }
 \seealso{
+Other WebService: 
+\code{\link{DSD_ReadWebService}()},
+\code{\link{publish_DSC_via_WebService}()},
+\code{\link{publish_DSD_via_WebService}()}
+
 Other dsc: 
 \code{\link{publish_DSC_via_WebService}()}
 }
+\concept{WebService}
 \concept{dsc}

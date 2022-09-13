@@ -9,6 +9,7 @@
 #' 
 #' This method does not provide a header.  
 #' 
+#' @family Socket
 #' @family dsd
 #' 
 #' @param dsd A DSD object.  

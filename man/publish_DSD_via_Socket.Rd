@@ -49,9 +49,13 @@ rp1$kill()
 rp1
 }
 \seealso{
+Other Socket: 
+\code{\link{DSD_ReadSocket}()}
+
 Other dsd: 
 \code{\link{DSD_ReadSocket}()},
 \code{\link{DSD_ReadWebService}()},
 \code{\link{publish_DSD_via_WebService}()}
 }
+\concept{Socket}
 \concept{dsd}

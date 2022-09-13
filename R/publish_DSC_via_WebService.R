@@ -10,6 +10,7 @@
 #' APIs generated using plumber can be easily deployed. See: [Hosting](https://www.rplumber.io/articles/hosting.html). By setting a `task_file` and `serve = FALSE` a plumber
 #' task script file is generated that can deployment.
 #'
+#' @family WebService
 #' @family dsc
 #'
 #' @param dsc A character string that creates a DSC.

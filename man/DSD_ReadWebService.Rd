@@ -38,9 +38,15 @@ rp1$kill()
 rp1
 }
 \seealso{
+Other WebService: 
+\code{\link{DSC_WebService}()},
+\code{\link{publish_DSC_via_WebService}()},
+\code{\link{publish_DSD_via_WebService}()}
+
 Other dsd: 
 \code{\link{DSD_ReadSocket}()},
 \code{\link{publish_DSD_via_Socket}()},
 \code{\link{publish_DSD_via_WebService}()}
 }
+\concept{WebService}
 \concept{dsd}

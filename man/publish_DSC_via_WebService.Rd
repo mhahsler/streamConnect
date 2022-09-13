@@ -82,7 +82,13 @@ rp1
 }
 }
 \seealso{
+Other WebService: 
+\code{\link{DSC_WebService}()},
+\code{\link{DSD_ReadWebService}()},
+\code{\link{publish_DSD_via_WebService}()}
+
 Other dsc: 
 \code{\link{DSC_WebService}()}
 }
+\concept{WebService}
 \concept{dsc}

@@ -32,3 +32,18 @@ run_plumber_task_file <- function(task_file, port, debug = FALSE, serve = TRUE) 
   else
     cat("plumber script written to", task_file, "\n")
 }
+
+decode_response <- function(resp) {
+## complains about missing encoding for json
+  suppressMessages(d <- httr::content(resp, as = "text"))
+  switch(
+    httr::http_type(resp),
+    "application/json" = jsonlite::fromJSON(
+      d,
+      simplifyVector = FALSE,
+      simplifyDataFrame = TRUE,
+      simplifyMatrix = FALSE
+    ),
+    "text/csv" = readr::read_csv(d, show_col_types = FALSE)
+  )
+}

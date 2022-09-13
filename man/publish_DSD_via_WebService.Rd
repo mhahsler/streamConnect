@@ -95,9 +95,15 @@ rp2
 }
 }
 \seealso{
+Other WebService: 
+\code{\link{DSC_WebService}()},
+\code{\link{DSD_ReadWebService}()},
+\code{\link{publish_DSC_via_WebService}()}
+
 Other dsd: 
 \code{\link{DSD_ReadSocket}()},
 \code{\link{DSD_ReadWebService}()},
 \code{\link{publish_DSD_via_Socket}()}
 }
+\concept{WebService}
 \concept{dsd}

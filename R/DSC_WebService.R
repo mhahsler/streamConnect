@@ -1,6 +1,6 @@
 #' A DSC Interface for a DSC Running as a Web Service
 #'
-#'
+#' @family WebService
 #' @family dsc
 #'
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
@@ -82,8 +82,8 @@ get_centers.DSC_WebService <-
       httr::RETRY("GET",
         stringr::str_interp("${x$url}/get_centers?type=${type}"),
         quiet = x$quiet)
-    centers <- httr::content(resp, show_col_types = FALSE)
     
+    centers <- decode_response(resp)
     if (.check_error(centers))
       return(data.frame())
     
@@ -108,7 +108,7 @@ get_weights.DSC_WebService <-
     
     resp <-
       httr::RETRY("GET", com,  quiet = x$quiet)
-    weights <- httr::content(resp, show_col_types = FALSE)
+    weights <- decode_response(resp)
     
     if (.check_error(weights))
       return(numeric())

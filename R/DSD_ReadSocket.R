@@ -2,6 +2,7 @@
 #'
 #' Creates a `DSD_ReadStream` that reads from a port.
 #'
+#' @family Socket
 #' @family dsd
 #' 
 #' @param host hostname.

@@ -11,6 +11,7 @@
 #'
 #' A convenient reader for stream data over web services is available as [DSD_ReadWebService].
 #'
+#' @family WebService
 #' @family dsd
 #'
 #' @param dsd A character string that creates a DSD.

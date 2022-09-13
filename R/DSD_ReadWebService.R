@@ -4,6 +4,7 @@
 #' `get_points` which takes a parameter `n` and returns `n` data points in CSV or json
 #' format.
 #' 
+#' @family WebService
 #' @family dsd
 #' 
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
@@ -58,18 +59,8 @@ get_points.DSD_ReadWebService <- function(x,
   n = 1L,
   info = TRUE,
   ...) {
-  resp <- httr::RETRY("GET", paste0(x$url, "/get_points?n=", n))
-  
-  ## complains about missing encoding for json
-  suppressMessages(d <- httr::content(resp, as = "text"))
-  
-  d <- switch(httr::http_type(resp),
-    "application/json" = jsonlite::fromJSON(d, 
-      simplifyVector = FALSE, 
-      simplifyDataFrame = TRUE,
-      simplifyMatrix = FALSE),
-    "text/csv" = readr::read_csv(d, show_col_types = FALSE)
-  )
+  resp <- httr::RETRY("GET", stringr::str_interp("${x$url}/get_points?n=${n}"))
+  d <- decode_response(resp)
   
   if (!info)
     d <- remove_info(d)
