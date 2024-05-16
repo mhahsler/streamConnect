@@ -1,4 +1,7 @@
 #' A DSC Interface for a DSC Running as a Web Service
+#' 
+#' Provides a DSC front-end for a clusterer running as a web service. The methods
+#' `nclusters()`, `get_center()`, `get_weights()` are supported.
 #'
 #' @family WebService
 #' @family dsc
@@ -7,13 +10,16 @@
 #' @param quiet logical; if `FALSE` then connection attempts messages will be displayed. 
 #'
 #' @examples
-#' # create a background clustering process sending data to port 8001
-#' rp1 <- "DSC_DBSTREAM(r = .05)" %>%
-#'      publish_DSC_via_WebService(port = 8001)
+#' # find a free port
+#' port <- httpuv::randomPort()
+#' port
+#' 
+#' # deploy a clustering process listening for data on the port
+#' rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
 #' rp1
 #'
 #' # get a local DSC interface
-#' dsc <- DSC_WebService("http://localhost:8001/", quiet = FALSE)
+#' dsc <- DSC_WebService(paste0("http://localhost:", port), quiet = FALSE)
 #' dsc
 #'
 #' # cluster
@@ -42,8 +48,7 @@ DSC_WebService <- function(url, quiet = TRUE) {
   if (httr::http_error(resp))
     d <- "No info"
   else
-    d <-
-    as.data.frame(httr::content(resp, show_col_types = FALSE))$description
+    d <- decode_response(resp)$description
   
   structure(
     list(
@@ -67,7 +72,7 @@ update.DSC_WebService <- function(object, dsd, n = 1L, ...) {
       quiet = object$quiet
     )
   unlink(tmp)
-  resp
+  invisible(resp)
 }
 
 .check_error <- function(x)

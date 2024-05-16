@@ -15,17 +15,22 @@
 #' @param dsd A DSD object.  
 #' @param port port used to serve the DSD. 
 #' @param blocksize number of data points pushed on the buffer at once.  
+#' @param ... further arguments are passed on to [socketConnection()].
 #' 
 #' @examples
-#' # create a background DSD process sending data to port 6011
-#' rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = 6011)
+#' # find a free port
+#' port <- httpuv::randomPort()
+#' port
+#' 
+#' # create a background DSD process sending data to the port
+#' rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
 #' rp1
 #'
-#' Sys.sleep(3) # wait for the socket to become available
+#' Sys.sleep(1) # wait for the socket to become available
 #' 
 #' # connect to the port and read
-#' con <- socketConnection(port = 6011, open = 'r') 
-#' Sys.sleep(2) # wait for the connection to establish
+#' con <- socketConnection(port = port, open = 'r') 
+#' Sys.sleep(1) # wait for the connection to establish
 #' dsd <- DSD_ReadStream(con, col.names = c("x", "y", "z", ".class"))
 #' 
 #' get_points(dsd, n = 10)
@@ -40,10 +45,11 @@
 #' rp1$kill()
 #' rp1
 #' @export
-publish_DSD_via_Socket <- function(dsd, port = 6011, blocksize = 1024L) {
-  callr::r_bg(function(dsd, port, blocksize) {
+publish_DSD_via_Socket <- function(dsd, port, blocksize = 1024L, ...) {
+  pr <- callr::r_bg(function(dsd, port, blocksize, ...) {
 
-    con <- socketConnection(port = port, server = TRUE)
+    con <- socketConnection(port = port, server = TRUE, ...)
+    
     while (TRUE) {
       stream::write_stream(dsd, con, n = blocksize, close = FALSE, header = FALSE, info = TRUE)
     }
@@ -52,4 +58,6 @@ publish_DSD_via_Socket <- function(dsd, port = 6011, blocksize = 1024L) {
   },
     list(dsd = dsd, port = port, blocksize = blocksize)
   )
+  
+  pr
 }

@@ -15,17 +15,20 @@ Reads from a web service that published an operation called
 format.
 }
 \examples{
-# create a background DSD process sending data to port 8001
-rp1 <- "DSD_Gaussians(k = 3, d = 3)" \%>\% 
-   publish_DSD_via_WebService(port = 8001)
+# find a free port
+port <- httpuv::randomPort()
+port
 
-## use json instead of csv
-# rp1 <- "DSD_Gaussians(k = 3, d = 3)" \%>\% 
-#  publish_DSD_via_WebService(port = 8001, serialize = "json")
+# create a background DSD process sending data to the port
+rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
+
+## use json for the transport layer instead of csv
+# rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", 
+#              port = port, serialize = "json")
 rp1
 
 # create a DSD that connects to the web service
-dsd <- DSD_ReadWebService("http://localhost:8001/")
+dsd <- DSD_ReadWebService(paste0("http://localhost:", port))
 dsd
 
 get_points(dsd, n = 10)

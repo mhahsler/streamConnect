@@ -4,12 +4,14 @@
 \alias{DSD_ReadSocket}
 \title{A DSD That Reads from a Server Port}
 \usage{
-DSD_ReadSocket(host = "localhost", port, ...)
+DSD_ReadSocket(host = "localhost", port, sleep = 2, ...)
 }
 \arguments{
 \item{host}{hostname.}
 
 \item{port}{host port.}
+
+\item{sleep}{number of seconds to wait to establish the connection.}
 
 \item{...}{further arguments are passed on to \code{\link[=DSD_ReadStream]{DSD_ReadStream()}}.}
 }
@@ -17,14 +19,19 @@ DSD_ReadSocket(host = "localhost", port, ...)
 Creates a \code{DSD_ReadStream} that reads from a port.
 }
 \examples{
+# find a free port
+port <- httpuv::randomPort()
+port
+
 # create a background DSD process sending data to port 8001
-rp1 <- DSD_Gaussians(k = 3, d = 3) \%>\% publish_DSD_via_Socket(port = 6011)
+rp1 <- DSD_Gaussians(k = 3, d = 3) \%>\% publish_DSD_via_Socket(port = port)
 rp1
 
 Sys.sleep(2)  # wait for the socket to become available
 
-# create a DSD that connects to the web service
-dsd <- DSD_ReadSocket(port = 6011, col.names = c("x", "y", "z", ".class"))
+# create a DSD that connects to the socket. Note that we need to 
+# specify the column names of the stream
+dsd <- DSD_ReadSocket(port = port, col.names = c("x", "y", "z", ".class"))
 dsd
 
 get_points(dsd, n = 10)
@@ -35,7 +42,7 @@ close_stream(dsd)
 
 # end the DSD process. Note: that closing the connection above
 # may already kill the process.
-rp1$kill()
+if (rp1$is_alive()) rp1$kill()
 rp1
 }
 \seealso{

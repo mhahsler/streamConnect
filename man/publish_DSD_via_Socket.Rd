@@ -4,7 +4,7 @@
 \alias{publish_DSD_via_Socket}
 \title{Write a Stream to a Socket}
 \usage{
-publish_DSD_via_Socket(dsd, port = 6011, blocksize = 1024L)
+publish_DSD_via_Socket(dsd, port, blocksize = 1024L, ...)
 }
 \arguments{
 \item{dsd}{A DSD object.}
@@ -12,6 +12,8 @@ publish_DSD_via_Socket(dsd, port = 6011, blocksize = 1024L)
 \item{port}{port used to serve the DSD.}
 
 \item{blocksize}{number of data points pushed on the buffer at once.}
+
+\item{...}{further arguments are passed on to \code{\link[=socketConnection]{socketConnection()}}.}
 }
 \description{
 Use a \code{write_stream()} to write data to a socket connection.
@@ -25,15 +27,19 @@ buffer is full and resume producing data when it gets unblocked.
 This method does not provide a header.
 }
 \examples{
-# create a background DSD process sending data to port 6011
-rp1 <- DSD_Gaussians(k = 3, d = 3) \%>\% publish_DSD_via_Socket(port = 6011)
+# find a free port
+port <- httpuv::randomPort()
+port
+
+# create a background DSD process sending data to the port
+rp1 <- DSD_Gaussians(k = 3, d = 3) \%>\% publish_DSD_via_Socket(port = port)
 rp1
 
-Sys.sleep(3) # wait for the socket to become available
+Sys.sleep(1) # wait for the socket to become available
 
 # connect to the port and read
-con <- socketConnection(port = 6011, open = 'r') 
-Sys.sleep(2) # wait for the connection to establish
+con <- socketConnection(port = port, open = 'r') 
+Sys.sleep(1) # wait for the connection to establish
 dsd <- DSD_ReadStream(con, col.names = c("x", "y", "z", ".class"))
 
 get_points(dsd, n = 10)

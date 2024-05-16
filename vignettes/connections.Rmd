@@ -1,0 +1,211 @@
+---
+title: "stream: Working With Data Streams Over Connections"
+author: "Michael Hahsler"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{stream: Working With Data Streams Over Connections}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Data streams are often processed in a distributed manner
+using multiple machines or multiple processes.
+For example, a data stream may be produced by a sensor attached to a remote 
+machine or multiple clustering algorithms run in parallel using several R 
+processes. Another application is to connect to other software components 
+in a stream mining pipeline.
+
+First, we show how sockets together with the package `stream` can be used to 
+connect multiple processes or machines. 
+
+Then we give examples of how
+package `streamConnect` makes connecting stream mining components more
+convenient by providing an interface
+to connect stream processing using _sockets_ or _web services_. 
+While sockets are only used to connect to data steam generating processes,
+web services are more versatile and can also be used
+to deploy data stream clustering processes as a service.
+
+For the examples below, we will use a random available port..
+
+```{r}
+port <- httpuv::randomPort()
+port
+```
+
+# Using Sockets Directly to Publish a Data Stream
+
+The functions `write_stream()` and the 
+class `DSD_ReadStream` provided in package `stream` can be used for communicate 
+via connections (files, sockets, URLs, etc.). 
+This requires manually setting up connections, The example
+is useful to understand how sockets work for users interested in 
+implementing their own components using other programming languages. 
+A more convenient way
+to do this using package `streamConnect` is described later in this paper.
+Here is 
+a short example of how to set up communication using sockets.
+The code in this example is not executed since it cannot be run in a 
+markdown document.
+
+## Server: Serving a Data Stream
+
+We use library `callr` to create a separate R process that serves a data 
+stream creating 10 points every second
+using a socket connection, but
+you can also put the code in function `r_bg()` in a file 
+called `server.R` and run it with `R CMD BATCH server.R` from the command line.
+
+```{r eval = FALSE}
+library(stream)
+library(callr)
+
+rp1 <- r_bg(function() {
+  library(stream)
+  stream <- DSD_Gaussians(k = 3, d = 3)
+  blocksize <- 10
+
+  con <- socketConnection(port = port, server = TRUE)
+  
+  while (TRUE) {
+    write_stream(stream, con, n = blocksize, close = FALSE)
+    Sys.sleep(1)
+  }
+  
+  close(con)
+})
+
+rp1
+```
+
+## Client: Reading from the Stream
+
+We open the connection which starts the data generating process and then poll
+all available data (`n = -1`) several times. The first request should yield 10 points, the second none and the third request should yield 20 points (2 seconds).
+
+```{r eval = FALSE}
+library(stream)
+
+con <- socketConnection(port = port, open = 'r')
+con
+
+dsd <- DSD_ReadStream(con)
+
+get_points(dsd, n= -1)
+get_points(dsd, n= -1)
+
+Sys.sleep(2)
+get_points(dsd, n= -1)
+
+close(con)
+```
+
+## Server: Stoping the Server Process
+
+Here we stop the `callr` process. Note that the socket connection is still active and will serve the data in the connection buffer as long as the reading
+process keeps the connection open.
+
+```{r eval = FALSE}
+rp1$kill()
+rp1
+```
+
+# streamConnect Sockets
+
+`streamConnect` provides publish `DSD_via_Socket()` and the class
+`DSD_ReadSocket` to create a socked based connection. 
+`DSD_via_Socket()` creates a socket broadcasting data using a socket and
+`DSD_ReadSocket` creates a `DSD` object reading from that socket.
+
+## Server: Publish Data
+We create a DSD process sending data to port port.
+```{r eval = FALSE}
+library(streamConnect)
+
+rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
+rp1
+
+Sys.sleep(2)  # wait for the socket to become available
+```
+
+## Client: Connect to the Data Stream
+Next, we create a DSD that connects to the socket.
+```{r eval = FALSE}
+library(streamConnect)
+
+dsd <- DSD_ReadSocket(port = port, col.names = c("x", "y", "z", ".class"))
+dsd
+
+get_points(dsd, n = 10)
+plot(dsd)
+
+close_stream(dsd)
+```
+
+## Server: Stoping the Server Process
+Closing the stream on the client also closes the connection which may already 
+kill the serving process.
+```{r eval = FALSE}
+if (rp1$is_alive()) rp1$kill()
+rp1
+```
+
+
+# streamConnect Web Services
+
+Web services are more versatile, they can be used to deploy data stream sources 
+using `publish_DSD_via_WebService()`/`DSD_ReadWebservice`
+or data stream tasks using `publish_DSC_via_WebService()`/`DSC_WebService`. 
+Here we only show how to deploy a clusterer.
+
+`streamConnect` uses the package `plumber` to manage web services.
+The data is transmitted in serialized form. The default serialization format 
+it `csv` (comma separated values). Other formats are `json` and `rds` 
+(see `plumber::serializer_csv`). 
+
+## Server: Deploy a Web Service
+Deploy a clustering process listening for data on port port.
+```{r eval = TRUE}
+library(streamConnect)
+
+rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
+rp1
+```
+
+## Client: Connect to the Web Service
+Connect to the web service with a local DSC interface.
+```{r eval = TRUE}
+library(streamConnect)
+
+dsc <- DSC_WebService(paste0("http://localhost", ":", port), quiet = FALSE)
+dsc
+```
+
+Cluster some data.
+```{r eval = TRUE}
+dsd <- DSD_Gaussians(k = 3, d = 2, noise = 0.05)
+
+update(dsc, dsd, 500)
+dsc
+
+
+get_centers(dsc)
+get_weights(dsc)
+
+plot(dsc)
+```
+
+## Server: Stop the Web Service
+Kill the web service process.
+```{r eval = TRUE}
+rp1$kill()
+rp1
+```
+
+

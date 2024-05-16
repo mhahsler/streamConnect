@@ -11,7 +11,10 @@ dsc <- ${dsc}
 #* @get info
 #* @serializer ${serializer}
 function() {
-  data.frame(description = dsc$description)
+  data.frame(description = dsc$description, 
+    class = paste(class(dsc), collapse = ", "),
+    clusters = nclusters(dsc)
+    )
 }
 
 #* Update Clusterer

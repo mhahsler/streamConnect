@@ -1,18 +1,17 @@
 Package: streamConnect
-Version: 0.0-0-1
-Date: 2022-xx-xx
+Version: 0.0-1
+Date: 2024-05-16
 Encoding: UTF-8
 Title: Connecting Stream Mining Components Using Web Services
 Authors@R: c(person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
 	    email = "mhahsler@lyle.smu.edu",
 	    comment = c(ORCID = "0000-0003-2716-1405")))
-Description: Connecting stream mining components using Web services, and socket connections. 
+Description: Connecting stream mining components using socket connections, and Web services. 
 Depends: stream (>= 2.0-0)
 Imports: plumber, callr, httr, readr, stringr, jsonlite 
-Suggests: knitr
+Suggests: knitr, httpuv, rmarkdown
 BugReports: https://github.com/mhahsler/streamConnect
 License: GPL-3
-Copyright: All other code is Copyright (C) Michael Hahsler
 VignetteBuilder: knitr
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)

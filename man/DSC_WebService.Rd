@@ -12,16 +12,20 @@ DSC_WebService(url, quiet = TRUE)
 \item{quiet}{logical; if \code{FALSE} then connection attempts messages will be displayed.}
 }
 \description{
-A DSC Interface for a DSC Running as a Web Service
+Provides a DSC front-end for a clusterer running as a web service. The methods
+\code{nclusters()}, \code{get_center()}, \code{get_weights()} are supported.
 }
 \examples{
-# create a background clustering process sending data to port 8001
-rp1 <- "DSC_DBSTREAM(r = .05)" \%>\%
-     publish_DSC_via_WebService(port = 8001)
+# find a free port
+port <- httpuv::randomPort()
+port
+
+# deploy a clustering process listening for data on the port
+rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
 rp1
 
 # get a local DSC interface
-dsc <- DSC_WebService("http://localhost:8001/", quiet = FALSE)
+dsc <- DSC_WebService(paste0("http://localhost:", port), quiet = FALSE)
 dsc
 
 # cluster
