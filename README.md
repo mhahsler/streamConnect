@@ -1,5 +1,5 @@
 
-# <img src="man/figures/logo.svg" align="right" height="139" /> R package streamConnect - Connecting Stream Mining Components Using Web Services
+# <img src="man/figures/logo.svg" align="right" height="139" /> R package streamConnect - Connecting Stream Mining Components Using Sockets and Web Services
 
 [![r-universe
 status](https://mhahsler.r-universe.dev/badges/streamConnect)](https://mhahsler.r-universe.dev/streamConnect)
@@ -9,17 +9,19 @@ CRAN](http://www.r-pkg.org/badges/version/streamConnect)](https://CRAN.R-project
 downloads](http://cranlogs.r-pkg.org/badges/streamConnect)](https://CRAN.R-project.org/package=streamConnect)
 
 The R package is part of the
-[stream](https://github.com/mhahsler/stream) ecosystem. It supports
-connecting stream mining components to be deployed and connected using
-sockets and web services.
+[stream](https://github.com/mhahsler/stream) ecosystem. It adds
+functionality to connect stream mining components from package stream
+using sockets and Web services. The package can be used create
+distributed workflows and create plumber-based Web services which can be
+deployed on most common cloud services.
 
 To cite package ‘streamConnect’ in publications use:
 
 > Hahsler M (2024). *streamConnect: Connecting Stream Mining Components
-> Using Web Services*. R package version 0.0-1.
+> Using Sockets and Web Services*. R package version 0.0-1.
 
     @Manual{,
-      title = {streamConnect: Connecting Stream Mining Components Using Web Services},
+      title = {streamConnect: Connecting Stream Mining Components Using Sockets and Web Services},
       author = {Michael Hahsler},
       year = {2024},
       note = {R package version 0.0-1},
@@ -40,6 +42,12 @@ install.packages("streamConnect")
 install.packages("streamConnect",
     repos = c("https://mhahsler.r-universe.dev". "https://cloud.r-project.org/"))
 ```
+
+## Examples
+
+See [stream: Working With Data Streams using Connections and Web
+Services](https://cran.r-project.org/web/packages/streamConnect/vignettes/connections.html)
+for examples.
 
 ## Acknowledgements
 
