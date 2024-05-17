@@ -4,7 +4,7 @@
 \alias{publish_DSD_via_Socket}
 \title{Write a Stream to a Socket}
 \usage{
-publish_DSD_via_Socket(dsd, port, blocksize = 1024L, ...)
+publish_DSD_via_Socket(dsd, port, blocksize = 1024L, background = TRUE, ...)
 }
 \arguments{
 \item{dsd}{A DSD object.}
@@ -13,7 +13,16 @@ publish_DSD_via_Socket(dsd, port, blocksize = 1024L, ...)
 
 \item{blocksize}{number of data points pushed on the buffer at once.}
 
+\item{background}{logical; start a background process?}
+
 \item{...}{further arguments are passed on to \code{\link[=socketConnection]{socketConnection()}}.}
+}
+\value{
+a \link[processx:process]{processx::process} object created with \code{\link[callr:r_bg]{callr::r_bg()}} which runs the plumber server
+in the background. The process can be stopped with \code{rp$kill()} or by killing the process
+using the operating system with the appropriate PID. \code{rp$get_result()} can
+be used to check for errors in the server process (e.g., when it terminates
+unexpectedly).
 }
 \description{
 Use a \code{write_stream()} to write data to a socket connection.
@@ -38,7 +47,7 @@ rp1
 Sys.sleep(1) # wait for the socket to become available
 
 # connect to the port and read
-con <- socketConnection(port = port, open = 'r') 
+con <- socketConnection(port = port, open = 'r')
 Sys.sleep(1) # wait for the connection to establish
 dsd <- DSD_ReadStream(con, col.names = c("x", "y", "z", ".class"))
 
@@ -49,7 +58,7 @@ plot(dsd)
 # close connection
 close_stream(dsd)
 
-# end the DSD process. Note: that closing the connection above 
+# end the DSD process. Note: that closing the connection above
 # may already kill the process.
 rp1$kill()
 rp1

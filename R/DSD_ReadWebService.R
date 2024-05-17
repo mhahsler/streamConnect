@@ -8,7 +8,9 @@
 #' @family dsd
 #' 
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
-#'
+#' 
+#' @returns A [stream::DSD] object.
+#' 
 #' @examples
 #' # find a free port
 #' port <- httpuv::randomPort()

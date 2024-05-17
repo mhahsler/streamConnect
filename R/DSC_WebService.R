@@ -9,6 +9,8 @@
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
 #' @param quiet logical; if `FALSE` then connection attempts messages will be displayed. 
 #'
+#' @returns A [stream::DSC] object.
+#' 
 #' @examples
 #' # find a free port
 #' port <- httpuv::randomPort()

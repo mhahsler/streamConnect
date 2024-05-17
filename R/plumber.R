@@ -18,22 +18,33 @@ complete_plumber_task_file <- function(template, task_file, ...) {
 run_plumber_task_file <-
   function(task_file,
     port,
-    debug = FALSE,
-    serve = TRUE) {
+    serve = TRUE,
+    background = TRUE,
+    debug = FALSE
+    ) {
     if (debug) {
-      cat("The plumber script can be found here:", task_file, "\n")
+      message("The plumber script was written to: ", task_file)
       plumber::pr_run(plumber::pr(task_file), port = port, docs = TRUE)
       return()
     }
     
-    if (serve)
-      callr::r_bg(function(task_file, port)
+    if (!serve)
+      return(task_file)
+      
+    
+    if (background) {
+      rp <- callr::r_bg(function(task_file, port)
       {
         plumber::pr_run(plumber::pr(task_file), port = port, docs = FALSE)
       },
         args = list(task_file = task_file, port = port))
-    else
-      cat("plumber script written to", task_file, "\n")
+
+      return(rp)
+    }
+    
+    ### run as main process
+    plumber::pr_run(plumber::pr(task_file), port = port, docs = FALSE)
+    
   }
 
 decode_response <- function(resp) {

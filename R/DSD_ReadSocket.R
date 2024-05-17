@@ -10,6 +10,8 @@
 #' @param sleep number of seconds to wait to establish the connection.
 #' @param ... further arguments are passed on to [DSD_ReadStream()].
 #'
+#' @returns A [stream::DSD] object.
+#'
 #' @examples
 #' # find a free port
 #' port <- httpuv::randomPort()

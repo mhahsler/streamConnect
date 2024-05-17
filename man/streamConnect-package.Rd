@@ -4,9 +4,9 @@
 \name{streamConnect-package}
 \alias{streamConnect}
 \alias{streamConnect-package}
-\title{streamConnect: Connecting Stream Mining Components Using Web Services}
+\title{streamConnect: Connecting Stream Mining Components Using Sockets and Web Services}
 \description{
-Connecting stream mining components using socket connections, and Web services.
+Adds functionality to connect stream mining components from package stream using sockets and Web services. The package can be used create distributed workflows and create plumber-based Web services which can be deployed on most common cloud services.
 }
 \seealso{
 Useful links:

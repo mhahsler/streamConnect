@@ -15,6 +15,9 @@ DSD_ReadSocket(host = "localhost", port, sleep = 2, ...)
 
 \item{...}{further arguments are passed on to \code{\link[=DSD_ReadStream]{DSD_ReadStream()}}.}
 }
+\value{
+A \link[stream:DSD]{stream::DSD} object.
+}
 \description{
 Creates a \code{DSD_ReadStream} that reads from a port.
 }

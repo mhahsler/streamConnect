@@ -9,6 +9,9 @@ DSD_ReadWebService(url)
 \arguments{
 \item{url}{endpoint URI address in the format \verb{http://host:port/<optional_path>}.}
 }
+\value{
+A \link[stream:DSD]{stream::DSD} object.
+}
 \description{
 Reads from a web service that published an operation called
 \code{get_points} which takes a parameter \code{n} and returns \code{n} data points in CSV or json

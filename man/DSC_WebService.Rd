@@ -11,6 +11,9 @@ DSC_WebService(url, quiet = TRUE)
 
 \item{quiet}{logical; if \code{FALSE} then connection attempts messages will be displayed.}
 }
+\value{
+A \link[stream:DSC]{stream::DSC} object.
+}
 \description{
 Provides a DSC front-end for a clusterer running as a web service. The methods
 \code{nclusters()}, \code{get_center()}, \code{get_weights()} are supported.

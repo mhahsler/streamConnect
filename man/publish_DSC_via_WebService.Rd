@@ -10,6 +10,7 @@ publish_DSC_via_WebService(
   task_file = NULL,
   serializer = "csv",
   serve = TRUE,
+  background = TRUE,
   debug = FALSE
 )
 }
@@ -26,12 +27,16 @@ is used. Other methods are \code{json} and \code{rds} (see \link[plumber:seriali
 \item{serve}{if \code{TRUE}, then a task file is written and a server started, otherwise,
 only a plumber task file is written.}
 
+\item{background}{logical; start a background process?}
+
 \item{debug}{if \code{TRUE}, then the service is started locally and a web client is started to explore the interface.}
 }
 \value{
 a \link[processx:process]{processx::process} object created with \code{\link[callr:r_bg]{callr::r_bg()}} which runs the plumber server
-in the background. The process can be stopped with \verb{$kill()} or by killing the process with the
-appropriate PID.
+in the background. The process can be stopped with \code{rp$kill()} or by killing the process
+using the operating system with the appropriate PID. \code{rp$get_result()} can
+be used to check for errors in the server process (e.g., when it terminates
+unexpectedly).
 }
 \description{
 Uses the package \link{plumber} to publish a data stream task as a web service.
@@ -92,10 +97,9 @@ rp1$kill()
 rp1
 
 # Debug the interface (run the service and start a web interface)
-\dontrun{
-publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", 
-          port = port, debug = TRUE)
-}
+if (interactive())
+  publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", 
+         port = port, debug = TRUE)
 }
 \seealso{
 Other WebService: 

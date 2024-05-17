@@ -23,7 +23,14 @@
 #' is used. Other methods are `json` and `rds` (see [plumber::serializer_csv]).
 #' @param serve if `TRUE`, then a task file is written and a server started, otherwise,
 #'   only a plumber task file is written.
+#' @param background logical; start a background process?
 #' @param debug if `TRUE`, then the service is started locally and a web client is started to explore the interface.
+#'
+#' @returns a [processx::process] object created with [callr::r_bg()] which runs the plumber server
+#'  in the background. The process can be stopped with `rp$kill()` or by killing the process 
+#'  using the operating system with the appropriate PID. `rp$get_result()` can
+#'  be used to check for errors in the server process (e.g., when it terminates 
+#'  unexpectedly). 
 #'
 #' @examples
 #' # find a free port
@@ -76,10 +83,9 @@
 #' rp2
 #'
 #' # Debug the interface (run the service and start a web interface)
-#' \dontrun{
-#'  publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port, 
+#' if (interactive())
+#'   publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port, 
 #'          debug = TRUE)
-#' }
 #' @export
 publish_DSD_via_WebService <-
   function(dsd,
@@ -87,6 +93,7 @@ publish_DSD_via_WebService <-
     task_file = NULL,
     serializer = "csv",
     serve = TRUE,
+    background = TRUE,
     debug = FALSE) {
     ## script requires the following variables: dsd, serializer
     task_file <- complete_plumber_task_file("DSD.plumber",
@@ -94,5 +101,5 @@ publish_DSD_via_WebService <-
       dsd = dsd,
       serializer = serializer)
     
-    run_plumber_task_file(task_file, port, debug, serve)
+    run_plumber_task_file(task_file, port, serve, background, debug)
   }

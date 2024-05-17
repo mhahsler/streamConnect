@@ -10,6 +10,7 @@ publish_DSD_via_WebService(
   task_file = NULL,
   serializer = "csv",
   serve = TRUE,
+  background = TRUE,
   debug = FALSE
 )
 }
@@ -26,7 +27,16 @@ is used. Other methods are \code{json} and \code{rds} (see \link[plumber:seriali
 \item{serve}{if \code{TRUE}, then a task file is written and a server started, otherwise,
 only a plumber task file is written.}
 
+\item{background}{logical; start a background process?}
+
 \item{debug}{if \code{TRUE}, then the service is started locally and a web client is started to explore the interface.}
+}
+\value{
+a \link[processx:process]{processx::process} object created with \code{\link[callr:r_bg]{callr::r_bg()}} which runs the plumber server
+in the background. The process can be stopped with \code{rp$kill()} or by killing the process
+using the operating system with the appropriate PID. \code{rp$get_result()} can
+be used to check for errors in the server process (e.g., when it terminates
+unexpectedly).
 }
 \description{
 Uses the package \link{plumber} to publish a data stream as a web service.
@@ -95,10 +105,9 @@ rp2$kill()
 rp2
 
 # Debug the interface (run the service and start a web interface)
-\dontrun{
- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port, 
+if (interactive())
+  publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port, 
          debug = TRUE)
-}
 }
 \seealso{
 Other WebService: 

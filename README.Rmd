@@ -11,7 +11,7 @@ pkg_title(pkg)
 
 The R package is part of the  [stream](https://github.com/mhahsler/stream) ecosystem. It 
 supports connecting stream mining components to be deployed and connected using 
-socket connections, and web services.
+sockets and web services.
 
 ```{r echo=FALSE, results = 'asis'}
 pkg_citation(pkg)
