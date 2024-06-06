@@ -46,7 +46,7 @@ install.packages("streamConnect",
 ## Examples
 
 See [stream: Working With Data Streams using Connections and Web
-Services](https://cran.r-project.org/web/packages/streamConnect/vignettes/connections.html)
+Services](https://CRAN.R-project.org/package=streamConnect/vignettes/connections.html)
 for examples.
 
 ## Acknowledgements

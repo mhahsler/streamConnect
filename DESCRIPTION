@@ -1,6 +1,6 @@
 Package: streamConnect
-Version: 0.0-1
-Date: 2024-05-16
+Version: 0.0-2-1
+Date: 2024-xx-xx
 Encoding: UTF-8
 Title: Connecting Stream Mining Components Using Sockets and Web Services
 Authors@R: c(person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
@@ -9,7 +9,7 @@ Authors@R: c(person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
 Description: Adds functionality to connect stream mining components from package stream using sockets and Web services. The package can be used create distributed workflows and create plumber-based Web services which can be deployed on most common cloud services. 
 Depends: stream (>= 2.0-0)
 Imports: plumber, callr, httr, readr, stringr, jsonlite 
-Suggests: knitr, httpuv, rmarkdown
+Suggests: knitr, httpuv, processx, rmarkdown
 BugReports: https://github.com/mhahsler/streamConnect
 License: GPL-3
 VignetteBuilder: knitr

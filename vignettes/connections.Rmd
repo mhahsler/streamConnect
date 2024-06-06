@@ -85,28 +85,30 @@ rp1 <- r_bg(function(port) {
   args = list(port = port))
 
 rp1
-
-Sys.sleep(1) # wait for the socket to establish
 ```
 
 ## Client: Reading from the Stream
 
 The client consumes the data stream.
-We open the connection which starts the data generating process and then poll
+We open the connection which starts the data generating process. `retry` is
+used to make sure the server connections are established.
+
+
+```{r eval = TRUE}
+library(streamConnect)
+
+con <- retry(socketConnection(port = port, open = 'r'))
+con
+
+dsd <- retry(DSD_ReadStream(con))
+```
+
+We poll
 all available data (`n = -1`) several times. The first request should yield 
 10 points, the second none and the third request should 
 yield 20 points (2 seconds).
 
 ```{r eval = TRUE}
-library(stream)
-
-con <- socketConnection(port = port, open = 'r')
-con
-
-Sys.sleep(1) # wait for the socket to establish
-
-dsd <- DSD_ReadStream(con)
-
 get_points(dsd, n= -1)
 get_points(dsd, n= -1)
 
@@ -148,7 +150,7 @@ Next, we create a DSD that connects to the socket.
 ```{r eval = TRUE}
 library(streamConnect)
 
-dsd <- DSD_ReadSocket(port = port, col.names = c("x", "y", "z", ".class"))
+dsd <- retry(DSD_ReadSocket(port = port, col.names = c("x", "y", "z", ".class")))
 dsd
 
 get_points(dsd, n = 10)

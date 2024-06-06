@@ -33,12 +33,9 @@
 #' rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
 #' rp1
 #'
-#' Sys.sleep(1) # wait for the socket to become available
-#'
-#' # connect to the port and read
-#' con <- socketConnection(port = port, open = 'r')
-#' Sys.sleep(1) # wait for the connection to establish
-#' dsd <- DSD_ReadStream(con, col.names = c("x", "y", "z", ".class"))
+#' # connect to the port (retry waits for the socket to establish)
+#' con <- retry(socketConnection(port = port, open = 'r'))
+#' dsd <- retry(DSD_ReadStream(con, col.names = c("x", "y", "z", ".class")))
 #'
 #' get_points(dsd, n = 10)
 #'
