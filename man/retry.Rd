@@ -4,7 +4,7 @@
 \alias{retry}
 \title{Retry an Expression that Fails}
 \usage{
-retry(f, times = 5, wait = 1, verbose = FALSE)
+retry(f, times = 5, wait = 1, verbose = FALSE, operation = NULL)
 }
 \arguments{
 \item{f}{expression}
@@ -14,6 +14,8 @@ retry(f, times = 5, wait = 1, verbose = FALSE)
 \item{wait}{number of seconds to wait in between tries.}
 
 \item{verbose}{logical; show progress and errors.}
+
+\item{operation}{name of the operation used in the error message.}
 }
 \value{
 the result of the expression f

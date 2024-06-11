@@ -4,12 +4,14 @@
 \alias{DSD_ReadSocket}
 \title{A DSD That Reads from a Server Port}
 \usage{
-DSD_ReadSocket(host = "localhost", port, ...)
+DSD_ReadSocket(host = "localhost", port, retry_args = NULL, ...)
 }
 \arguments{
 \item{host}{hostname.}
 
 \item{port}{host port.}
+
+\item{retry_args}{a list with arguments for \code{\link[=retry]{retry()}}.}
 
 \item{...}{further arguments are passed on to \code{\link[=DSD_ReadStream]{DSD_ReadStream()}}.}
 }

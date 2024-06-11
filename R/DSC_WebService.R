@@ -1,13 +1,15 @@
 #' A DSC Interface for a DSC Running as a Web Service
 #' 
 #' Provides a DSC front-end for a clusterer running as a web service. The methods
-#' `nclusters()`, `get_center()`, `get_weights()` are supported.
+#' `nclusters()`, `get_center()`, `get_weights()` are supported. The request is
+#' retried with [httr::RETRY()] if it fails the first time.
 #'
 #' @family WebService
 #' @family dsc
 #'
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
-#' @param quiet logical; if `FALSE` then connection attempts messages will be displayed. 
+#' @param verbose logical; display connection information.
+#' @param ... further arguments are passed on to [httr::RETRY()].
 #'
 #' @returns A [stream::DSC] object.
 #' 
@@ -21,7 +23,7 @@
 #' rp1
 #'
 #' # get a local DSC interface
-#' dsc <- DSC_WebService(paste0("http://localhost:", port), quiet = FALSE)
+#' dsc <- DSC_WebService(paste0("http://localhost:", port), verbose = TRUE)
 #' dsc
 #'
 #' # cluster
@@ -39,24 +41,30 @@
 #' rp1
 #'
 #' @export
-DSC_WebService <- function(url, quiet = TRUE) {
+DSC_WebService <- function(url, verbose = FALSE, ...) {
   # trailing / for url
   url <- gsub("/$", "", url)
+  
+  if (verbose)
+    message("Connecting to DSC Web service at ", url)
   
   # we retry to give the server time to spin up
   #resp <- httr::GET(paste0(url, "/info"))
   resp <-
-    httr::RETRY("GET", stringr::str_interp("${url}/info"), quiet = quiet)
+    httr::RETRY("GET", stringr::str_interp("${url}/info"), quiet = !verbose, ...)
   if (httr::http_error(resp))
     d <- "No info"
   else
     d <- decode_response(resp)$description
   
+  if (verbose)
+    message("Success")
+  
   structure(
     list(
       description = stringr::str_interp("Web Service Data Stream Clusterer: ${d}\nServed from: ${url}"),
       url = url,
-      quiet = quiet
+      quiet = !verbose
     ),
     class = c("DSC_WebService", "DSC_R", "DSC")
   )

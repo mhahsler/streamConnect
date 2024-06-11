@@ -56,7 +56,7 @@ to do this using package `streamConnect` is described later in this paper.
 
 ## Server: Serving a Data Stream
 
-The server served data from a data stream.
+The server serves data from a data stream.
 We use library `callr` to create a separate R process that serves a data 
 stream creating 10 points every second
 using a socket connection, but
@@ -90,17 +90,16 @@ rp1
 ## Client: Reading from the Stream
 
 The client consumes the data stream.
-We open the connection which starts the data generating process. `retry` is
-used to make sure the server connections are established.
+We open the connection which starts the data generating process. 
+Note that `streamConnect` is not used here. For convenience, we only use the helper
+`retry()` defined in streamConnect to make sure the server connections are established.
 
 
 ```{r eval = TRUE}
-library(streamConnect)
-
-con <- retry(socketConnection(port = port, open = 'r'))
+con <- streamConnect::retry(socketConnection(port = port, open = 'r'))
 con
 
-dsd <- retry(DSD_ReadStream(con))
+dsd <- streamConnect::retry(DSD_ReadStream(con))
 ```
 
 We poll
@@ -129,9 +128,8 @@ rp1$kill()
 
 # streamConnect Sockets
 
-`streamConnect` provides publish `DSD_via_Socket()` and the class
-`DSD_ReadSocket` to create a socked based connection. 
-`DSD_via_Socket()` creates a socket broadcasting data using a socket and
+`streamConnect` provides a more convenient way to set up a connection using sockets. 
+`publish_DSD_via_Socket()` creates a socket broadcasting the data stream and
 `DSD_ReadSocket` creates a `DSD` object reading from that socket.
 
 ## Server: Publish Data
@@ -141,16 +139,15 @@ library(streamConnect)
 
 rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
 rp1
-
-Sys.sleep(1)  # wait for the socket to become available
 ```
 
 ## Client: Connect to the Data Stream
-Next, we create a DSD that connects to the socket.
+Next, we create a DSD that connects to the socket. `DSD_ReadSocket()` already performs internally 
+retries 
 ```{r eval = TRUE}
 library(streamConnect)
 
-dsd <- retry(DSD_ReadSocket(port = port, col.names = c("x", "y", "z", ".class")))
+dsd <- DSD_ReadSocket(port = port, col.names = c("x", "y", "z", ".class"))
 dsd
 
 get_points(dsd, n = 10)
@@ -192,10 +189,15 @@ rp1
 
 ## Client: Connect to the Web Service
 Connect to the web service with a local DSC interface.
+```{r echo=FALSE}
+# sleep in case the WebService is not up fast enough. Maybe this make the CRAN checker happy. 
+Sys.sleep(1)
+```
+
 ```{r eval = TRUE}
 library(streamConnect)
 
-dsc <- DSC_WebService(paste0("http://localhost", ":", port), quiet = FALSE)
+dsc <- DSC_WebService(paste0("http://localhost", ":", port), verbose = TRUE)
 dsc
 ```
 
@@ -235,7 +237,7 @@ publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port,
 ```
 
 Web services can also be deployed using a plumber task file. The following call
-returns the name of the task file. 
+does not create a server, but returns the name of the task file. 
 
 ```{r, eval = FALSE}
 publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", serve = FALSE)

@@ -7,6 +7,7 @@
 #' 
 #' @param host hostname.
 #' @param port host port.
+#' @param retry_args a list with arguments for [retry()].
 #' @param ... further arguments are passed on to [DSD_ReadStream()].
 #'
 #' @returns A [stream::DSD] object.
@@ -36,7 +37,18 @@
 #' if (rp1$is_alive()) rp1$kill()
 #' rp1
 #' @export
-DSD_ReadSocket <- function(host = "localhost", port, ...) {
-  retry(con <- socketConnection(host, port, server = FALSE, open = 'r'))
-  retry(DSD_ReadStream(con, ...))
+DSD_ReadSocket <- function(host = "localhost", port, retry_args = NULL, ...) {
+  con <- do.call(retry, 
+                 args = c(list(
+                   f = quote(socketConnection(host, port, server = FALSE, open = 'r')),
+                   operation = paste0("Opening DSD_ReadSocket (", host, ":", port, ")")), 
+                   retry_args)) 
+  
+  dsd <- do.call(retry,
+                 args = c(list(
+                   f = quote(DSD_ReadStream(con, ...)), 
+                   operation = paste0("Reading from DSD_ReadSocket (", host, ":", port, ")")),
+                   retry_args)) 
+                   
+  dsd
 }

@@ -57,6 +57,7 @@ publish_DSD_via_Socket <- function(dsd,
   if (background) {
     pr <- callr::r_bg(function(dsd, port, blocksize, ...) {
       con <- socketConnection(port = port, server = TRUE, ...)
+      on.exit(close(con))
       
       while (TRUE) {
         stream::write_stream(
@@ -68,8 +69,6 @@ publish_DSD_via_Socket <- function(dsd,
           info = TRUE
         )
       }
-      
-      close(con)
     },
     list(
       dsd = dsd,
@@ -82,6 +81,7 @@ publish_DSD_via_Socket <- function(dsd,
   
   ### run directly
   con <- socketConnection(port = port, server = TRUE, ...)
+  on.exit(close(con))
   
   while (TRUE) {
     stream::write_stream(
@@ -93,7 +93,4 @@ publish_DSD_via_Socket <- function(dsd,
       info = TRUE
     )
   }
-  
-  close(con)
-  
 }

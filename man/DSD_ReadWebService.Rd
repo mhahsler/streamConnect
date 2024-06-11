@@ -4,10 +4,14 @@
 \alias{DSD_ReadWebService}
 \title{A DSD That Reads for a Web Service}
 \usage{
-DSD_ReadWebService(url)
+DSD_ReadWebService(url, verbose = FALSE, ...)
 }
 \arguments{
 \item{url}{endpoint URI address in the format \verb{http://host:port/<optional_path>}.}
+
+\item{verbose}{logical; display connection information.}
+
+\item{...}{further arguments are passed on to \code{\link[httr:RETRY]{httr::RETRY()}}.}
 }
 \value{
 A \link[stream:DSD]{stream::DSD} object.
@@ -15,7 +19,8 @@ A \link[stream:DSD]{stream::DSD} object.
 \description{
 Reads from a web service that published an operation called
 \code{get_points} which takes a parameter \code{n} and returns \code{n} data points in CSV or json
-format.
+format. The request is
+retried with \code{\link[httr:RETRY]{httr::RETRY()}} if it fails the first time.
 }
 \examples{
 # find a free port
