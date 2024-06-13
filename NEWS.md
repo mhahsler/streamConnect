@@ -1,3 +1,6 @@
+# arules 0.0-3-1 (xx/xx/2024)
+* Added support to get verbose output from curl
+
 # arules 0.0-3 (06/10/2024)
 
 ## Changes

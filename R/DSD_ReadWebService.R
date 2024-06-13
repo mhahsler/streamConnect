@@ -10,7 +10,8 @@
 #' 
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
 #' @param verbose logical; display connection information.
-#' @param ... further arguments are passed on to [httr::RETRY()].
+#' @param ... further arguments are passed on to [httr::RETRY()]. Pass 
+#'   [httr:verbose()] as parameter `config` to get detailed connection info.
 #' 
 #' @returns A [stream::DSD] object.
 #' 
@@ -28,7 +29,7 @@
 #' rp1
 #'
 #' # create a DSD that connects to the web service
-#' dsd <- DSD_ReadWebService(paste0("http://localhost:", port))
+#' dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
 #' dsd
 #'
 #' get_points(dsd, n = 10)
@@ -76,7 +77,7 @@ get_points.DSD_ReadWebService <- function(x,
   ...) {
   
   resp <- httr::RETRY("GET", stringr::str_interp("${x$url}/get_points?n=${n}"), 
-                      quiet = x$quiet)
+                      quiet = x$quiet, ...)
   d <- decode_response(resp)
   
   if (!info)

@@ -9,7 +9,8 @@
 #'
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
 #' @param verbose logical; display connection information.
-#' @param ... further arguments are passed on to [httr::RETRY()].
+#' @param ... further arguments are passed on to [httr::RETRY()]. Pass 
+#'   [httr:verbose()] as parameter `config` to get detailed connection info.
 #'
 #' @returns A [stream::DSC] object.
 #' 
@@ -23,7 +24,8 @@
 #' rp1
 #'
 #' # get a local DSC interface
-#' dsc <- DSC_WebService(paste0("http://localhost:", port), verbose = TRUE)
+#' dsc <- DSC_WebService(paste0("http://localhost", ":", port), 
+#'   verbose = TRUE, config = httr::verbose(info = TRUE))
 #' dsc
 #'
 #' # cluster
@@ -51,7 +53,8 @@ DSC_WebService <- function(url, verbose = FALSE, ...) {
   # we retry to give the server time to spin up
   #resp <- httr::GET(paste0(url, "/info"))
   resp <-
-    httr::RETRY("GET", stringr::str_interp("${url}/info"), quiet = !verbose, ...)
+    httr::RETRY("GET", stringr::str_interp("${url}/info"), 
+                quiet = !verbose, ...)
   if (httr::http_error(resp))
     d <- "No info"
   else
@@ -79,7 +82,7 @@ update.DSC_WebService <- function(object, dsd, n = 1L, ...) {
       "POST",
       stringr::str_interp("${object$url}/update"),
       body = list(upload = httr::upload_file(tmp)),
-      quiet = object$quiet
+      quiet = object$quiet, ...
     )
   unlink(tmp)
   invisible(resp)
@@ -96,7 +99,7 @@ get_centers.DSC_WebService <-
     resp <-
       httr::RETRY("GET",
         stringr::str_interp("${x$url}/get_centers?type=${type}"),
-        quiet = x$quiet)
+        quiet = x$quiet, ...)
     
     centers <- decode_response(resp)
     if (.check_error(centers))
@@ -122,7 +125,7 @@ get_weights.DSC_WebService <-
         stringr::str_interp("${x$url}/get_weights?type=${type}")
     
     resp <-
-      httr::RETRY("GET", com,  quiet = x$quiet)
+      httr::RETRY("GET", com,  quiet = x$quiet, ...)
     weights <- decode_response(resp)
     
     if (.check_error(weights))
