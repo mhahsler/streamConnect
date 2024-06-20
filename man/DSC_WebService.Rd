@@ -11,7 +11,8 @@ DSC_WebService(url, verbose = FALSE, ...)
 
 \item{verbose}{logical; display connection information.}
 
-\item{...}{further arguments are passed on to \code{\link[httr:RETRY]{httr::RETRY()}}.}
+\item{...}{further arguments are passed on to \code{\link[httr:RETRY]{httr::RETRY()}}. Pass
+\code{\link[httr:verbose]{httr::verbose()}} as parameter \code{config} to get detailed connection info.}
 }
 \value{
 A \link[stream:DSC]{stream::DSC} object.
@@ -31,7 +32,8 @@ rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
 rp1
 
 # get a local DSC interface
-dsc <- DSC_WebService(paste0("http://localhost:", port), verbose = TRUE)
+dsc <- DSC_WebService(paste0("http://localhost", ":", port), 
+  verbose = TRUE, config = httr::verbose(info = TRUE))
 dsc
 
 # cluster

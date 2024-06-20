@@ -8,7 +8,7 @@
 #' @param host hostname.
 #' @param port host port.
 #' @param retry_args a list with arguments for [retry()].
-#' @param ... further arguments are passed on to [DSD_ReadStream()].
+#' @param ... further arguments are passed on to [stream::DSD_ReadStream()].
 #'
 #' @returns A [stream::DSD] object.
 #'

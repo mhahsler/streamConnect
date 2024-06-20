@@ -11,7 +11,7 @@
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
 #' @param verbose logical; display connection information.
 #' @param ... further arguments are passed on to [httr::RETRY()]. Pass 
-#'   [httr:verbose()] as parameter `config` to get detailed connection info.
+#'   [httr::verbose()] as parameter `config` to get detailed connection info.
 #' 
 #' @returns A [stream::DSD] object.
 #' 

@@ -1,6 +1,6 @@
 #' Publish a Data Stream via a Web Service
 #'
-#' Uses the package [plumber] to publish a data stream as a web service.
+#' Uses the package plumber to publish a data stream as a web service.
 #'
 #' The function writes a plumber task script file and starts the web server to serve
 #' the content of the stream using the endpoints 

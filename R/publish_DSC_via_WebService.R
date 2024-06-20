@@ -1,13 +1,13 @@
 #' Publish a Data Stream Clustering Task via a Web Service
 #'
-#' Uses the package [plumber] to publish a data stream task as a web service.
+#' Uses the package plumber to publish a data stream task as a web service.
 #'
 #' The function writes a plumber task script file and starts the web server to serve
 #' the content of the stream using the endpoints 
 #' * GET `/info`
 #' * POST `/update` requires the data to be uploaded as a file in csv format (see Examples section).
-#' * GET `/get_centers` with parameter `type` (see [get_centers()]).
-#' * GET `/get_weights` with parameter `type` (see [get_weights()]).
+#' * GET `/get_centers` with parameter `type` (see [stream::get_centers()]).
+#' * GET `/get_weights` with parameter `type` (see [stream::get_weights()]).
 #' 
 #' Supported serializers are `csv` (default), `json`, and `rds`.
 #'  

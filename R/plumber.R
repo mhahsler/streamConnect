@@ -33,13 +33,24 @@ run_plumber_task_file <-
       
     
     if (background) {
-      rp <- callr::r_bg(function(task_file, port)
+      pr <- callr::r_bg(function(task_file, port)
       {
         plumber::pr_run(plumber::pr(task_file), port = port, docs = FALSE)
       },
         args = list(task_file = task_file, port = port))
 
-      return(rp)
+      Sys.sleep(1)
+      if(!pr$is_alive()) {
+        # check if the port was blocked
+        if (inherits(try(httpuv::randomPort(min = port, max = port), 
+                         silent = TRUE), "try-error")) 
+          stop("port ", port, " cannot be opened.")
+        
+        stop(get(".Last.error"), 
+             "\nRerun with 'background = FALSE' to debug the issue.")
+      }
+      
+      return(pr)
     }
     
     ### run as main process

@@ -13,7 +13,7 @@ DSD_ReadSocket(host = "localhost", port, retry_args = NULL, ...)
 
 \item{retry_args}{a list with arguments for \code{\link[=retry]{retry()}}.}
 
-\item{...}{further arguments are passed on to \code{\link[=DSD_ReadStream]{DSD_ReadStream()}}.}
+\item{...}{further arguments are passed on to \code{\link[stream:DSD_ReadStream]{stream::DSD_ReadStream()}}.}
 }
 \value{
 A \link[stream:DSD]{stream::DSD} object.

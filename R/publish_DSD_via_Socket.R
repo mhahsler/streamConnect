@@ -1,13 +1,10 @@
-#' Write a Stream to a Socket
+#' Publish a Data Stream using a Socket
 #'
-#' Use a `write_stream()` to write data to a socket connection.
-#'
-#' Provide access to a data stream using a local port.
-#'
-#' Blocking: The DSD will be blocked once the
-#' buffer is full and resume producing data when it gets unblocked.
-#'
-#' This method does not provide a header.
+#' Creates a socket server connection to send steam data.
+#' 
+#' Creates a server socket with [socketConnection()]
+#' and then uses a [stream::write_stream()] to write data to a socket connection.
+#' This method does not provide a header for the data.
 #'
 #' @family Socket
 #' @family dsd
@@ -76,6 +73,11 @@ publish_DSD_via_Socket <- function(dsd,
       blocksize = blocksize
     ))
     
+    Sys.sleep(1)
+    if(!pr$is_alive()) {
+      stop(get(".Last.error"))
+    }
+    
     return(pr)
   }
   
@@ -93,4 +95,6 @@ publish_DSD_via_Socket <- function(dsd,
       info = TRUE
     )
   }
+  
+  return(invisible(NULL))
 }

@@ -39,7 +39,7 @@ be used to check for errors in the server process (e.g., when it terminates
 unexpectedly).
 }
 \description{
-Uses the package \link{plumber} to publish a data stream task as a web service.
+Uses the package plumber to publish a data stream task as a web service.
 }
 \details{
 The function writes a plumber task script file and starts the web server to serve
@@ -47,8 +47,8 @@ the content of the stream using the endpoints
 \itemize{
 \item GET \verb{/info}
 \item POST \verb{/update} requires the data to be uploaded as a file in csv format (see Examples section).
-\item GET \verb{/get_centers} with parameter \code{type} (see \code{\link[=get_centers]{get_centers()}}).
-\item GET \verb{/get_weights} with parameter \code{type} (see \code{\link[=get_weights]{get_weights()}}).
+\item GET \verb{/get_centers} with parameter \code{type} (see \code{\link[stream:DSC]{stream::get_centers()}}).
+\item GET \verb{/get_weights} with parameter \code{type} (see \code{\link[stream:DSC]{stream::get_weights()}}).
 }
 
 Supported serializers are \code{csv} (default), \code{json}, and \code{rds}.

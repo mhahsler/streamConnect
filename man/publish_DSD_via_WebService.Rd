@@ -39,7 +39,7 @@ be used to check for errors in the server process (e.g., when it terminates
 unexpectedly).
 }
 \description{
-Uses the package \link{plumber} to publish a data stream as a web service.
+Uses the package plumber to publish a data stream as a web service.
 }
 \details{
 The function writes a plumber task script file and starts the web server to serve

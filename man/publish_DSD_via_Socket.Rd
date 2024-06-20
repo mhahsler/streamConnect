@@ -2,7 +2,7 @@
 % Please edit documentation in R/publish_DSD_via_Socket.R
 \name{publish_DSD_via_Socket}
 \alias{publish_DSD_via_Socket}
-\title{Write a Stream to a Socket}
+\title{Publish a Data Stream using a Socket}
 \usage{
 publish_DSD_via_Socket(dsd, port, blocksize = 1024L, background = TRUE, ...)
 }
@@ -25,15 +25,12 @@ be used to check for errors in the server process (e.g., when it terminates
 unexpectedly).
 }
 \description{
-Use a \code{write_stream()} to write data to a socket connection.
+Creates a socket server connection to send steam data.
 }
 \details{
-Provide access to a data stream using a local port.
-
-Blocking: The DSD will be blocked once the
-buffer is full and resume producing data when it gets unblocked.
-
-This method does not provide a header.
+Creates a server socket with \code{\link[=socketConnection]{socketConnection()}}
+and then uses a \code{\link[stream:write_stream]{stream::write_stream()}} to write data to a socket connection.
+This method does not provide a header for the data.
 }
 \examples{
 # find a free port

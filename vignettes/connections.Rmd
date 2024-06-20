@@ -32,14 +32,7 @@ While sockets are only used to connect data steam generating processes,
 web services are more versatile and can also be used
 to create data stream clustering processes as a service.
 
-The last section of this paper shows how to deploy the server/web service.
-
-For the examples below, we will use a random available port.
-
-```{r}
-port <- httpuv::randomPort()
-port
-```
+The final section of this paper shows how to deploy the server/web service.
 
 # Using Sockets Directly to Publish a Data Stream
 
@@ -53,6 +46,14 @@ connecting with other data stream software.
 
 A more convenient way
 to do this using package `streamConnect` is described later in this paper.
+
+For we find an available port.
+
+```{r}
+port <- httpuv::randomPort()
+port
+```
+
 
 ## Server: Serving a Data Stream
 
@@ -132,6 +133,13 @@ rp1$kill()
 `publish_DSD_via_Socket()` creates a socket broadcasting the data stream and
 `DSD_ReadSocket` creates a `DSD` object reading from that socket.
 
+We will use an available port.
+
+```{r}
+port <- httpuv::randomPort()
+port
+```
+
 ## Server: Publish Data
 We create a DSD process sending data to the port.
 ```{r eval = TRUE}
@@ -176,6 +184,13 @@ in a similar manner. Larger workflows can be created using `DST_Runner` from `st
 The data is transmitted in serialized form. The default serialization format 
 it `csv` (comma separated values). Other formats are `json` and `rds` 
 (see `plumber::serializer_csv`). 
+
+We will use an available port.
+
+```{r}
+port <- httpuv::randomPort()
+port
+```
 
 
 ## Server: Create a Web Service

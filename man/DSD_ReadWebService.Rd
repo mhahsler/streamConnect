@@ -11,7 +11,8 @@ DSD_ReadWebService(url, verbose = FALSE, ...)
 
 \item{verbose}{logical; display connection information.}
 
-\item{...}{further arguments are passed on to \code{\link[httr:RETRY]{httr::RETRY()}}.}
+\item{...}{further arguments are passed on to \code{\link[httr:RETRY]{httr::RETRY()}}. Pass
+\code{\link[httr:verbose]{httr::verbose()}} as parameter \code{config} to get detailed connection info.}
 }
 \value{
 A \link[stream:DSD]{stream::DSD} object.
@@ -36,7 +37,7 @@ rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
 rp1
 
 # create a DSD that connects to the web service
-dsd <- DSD_ReadWebService(paste0("http://localhost:", port))
+dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
 dsd
 
 get_points(dsd, n = 10)
