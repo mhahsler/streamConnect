@@ -1,3 +1,9 @@
+# arules 0.0-6.1 (xx/xx/2024)
+
+## Changes 
+* starting a web service with plumber now tries if the service is up before
+  returning.
+
 # arules 0.0-6 (06/20/2024)
 
 ## Changes

@@ -7,8 +7,10 @@
 library("stream")
 dsc <- ${dsc}
 
-#* Info
-#* @get info
+#* @apiTitle DSC
+
+#* Clusterer Info
+#* @get /info
 #* @serializer ${serializer}
 function() {
   data.frame(description = dsc$description, 

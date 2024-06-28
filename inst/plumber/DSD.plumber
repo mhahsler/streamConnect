@@ -9,6 +9,13 @@ dsd <- ${dsd}
 
 #* @apiTitle DSD
 
+#* Data Stream Info
+#* @serializer ${serializer}
+#* @get /info
+function() {
+  data.frame(description = dsd$description, d = dsd$d, k = dsd$k)
+}
+
 #* Get Data Points from the Stream
 #* @serializer ${serializer}
 #* @param n number of points
@@ -17,9 +24,3 @@ function(n = 1, info = TRUE) {
   get_points(dsd, n)
 }
 
-#* Data Stream Info
-#* @serializer ${serializer}
-#* @get /info
-function() {
-  data.frame(description = dsd$description, d = dsd$d, k = dsd$k)
-}

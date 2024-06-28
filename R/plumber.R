@@ -24,7 +24,7 @@ run_plumber_task_file <-
     ) {
     if (debug) {
       message("The plumber script was written to: ", task_file)
-      plumber::pr_run(plumber::pr(task_file), port = port, docs = TRUE)
+      plumber::pr_run(plumber::plumb(task_file), port = port, docs = TRUE)
       return()
     }
     
@@ -35,16 +35,27 @@ run_plumber_task_file <-
     if (background) {
       pr <- callr::r_bg(function(task_file, port)
       {
-        plumber::pr_run(plumber::pr(task_file), port = port, docs = FALSE)
+        plumber::pr_run(plumber::plumb(task_file), port = port, docs = FALSE)
       },
         args = list(task_file = task_file, port = port))
 
       Sys.sleep(1)
+      
+      # check if we can get a response for info on the port.
+      resp <-
+        httr::RETRY("GET", stringr::str_interp("http://localhost:${port}/info"), 
+                    quiet = TRUE)
+      if (httr::http_error(resp)) {
+        pr$kill()
+        stop("Failed to start the Web service!")
+      }
+      
+      # process should still be running.
       if(!pr$is_alive()) {
         # check if the port was blocked
         if (inherits(try(httpuv::randomPort(min = port, max = port), 
                          silent = TRUE), "try-error")) 
-          stop("port ", port, " cannot be opened.")
+          stop("port ", port, " cannot be opened. Already in use?")
         
         stop(get(".Last.error"), 
              "\nRerun with 'background = FALSE' to debug the issue.")

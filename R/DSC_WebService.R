@@ -54,7 +54,7 @@ DSC_WebService <- function(url, verbose = FALSE, ...) {
   #resp <- httr::GET(paste0(url, "/info"))
   resp <-
     httr::RETRY("GET", stringr::str_interp("${url}/info"), 
-                quiet = !verbose, ...)
+                quiet = !verbose)
   if (httr::http_error(resp))
     d <- "No info"
   else
