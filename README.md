@@ -4,9 +4,9 @@
 [![r-universe
 status](https://mhahsler.r-universe.dev/badges/streamConnect)](https://mhahsler.r-universe.dev/streamConnect)
 [![Package on
-CRAN](http://www.r-pkg.org/badges/version/streamConnect)](https://CRAN.R-project.org/package=streamConnect)
+CRAN](https://www.r-pkg.org/badges/version/streamConnect)](https://CRAN.R-project.org/package=streamConnect)
 [![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/streamConnect)](https://CRAN.R-project.org/package=streamConnect)
+downloads](https://cranlogs.r-pkg.org/badges/streamConnect)](https://CRAN.R-project.org/package=streamConnect)
 
 The R package is part of the
 [stream](https://github.com/mhahsler/stream) ecosystem. It adds
@@ -17,14 +17,13 @@ deployed on most common cloud services.
 
 To cite package ‘streamConnect’ in publications use:
 
-> Hahsler M (2024). *streamConnect: Connecting Stream Mining Components
-> Using Sockets and Web Services*. R package version 0.0-3.
+> Hahsler M (????). *streamConnect: Connecting Stream Mining Components
+> Using Sockets and Web Services*. R package version 0.0-6.1.
 
     @Manual{,
       title = {streamConnect: Connecting Stream Mining Components Using Sockets and Web Services},
       author = {Michael Hahsler},
-      year = {2024},
-      note = {R package version 0.0-3},
+      note = {R package version 0.0-6.1},
     }
 
 ## Installation
@@ -40,7 +39,8 @@ install.packages("streamConnect")
 
 ``` r
 install.packages("streamConnect",
-    repos = c("https://mhahsler.r-universe.dev". "https://cloud.r-project.org/"))
+    repos = c("https://mhahsler.r-universe.dev",
+              "https://cloud.r-project.org/"))
 ```
 
 ## Examples
