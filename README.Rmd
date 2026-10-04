@@ -9,7 +9,7 @@ source("https://raw.githubusercontent.com/mhahsler/pkg_helpers/main/pkg_helpers.
 pkg_title(pkg)
 ```
 
-The R package is part of the [stream](https://github.com/mhahsler/stream) ecosystem. It
+The R package is part of the [stream](https://michael.hahsler.net/stream) ecosystem. It
 adds functionality to connect stream mining components from the `stream` package using sockets and Web services. The package can be used to create distributed workflows and plumber-based Web services that can be deployed on most common cloud services.
 
 ```{r echo=FALSE, results = 'asis'}
@@ -22,7 +22,7 @@ pkg_install(pkg)
 
 ## Examples
 
-See the [Getting Started with streamConnect](https://CRAN.R-project.org/package=streamConnect/vignettes/streamConnect.html)
+See the [Getting Started with streamConnect](https://michael.hahsler.net/streamConnect/articles/streamConnect.html)
 vignette for examples.
 
 ## Acknowledgements
