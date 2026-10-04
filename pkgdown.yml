@@ -1,0 +1,9 @@
+pandoc: 3.8.3
+pkgdown: 2.2.1
+pkgdown_sha: ~
+articles:
+  streamConnect: streamConnect.html
+last_built: 2026-10-04T23:09Z
+urls:
+  reference: http://michael.hahsler.net/streamConnect/reference
+  article: http://michael.hahsler.net/streamConnect/articles
