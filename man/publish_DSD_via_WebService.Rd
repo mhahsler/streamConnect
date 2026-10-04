@@ -21,8 +21,8 @@ publish_DSD_via_WebService(
 
 \item{task_file}{name of the plumber task script file.}
 
-\item{serializer}{method used to serialize the data. By default \code{csv} (comma separated values)
-is used. Other methods are \code{json} and \code{rds} (see \link[plumber:serializers]{plumber::serializer_csv}).}
+\item{serializer}{method used to serialize the data. By default, \code{csv} (comma-separated values)
+is used. Other methods are \code{json} and \code{rds} (see \link[plumber:serializer_csv]{plumber::serializer_csv}).}
 
 \item{serve}{if \code{TRUE}, then a task file is written and a server started, otherwise,
 only a plumber task file is written.}
@@ -50,7 +50,7 @@ the content of the stream using the endpoints
 }
 
 APIs generated using plumber can be easily deployed. See: \href{https://www.rplumber.io/articles/hosting.html}{Hosting}. By setting a \code{task_file} and \code{serve = FALSE} a plumber
-task script file is generated that can be deployment.
+task script file is generated for deployment.
 
 A convenient reader for stream data over web services is available as \link{DSD_ReadWebService}.
 }
@@ -110,15 +110,15 @@ if (interactive())
          debug = TRUE)
 }
 \seealso{
-Other WebService: 
-\code{\link{DSC_WebService}()},
-\code{\link{DSD_ReadWebService}()},
-\code{\link{publish_DSC_via_WebService}()}
+Other WebService:
+\code{\link[=DSC_WebService]{DSC_WebService()}},
+\code{\link[=DSD_ReadWebService]{DSD_ReadWebService()}},
+\code{\link[=publish_DSC_via_WebService]{publish_DSC_via_WebService()}}
 
-Other dsd: 
-\code{\link{DSD_ReadSocket}()},
-\code{\link{DSD_ReadWebService}()},
-\code{\link{publish_DSD_via_Socket}()}
+Other dsd:
+\code{\link[=DSD_ReadSocket]{DSD_ReadSocket()}},
+\code{\link[=DSD_ReadWebService]{DSD_ReadWebService()}},
+\code{\link[=publish_DSD_via_Socket]{publish_DSD_via_Socket()}}
 }
 \concept{WebService}
 \concept{dsd}

@@ -10,8 +10,8 @@ downloads](https://cranlogs.r-pkg.org/badges/streamConnect)](https://CRAN.R-proj
 
 The R package is part of the
 [stream](https://github.com/mhahsler/stream) ecosystem. It adds
-functionality to connect stream mining components from package stream
-using sockets and Web services. The package can be used create
+functionality to connect stream mining components from the `stream`
+package using sockets and Web services. The package can be used to create
 distributed workflows and create plumber-based Web services which can be
 deployed on most common cloud services.
 
@@ -45,9 +45,8 @@ install.packages("streamConnect",
 
 ## Examples
 
-See [stream: Working With Data Streams using Connections and Web
-Services](https://CRAN.R-project.org/package=streamConnect/vignettes/connections.html)
-for examples.
+See the [Getting Started with streamConnect](https://CRAN.R-project.org/package=streamConnect/vignettes/streamConnect.html)
+vignette for examples.
 
 ## Acknowledgements
 

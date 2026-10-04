@@ -21,8 +21,8 @@ publish_DSC_via_WebService(
 
 \item{task_file}{name of the plumber task script file.}
 
-\item{serializer}{method used to serialize the data. By default \code{csv} (comma separated values)
-is used. Other methods are \code{json} and \code{rds} (see \link[plumber:serializers]{plumber::serializer_csv}).}
+\item{serializer}{method used to serialize the data. By default, \code{csv} (comma-separated values)
+is used. Other methods are \code{json} and \code{rds} (see \link[plumber:serializer_csv]{plumber::serializer_csv}).}
 
 \item{serve}{if \code{TRUE}, then a task file is written and a server started, otherwise,
 only a plumber task file is written.}
@@ -47,14 +47,14 @@ the content of the stream using the endpoints
 \itemize{
 \item GET \verb{/info}
 \item POST \verb{/update} requires the data to be uploaded as a file in csv format (see Examples section).
-\item GET \verb{/get_centers} with parameter \code{type} (see \code{\link[stream:DSC]{stream::get_centers()}}).
-\item GET \verb{/get_weights} with parameter \code{type} (see \code{\link[stream:DSC]{stream::get_weights()}}).
+\item GET \verb{/get_centers} with parameter \code{type} (see \code{\link[stream:get_centers]{stream::get_centers()}}).
+\item GET \verb{/get_weights} with parameter \code{type} (see \code{\link[stream:get_weights]{stream::get_weights()}}).
 }
 
 Supported serializers are \code{csv} (default), \code{json}, and \code{rds}.
 
 APIs generated using plumber can be easily deployed. See: \href{https://www.rplumber.io/articles/hosting.html}{Hosting}. By setting a \code{task_file} and \code{serve = FALSE} a plumber
-task script file is generated that can deployment.
+task script file is generated for deployment.
 }
 \examples{
 # find a free port
@@ -102,13 +102,13 @@ if (interactive())
          port = port, debug = TRUE)
 }
 \seealso{
-Other WebService: 
-\code{\link{DSC_WebService}()},
-\code{\link{DSD_ReadWebService}()},
-\code{\link{publish_DSD_via_WebService}()}
+Other WebService:
+\code{\link[=DSC_WebService]{DSC_WebService()}},
+\code{\link[=DSD_ReadWebService]{DSD_ReadWebService()}},
+\code{\link[=publish_DSD_via_WebService]{publish_DSD_via_WebService()}}
 
-Other dsc: 
-\code{\link{DSC_WebService}()}
+Other dsc:
+\code{\link[=DSC_WebService]{DSC_WebService()}}
 }
 \concept{WebService}
 \concept{dsc}

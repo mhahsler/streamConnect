@@ -25,7 +25,7 @@ be used to check for errors in the server process (e.g., when it terminates
 unexpectedly).
 }
 \description{
-Creates a socket server connection to send steam data.
+Creates a socket server connection to send stream data.
 }
 \details{
 Creates a server socket with \code{\link[=socketConnection]{socketConnection()}}
@@ -58,13 +58,13 @@ rp1$kill()
 rp1
 }
 \seealso{
-Other Socket: 
-\code{\link{DSD_ReadSocket}()}
+Other Socket:
+\code{\link[=DSD_ReadSocket]{DSD_ReadSocket()}}
 
-Other dsd: 
-\code{\link{DSD_ReadSocket}()},
-\code{\link{DSD_ReadWebService}()},
-\code{\link{publish_DSD_via_WebService}()}
+Other dsd:
+\code{\link[=DSD_ReadSocket]{DSD_ReadSocket()}},
+\code{\link[=DSD_ReadWebService]{DSD_ReadWebService()}},
+\code{\link[=publish_DSD_via_WebService]{publish_DSD_via_WebService()}}
 }
 \concept{Socket}
 \concept{dsd}

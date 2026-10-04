@@ -52,13 +52,13 @@ rp1
 
 }
 \seealso{
-Other WebService: 
-\code{\link{DSD_ReadWebService}()},
-\code{\link{publish_DSC_via_WebService}()},
-\code{\link{publish_DSD_via_WebService}()}
+Other WebService:
+\code{\link[=DSD_ReadWebService]{DSD_ReadWebService()}},
+\code{\link[=publish_DSC_via_WebService]{publish_DSC_via_WebService()}},
+\code{\link[=publish_DSD_via_WebService]{publish_DSD_via_WebService()}}
 
-Other dsc: 
-\code{\link{publish_DSC_via_WebService}()}
+Other dsc:
+\code{\link[=publish_DSC_via_WebService]{publish_DSC_via_WebService()}}
 }
 \concept{WebService}
 \concept{dsc}

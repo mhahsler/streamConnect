@@ -9,7 +9,7 @@
 #' * `http://localhost:port/info`.
 #'
 #' APIs generated using plumber can be easily deployed. See: [Hosting](https://www.rplumber.io/articles/hosting.html). By setting a `task_file` and `serve = FALSE` a plumber
-#' task script file is generated that can be deployment.
+#' task script file is generated for deployment.
 #'
 #' A convenient reader for stream data over web services is available as [DSD_ReadWebService].
 #'
@@ -19,7 +19,7 @@
 #' @param dsd A character string that creates a DSD.
 #' @param port port used to serve the DSD.
 #' @param task_file name of the plumber task script file.
-#' @param serializer method used to serialize the data. By default `csv` (comma separated values)
+#' @param serializer method used to serialize the data. By default, `csv` (comma-separated values)
 #' is used. Other methods are `json` and `rds` (see [plumber::serializer_csv]).
 #' @param serve if `TRUE`, then a task file is written and a server started, otherwise,
 #'   only a plumber task file is written.

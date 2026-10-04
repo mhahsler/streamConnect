@@ -1,17 +1,19 @@
 Package: streamConnect
-Version: 0.0-6.1
-Date: 2024-xx-xx
+Version: 0.0.7
+Date: 2026-xx-xx
 Encoding: UTF-8
 Title: Connecting Stream Mining Components Using Sockets and Web Services
 Authors@R: c(person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
 	    email = "mhahsler@lyle.smu.edu",
 	    comment = c(ORCID = "0000-0003-2716-1405")))
-Description: Adds functionality to connect stream mining components from package stream using sockets and Web services. The package can be used create distributed workflows and create plumber-based Web services which can be deployed on most common cloud services. 
+Description: Adds functionality to connect stream mining components from the stream package using sockets and Web services. The package can be used to create distributed workflows and plumber-based Web services that can be deployed on most common cloud services.
 Depends: stream (>= 2.0-0)
 Imports: plumber, callr, httr, readr, stringr, jsonlite 
-Suggests: knitr, httpuv, processx, rmarkdown
+Suggests: knitr, httpuv, processx, rmarkdown, testthat (>= 3.0.0), covr
 BugReports: https://github.com/mhahsler/streamConnect
 License: GPL-3
 VignetteBuilder: knitr
-RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3
+URL: http://michael.hahsler.net/streamConnect/
+Config/roxygen2/version: 8.1.0

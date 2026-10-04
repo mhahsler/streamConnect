@@ -54,11 +54,8 @@ DSC_WebService <- function(url, verbose = FALSE, ...) {
   #resp <- httr::GET(paste0(url, "/info"))
   resp <-
     httr::RETRY("GET", stringr::str_interp("${url}/info"), 
-                quiet = !verbose)
-  if (httr::http_error(resp))
-    d <- "No info"
-  else
-    d <- decode_response(resp)$description
+                quiet = !verbose, ...)
+  d <- decode_response(resp)$description
   
   if (verbose)
     message("Success")
@@ -76,15 +73,16 @@ DSC_WebService <- function(url, verbose = FALSE, ...) {
 #' @export
 update.DSC_WebService <- function(object, dsd, n = 1L, ...) {
   tmp <- tempfile()
+  on.exit(unlink(tmp), add = TRUE)
+
   stream::write_stream(dsd, tmp, n = n, header = TRUE)
   resp <-
-    httr::RETRY(
-      "POST",
+    httr::POST(
       stringr::str_interp("${object$url}/update"),
       body = list(upload = httr::upload_file(tmp)),
-      quiet = object$quiet, ...
+      ...
     )
-  unlink(tmp)
+  httr::stop_for_status(resp)
   invisible(resp)
 }
 

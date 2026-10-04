@@ -2,7 +2,7 @@
 % Please edit documentation in R/DSD_ReadWebService.R
 \name{DSD_ReadWebService}
 \alias{DSD_ReadWebService}
-\title{A DSD That Reads for a Web Service}
+\title{A DSD That Reads from a Web Service}
 \usage{
 DSD_ReadWebService(url, verbose = FALSE, ...)
 }
@@ -18,7 +18,7 @@ DSD_ReadWebService(url, verbose = FALSE, ...)
 A \link[stream:DSD]{stream::DSD} object.
 }
 \description{
-Reads from a web service that published an operation called
+Reads from a web service that publishes an operation called
 \code{get_points} which takes a parameter \code{n} and returns \code{n} data points in CSV or json
 format. The request is
 retried with \code{\link[httr:RETRY]{httr::RETRY()}} if it fails the first time.
@@ -50,15 +50,15 @@ rp1$kill()
 rp1
 }
 \seealso{
-Other WebService: 
-\code{\link{DSC_WebService}()},
-\code{\link{publish_DSC_via_WebService}()},
-\code{\link{publish_DSD_via_WebService}()}
+Other WebService:
+\code{\link[=DSC_WebService]{DSC_WebService()}},
+\code{\link[=publish_DSC_via_WebService]{publish_DSC_via_WebService()}},
+\code{\link[=publish_DSD_via_WebService]{publish_DSD_via_WebService()}}
 
-Other dsd: 
-\code{\link{DSD_ReadSocket}()},
-\code{\link{publish_DSD_via_Socket}()},
-\code{\link{publish_DSD_via_WebService}()}
+Other dsd:
+\code{\link[=DSD_ReadSocket]{DSD_ReadSocket()}},
+\code{\link[=publish_DSD_via_Socket]{publish_DSD_via_Socket()}},
+\code{\link[=publish_DSD_via_WebService]{publish_DSD_via_WebService()}}
 }
 \concept{WebService}
 \concept{dsd}

@@ -1,6 +1,6 @@
-#' A DSD That Reads for a Web Service
+#' A DSD That Reads from a Web Service
 #'
-#' Reads from a web service that published an operation called
+#' Reads from a web service that publishes an operation called
 #' `get_points` which takes a parameter `n` and returns `n` data points in CSV or json
 #' format. The request is
 #' retried with [httr::RETRY()] if it fails the first time.
@@ -51,11 +51,10 @@ DSD_ReadWebService <- function(url, verbose = FALSE, ...) {
   # we retry to give the server time to spin up
   #resp <- httr::GET(paste0(url, "/info"))
   resp <- httr::RETRY("GET", paste0(url, "/info"), quiet = !verbose, ...)
-  if (httr::http_error(resp))
-    d <- "No info"
-  else
-    d <-
-    as.data.frame(httr::content(resp, show_col_types = FALSE))$description
+  httr::stop_for_status(resp)
+  d <- as.data.frame(
+    httr::content(resp, show_col_types = FALSE)
+  )$description
   
   if (verbose)
     message("Success")

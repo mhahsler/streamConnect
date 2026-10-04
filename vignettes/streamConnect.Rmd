@@ -1,0 +1,138 @@
+---
+title: "Getting Started with streamConnect"
+author: "Michael Hahsler"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with streamConnect}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "#>")
+```
+
+`streamConnect` connects data stream sources and stream mining algorithms
+through sockets or web services. It works with the `DSD` (data stream) and
+`DSC` (data stream clustering) interfaces from the [stream package](https://github.com/mhahsler/stream).
+
+This guide shows two common workflows: reading a stream over a socket and
+updating a remote clusterer through a web service. For more control over the
+web service endpoints and deployment, see the help pages for
+`publish_DSD_via_WebService()` and `publish_DSC_via_WebService()`.
+
+## Install and load
+
+Install the released package from CRAN:
+
+```{r install, eval=FALSE}
+install.packages("streamConnect")
+```
+
+Load the package and select an available local port for the examples:
+
+```{r load}
+library(streamConnect)
+
+port <- httpuv::randomPort()
+port
+```
+
+## Read a data stream over a socket
+
+Start a background process that publishes a stream. The publisher opens a
+socket server and writes data in blocks. Since the socket format does not
+include column names, provide them when creating the reader.
+
+```{r socket-publish}
+socket_process <- publish_DSD_via_Socket(
+  stream::DSD_Gaussians(k = 3, d = 2),
+  port = port
+)
+socket_process
+```
+
+Connect a local `DSD` reader and request points from the stream:
+
+```{r socket-read}
+socket_dsd <- DSD_ReadSocket(
+  port = port,
+  col.names = c("x", "y", ".class")
+)
+
+points <- stream::get_points(socket_dsd, n = 10)
+head(points)
+```
+
+Close the reader and stop the publisher when finished:
+
+```{r socket-stop}
+stream::close_stream(socket_dsd)
+if (socket_process$is_alive()) socket_process$kill()
+```
+
+## Update a remote clusterer over a web service
+
+Web services also support request and response operations. Start a clusterer
+in a background process, then create a local `DSC` interface for it:
+
+```{r webservice-start}
+web_port <- httpuv::randomPort()
+clusterer_process <- publish_DSC_via_WebService(
+  "DSC_DBSTREAM(r = .05)",
+  port = web_port
+)
+
+clusterer <- DSC_WebService(paste0("http://localhost:", web_port))
+clusterer
+```
+
+Send a batch of points to the remote clusterer and retrieve its centers and
+weights through the local interface:
+
+```{r webservice-update}
+stream <- stream::DSD_Gaussians(k = 3, d = 2, noise = 0.05)
+stats::update(clusterer, stream, n = 500)
+
+stream::get_centers(clusterer)
+stream::get_weights(clusterer)
+```
+
+Stop the service process when the work is complete:
+
+```{r webservice-stop}
+if (clusterer_process$is_alive()) clusterer_process$kill()
+```
+
+## Publish a stream through a web service
+
+To expose a data source over HTTP, publish a `DSD` and read it with
+`DSD_ReadWebService()`. The service returns CSV by default; JSON and RDS
+serialization are also available through the `serializer` argument.
+
+```{r webservice-stream, eval=FALSE}
+port <- httpuv::randomPort()
+source_process <- publish_DSD_via_WebService(
+  "DSD_Gaussians(k = 3, d = 2)",
+  port = port
+)
+
+remote_stream <- DSD_ReadWebService(paste0("http://localhost:", port))
+stream::get_points(remote_stream, n = 10)
+
+source_process$kill()
+```
+
+## Next steps
+
+- Use `publish_DSD_via_Socket()` and `DSD_ReadSocket()` for continuous
+  point-to-point stream transfer.
+- Use `publish_DSD_via_WebService()` and `DSD_ReadWebService()` to serve
+  stream data over HTTP.
+- Use `publish_DSC_via_WebService()` and `DSC_WebService()` to update and
+  inspect a remote clusterer.
+- Set `serve = FALSE` to write a plumber task file for deployment with a
+  hosting environment of your choice.
+
+See the [package reference](https://mhahsler.r-universe.dev/streamConnect)
+for the full function documentation.

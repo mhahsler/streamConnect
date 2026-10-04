@@ -21,7 +21,7 @@ retry(f, times = 5, wait = 1, verbose = FALSE, operation = NULL)
 the result of the expression f
 }
 \description{
-Retries and expression that fails. This is mainly used to retry
+Retries an expression that fails. This is mainly used when
 establishing a connection.
 }
 \examples{

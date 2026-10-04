@@ -6,17 +6,25 @@
 \alias{streamConnect-package}
 \title{streamConnect: Connecting Stream Mining Components Using Sockets and Web Services}
 \description{
-Adds functionality to connect stream mining components from package stream using sockets and Web services. The package can be used create distributed workflows and create plumber-based Web services which can be deployed on most common cloud services.
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
+
+Adds functionality to connect stream mining components from the stream package using sockets and Web services. The package can be used to create distributed workflows and plumber-based Web services that can be deployed on most common cloud services.
 }
 \seealso{
 Useful links:
 \itemize{
+  \item \url{http://michael.hahsler.net/streamConnect/}
   \item Report bugs at \url{https://github.com/mhahsler/streamConnect}
 }
 
 }
 \author{
 \strong{Maintainer}: Michael Hahsler \email{mhahsler@lyle.smu.edu} (\href{https://orcid.org/0000-0003-2716-1405}{ORCID}) [copyright holder]
+
+Authors:
+\itemize{
+  \item Michael Hahsler \email{mhahsler@lyle.smu.edu} (\href{https://orcid.org/0000-0003-2716-1405}{ORCID}) [copyright holder]
+}
 
 }
 \keyword{internal}

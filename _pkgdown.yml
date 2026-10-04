@@ -1,0 +1,20 @@
+url: http://michael.hahsler.net/streamConnect/
+template:
+  bootstrap: 5
+
+reference:
+  - title: Web services for data streams
+    contents:
+      - publish_DSD_via_WebService
+      - DSD_ReadWebService
+  - title: Web services for clustering
+    contents:
+      - publish_DSC_via_WebService
+      - DSC_WebService
+  - title: Socket connections
+    contents:
+      - publish_DSD_via_Socket
+      - DSD_ReadSocket
+  - title: Utilities
+    contents:
+      - retry

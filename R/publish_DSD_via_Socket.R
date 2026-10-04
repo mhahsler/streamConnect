@@ -1,6 +1,6 @@
 #' Publish a Data Stream using a Socket
 #'
-#' Creates a socket server connection to send steam data.
+#' Creates a socket server connection to send stream data.
 #' 
 #' Creates a server socket with [socketConnection()]
 #' and then uses a [stream::write_stream()] to write data to a socket connection.
@@ -52,8 +52,11 @@ publish_DSD_via_Socket <- function(dsd,
                                    background = TRUE,
                                    ...) {
   if (background) {
-    pr <- callr::r_bg(function(dsd, port, blocksize, ...) {
-      con <- socketConnection(port = port, server = TRUE, ...)
+    pr <- callr::r_bg(function(dsd, port, blocksize, socket_args) {
+      con <- do.call(socketConnection, c(
+        list(port = port, server = TRUE),
+        socket_args
+      ))
       on.exit(close(con))
       
       while (TRUE) {
@@ -70,19 +73,23 @@ publish_DSD_via_Socket <- function(dsd,
     list(
       dsd = dsd,
       port = port,
-      blocksize = blocksize
+      blocksize = blocksize,
+      socket_args = list(...)
     ))
     
     Sys.sleep(1)
     if(!pr$is_alive()) {
-      stop(get(".Last.error"))
+      stop("Failed to start the socket publisher:\n", process_error_message(pr))
     }
     
     return(pr)
   }
   
   ### run directly
-  con <- socketConnection(port = port, server = TRUE, ...)
+  con <- do.call(socketConnection, c(
+    list(port = port, server = TRUE),
+    list(...)
+  ))
   on.exit(close(con))
   
   while (TRUE) {
