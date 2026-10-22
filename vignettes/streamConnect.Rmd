@@ -33,9 +33,6 @@ Load the package and select an available local port for the examples:
 
 ```{r load}
 library(streamConnect)
-
-port <- httpuv::randomPort()
-port
 ```
 
 ## Read a data stream over a socket
@@ -45,8 +42,10 @@ socket server and writes data in blocks. Since the socket format does not
 include column names, provide them when creating the reader.
 
 ```{r socket-publish}
+port <- httpuv::randomPort()
+
 socket_process <- publish_DSD_via_Socket(
-  stream::DSD_Gaussians(k = 3, d = 2),
+  DSD_Gaussians(k = 3, d = 2),
   port = port
 )
 socket_process
@@ -60,24 +59,25 @@ socket_dsd <- DSD_ReadSocket(
   col.names = c("x", "y", ".class")
 )
 
-points <- stream::get_points(socket_dsd, n = 10)
+points <- get_points(socket_dsd, n = 10)
 head(points)
 ```
 
 Close the reader and stop the publisher when finished:
 
 ```{r socket-stop}
-stream::close_stream(socket_dsd)
+close_stream(socket_dsd)
 if (socket_process$is_alive()) socket_process$kill()
 ```
 
-## Update a remote clusterer over a web service
+## Update a remote clusterer via a web service
 
 Web services also support request and response operations. Start a clusterer
 in a background process, then create a local `DSC` interface for it:
 
 ```{r webservice-start}
 web_port <- httpuv::randomPort()
+
 clusterer_process <- publish_DSC_via_WebService(
   "DSC_DBSTREAM(r = .05)",
   port = web_port
@@ -91,11 +91,11 @@ Send a batch of points to the remote clusterer and retrieve its centers and
 weights through the local interface:
 
 ```{r webservice-update}
-stream <- stream::DSD_Gaussians(k = 3, d = 2, noise = 0.05)
-stats::update(clusterer, stream, n = 500)
+stream <- DSD_Gaussians(k = 3, d = 2, noise = 0.05)
+update(clusterer, stream, n = 500)
 
-stream::get_centers(clusterer)
-stream::get_weights(clusterer)
+get_centers(clusterer)
+get_weights(clusterer)
 ```
 
 Stop the service process when the work is complete:
@@ -110,17 +110,20 @@ To expose a data source over HTTP, publish a `DSD` and read it with
 `DSD_ReadWebService()`. The service returns CSV by default; JSON and RDS
 serialization are also available through the `serializer` argument.
 
-```{r webservice-stream, eval=FALSE}
+```{r webservice-stream}
 port <- httpuv::randomPort()
+
 source_process <- publish_DSD_via_WebService(
   "DSD_Gaussians(k = 3, d = 2)",
   port = port
 )
 
 remote_stream <- DSD_ReadWebService(paste0("http://localhost:", port))
-stream::get_points(remote_stream, n = 10)
+get_points(remote_stream, n = 10)
+```
 
-source_process$kill()
+```{r webservice-stream2}
+if (source_process$is_alive()) source_process$kill()
 ```
 
 ## Next steps
