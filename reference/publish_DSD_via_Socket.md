@@ -53,12 +53,12 @@ header for the data.
 ## See also
 
 Other Socket:
-[`DSD_ReadSocket()`](http://michael.hahsler.net/streamConnect/reference/DSD_ReadSocket.md)
+[`DSD_ReadSocket()`](https://michael.hahsler.net/streamConnect/reference/DSD_ReadSocket.md)
 
 Other dsd:
-[`DSD_ReadSocket()`](http://michael.hahsler.net/streamConnect/reference/DSD_ReadSocket.md),
-[`DSD_ReadWebService()`](http://michael.hahsler.net/streamConnect/reference/DSD_ReadWebService.md),
-[`publish_DSD_via_WebService()`](http://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
+[`DSD_ReadSocket()`](https://michael.hahsler.net/streamConnect/reference/DSD_ReadSocket.md),
+[`DSD_ReadWebService()`](https://michael.hahsler.net/streamConnect/reference/DSD_ReadWebService.md),
+[`publish_DSD_via_WebService()`](https://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
 
 ## Examples
 
@@ -71,24 +71,24 @@ port
 # create a background DSD process sending data to the port
 rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
 rp1
-#> PROCESS 'R', running, pid 8147.
+#> PROCESS 'R', running, pid 8307.
 
 # connect to the port (retry waits for the socket to establish)
 con <- retry(socketConnection(port = port, open = 'r'))
 dsd <- retry(DSD_ReadStream(con, col.names = c("x", "y", "z", ".class")))
 
 get_points(dsd, n = 10)
-#>             x         y         z .class
-#> 1  0.62789107 0.7222889 0.2728554      2
-#> 2  0.65209004 0.6903966 0.2744383      2
-#> 3  0.74013231 0.7397348 0.3153817      2
-#> 4  0.72744777 0.7427283 0.3470746      2
-#> 5  0.69315059 0.7132719 0.2896850      2
-#> 6  0.87847411 0.9638830 0.3662969      1
-#> 7  0.92239483 0.9628923 0.4602023      1
-#> 8  0.71483815 0.6940349 0.2967005      2
-#> 9  0.05340394 0.4848126 0.3929023      3
-#> 10 0.07408589 0.3942486 0.3139123      3
+#>                x         y         z .class
+#> 1   6.750260e-01 0.7116773 0.2719570      2
+#> 2   6.998397e-01 0.7608361 0.3096556      2
+#> 3   6.754921e-01 0.7622970 0.3362161      2
+#> 4   9.105200e-01 1.0172110 0.4091886      1
+#> 5  -6.416382e-05 0.4341110 0.3518518      3
+#> 6   4.826232e-02 0.4695758 0.3738895      3
+#> 7   4.255207e-02 0.4368928 0.3328016      3
+#> 8   6.613346e-01 0.6926976 0.2718554      2
+#> 9   6.763353e-02 0.4857952 0.3153578      3
+#> 10  8.771443e-02 0.4132825 0.2584315      3
 
 plot(dsd)
 

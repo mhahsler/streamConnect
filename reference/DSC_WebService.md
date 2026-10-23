@@ -36,12 +36,12 @@ A [stream::DSC](https://rdrr.io/pkg/stream/man/DSC.html) object.
 ## See also
 
 Other WebService:
-[`DSD_ReadWebService()`](http://michael.hahsler.net/streamConnect/reference/DSD_ReadWebService.md),
-[`publish_DSC_via_WebService()`](http://michael.hahsler.net/streamConnect/reference/publish_DSC_via_WebService.md),
-[`publish_DSD_via_WebService()`](http://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
+[`DSD_ReadWebService()`](https://michael.hahsler.net/streamConnect/reference/DSD_ReadWebService.md),
+[`publish_DSC_via_WebService()`](https://michael.hahsler.net/streamConnect/reference/publish_DSC_via_WebService.md),
+[`publish_DSD_via_WebService()`](https://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
 
 Other dsc:
-[`publish_DSC_via_WebService()`](http://michael.hahsler.net/streamConnect/reference/publish_DSC_via_WebService.md)
+[`publish_DSC_via_WebService()`](https://michael.hahsler.net/streamConnect/reference/publish_DSC_via_WebService.md)
 
 ## Examples
 
@@ -54,7 +54,7 @@ port
 # deploy a clustering process listening for data on the port
 rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
 rp1
-#> PROCESS 'R', running, pid 7085.
+#> PROCESS 'R', running, pid 7246.
 
 # get a local DSC interface
 dsc <- DSC_WebService(paste0("http://localhost", ":", port), 

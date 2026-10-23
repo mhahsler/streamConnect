@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/mhahsler/streamConnect/blob/main/DESCRIPTION)
 
 Hahsler M (2026). *streamConnect: Connecting Stream Mining Components
-Using Sockets and Web Services*. R package version 0.0.7,
-<http://michael.hahsler.net/streamConnect/>.
+Using Sockets and Web Services*. R package version 0.1.0,
+<https://michael.hahsler.net/streamConnect/>.
 
     @Manual{,
       title = {streamConnect: Connecting Stream Mining Components Using Sockets and Web Services},
       author = {Michael Hahsler},
       year = {2026},
-      note = {R package version 0.0.7},
-      url = {http://michael.hahsler.net/streamConnect/},
+      note = {R package version 0.1.0},
+      url = {https://michael.hahsler.net/streamConnect/},
     }

@@ -86,12 +86,12 @@ for deployment.
 ## See also
 
 Other WebService:
-[`DSC_WebService()`](http://michael.hahsler.net/streamConnect/reference/DSC_WebService.md),
-[`DSD_ReadWebService()`](http://michael.hahsler.net/streamConnect/reference/DSD_ReadWebService.md),
-[`publish_DSD_via_WebService()`](http://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
+[`DSC_WebService()`](https://michael.hahsler.net/streamConnect/reference/DSC_WebService.md),
+[`DSD_ReadWebService()`](https://michael.hahsler.net/streamConnect/reference/DSD_ReadWebService.md),
+[`publish_DSD_via_WebService()`](https://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
 
 Other dsc:
-[`DSC_WebService()`](http://michael.hahsler.net/streamConnect/reference/DSC_WebService.md)
+[`DSC_WebService()`](https://michael.hahsler.net/streamConnect/reference/DSC_WebService.md)
 
 ## Examples
 
@@ -104,7 +104,7 @@ port
 # Deploy a clustering process listening for data on the port
 rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
 rp1
-#> PROCESS 'R', running, pid 8050.
+#> PROCESS 'R', running, pid 8212.
 
 # look at ? DSC_WebService for a convenient interface. 
 # Here we we show how to connect to the port and send data manually.
@@ -134,7 +134,7 @@ resp <- POST(paste0("http://localhost:", port, "/update"),
 unlink(tmp)
 resp
 #> Response [http://localhost:19558/update]
-#>   Date: 2026-10-04 23:09
+#>   Date: 2026-10-23 00:44
 #>   Status: 200
 #>   Content-Type: text/csv; charset=UTF-8
 #>   Size: 17 B

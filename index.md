@@ -10,7 +10,7 @@ status](https://mhahsler.r-universe.dev/badges/streamConnect)](https://mhahsler.
 **Maintainer:** [Michael Hahsler](https://michael.hahsler.net)
 
 The R package is part of the
-[stream](https://michael.hahsler.net/stream) ecosystem. It adds
+[stream](https://michael.hahsler.net/stream/) ecosystem. It adds
 functionality to connect stream mining components from the `stream`
 package using sockets and Web services. The package can be used to
 create distributed workflows and plumber-based Web services that can be

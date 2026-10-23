@@ -21,7 +21,7 @@ DSD_ReadSocket(host = "localhost", port, retry_args = NULL, ...)
 - retry_args:
 
   a list with arguments for
-  [`retry()`](http://michael.hahsler.net/streamConnect/reference/retry.md).
+  [`retry()`](https://michael.hahsler.net/streamConnect/reference/retry.md).
 
 - ...:
 
@@ -35,12 +35,12 @@ A [stream::DSD](https://rdrr.io/pkg/stream/man/DSD.html) object.
 ## See also
 
 Other Socket:
-[`publish_DSD_via_Socket()`](http://michael.hahsler.net/streamConnect/reference/publish_DSD_via_Socket.md)
+[`publish_DSD_via_Socket()`](https://michael.hahsler.net/streamConnect/reference/publish_DSD_via_Socket.md)
 
 Other dsd:
-[`DSD_ReadWebService()`](http://michael.hahsler.net/streamConnect/reference/DSD_ReadWebService.md),
-[`publish_DSD_via_Socket()`](http://michael.hahsler.net/streamConnect/reference/publish_DSD_via_Socket.md),
-[`publish_DSD_via_WebService()`](http://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
+[`DSD_ReadWebService()`](https://michael.hahsler.net/streamConnect/reference/DSD_ReadWebService.md),
+[`publish_DSD_via_Socket()`](https://michael.hahsler.net/streamConnect/reference/publish_DSD_via_Socket.md),
+[`publish_DSD_via_WebService()`](https://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
 
 ## Examples
 
@@ -53,7 +53,7 @@ port
 # create a background DSD process sending data to the port
 rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
 rp1
-#> PROCESS 'R', running, pid 7295.
+#> PROCESS 'R', running, pid 7456.
 
 # create a DSD that connects to the socket. Note that we need to 
 # specify the column names of the stream
@@ -65,16 +65,16 @@ dsd
 
 get_points(dsd, n = 10)
 #>            x         y         z .class
-#> 1  0.8389765 0.7136364 0.8446784      1
-#> 2  0.3677646 0.1260063 0.4315370      2
-#> 3  0.4503814 0.4331341 1.0099879      3
-#> 4  0.3376617 0.1074240 0.4267495      2
-#> 5  0.3830056 0.3407278 1.0473855      3
-#> 6  0.7867551 0.6000208 0.8965822      1
-#> 7  0.8173136 0.6439941 0.8985565      1
-#> 8  0.3985137 0.3679955 1.0056913      3
-#> 9  0.8313149 0.5767336 0.8904050      1
-#> 10 0.4006689 0.3706720 0.9941602      3
+#> 1  0.4658657 0.4604973 0.9296295      3
+#> 2  0.7774414 0.7195617 0.9330988      1
+#> 3  0.8118455 0.6286028 0.8818273      1
+#> 4  0.7942356 0.6071393 0.9607249      1
+#> 5  0.8022842 0.6991123 0.9313996      1
+#> 6  0.8000235 0.6214970 0.8433864      1
+#> 7  0.3637159 0.1501603 0.5301324      2
+#> 8  0.4878353 0.4743403 0.9498714      3
+#> 9  0.8184675 0.5979035 0.8849015      1
+#> 10 0.4307048 0.4037073 0.9727788      3
 
 plot(dsd)
 

@@ -36,14 +36,14 @@ A [stream::DSD](https://rdrr.io/pkg/stream/man/DSD.html) object.
 ## See also
 
 Other WebService:
-[`DSC_WebService()`](http://michael.hahsler.net/streamConnect/reference/DSC_WebService.md),
-[`publish_DSC_via_WebService()`](http://michael.hahsler.net/streamConnect/reference/publish_DSC_via_WebService.md),
-[`publish_DSD_via_WebService()`](http://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
+[`DSC_WebService()`](https://michael.hahsler.net/streamConnect/reference/DSC_WebService.md),
+[`publish_DSC_via_WebService()`](https://michael.hahsler.net/streamConnect/reference/publish_DSC_via_WebService.md),
+[`publish_DSD_via_WebService()`](https://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
 
 Other dsd:
-[`DSD_ReadSocket()`](http://michael.hahsler.net/streamConnect/reference/DSD_ReadSocket.md),
-[`publish_DSD_via_Socket()`](http://michael.hahsler.net/streamConnect/reference/publish_DSD_via_Socket.md),
-[`publish_DSD_via_WebService()`](http://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
+[`DSD_ReadSocket()`](https://michael.hahsler.net/streamConnect/reference/DSD_ReadSocket.md),
+[`publish_DSD_via_Socket()`](https://michael.hahsler.net/streamConnect/reference/publish_DSD_via_Socket.md),
+[`publish_DSD_via_WebService()`](https://michael.hahsler.net/streamConnect/reference/publish_DSD_via_WebService.md)
 
 ## Examples
 
@@ -60,7 +60,7 @@ rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
 # rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", 
 #              port = port, serialize = "json")
 rp1
-#> PROCESS 'R', running, pid 7326.
+#> PROCESS 'R', running, pid 7487.
 
 # create a DSD that connects to the web service
 dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
@@ -71,18 +71,18 @@ dsd
 
 get_points(dsd, n = 10)
 #> # A tibble: 10 × 4
-#>         X1      X2     X3 .class
-#>      <dbl>   <dbl>  <dbl>  <dbl>
-#>  1 0.0277  -0.0106 0.0584      2
-#>  2 0.129    0.0793 0.0704      2
-#>  3 0.126    0.0894 0.170       2
-#>  4 0.00667  0.706  0.560       3
-#>  5 0.0446   0.674  0.603       3
-#>  6 0.415    0.942  0.280       1
-#>  7 0.243    0.925  0.416       1
-#>  8 0.325    0.915  0.382       1
-#>  9 0.216    0.902  0.471       1
-#> 10 0.0977   0.0465 0.152       2
+#>        X1     X2    X3 .class
+#>     <dbl>  <dbl> <dbl>  <dbl>
+#>  1 0.338  0.722  0.413      2
+#>  2 0.230  0.482  0.525      3
+#>  3 0.185  0.483  0.522      3
+#>  4 0.377  0.826  0.495      2
+#>  5 0.406  0.746  0.471      2
+#>  6 0.367  0.818  0.524      2
+#>  7 0.130  0.418  0.564      3
+#>  8 0.486  0.0457 0.438      1
+#>  9 0.205  0.488  0.520      3
+#> 10 0.0768 0.399  0.628      3
 
 plot(dsd)
 
