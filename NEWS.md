@@ -1,4 +1,4 @@
-# streamConnect 0.0.7 (unpublished)
+# streamConnect 0.1.0 (10/22/2026)
 
 ## Changes 
 * starting a web service with plumber now tries if the service is up before

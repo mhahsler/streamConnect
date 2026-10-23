@@ -137,5 +137,5 @@ if (source_process$is_alive()) source_process$kill()
 - Set `serve = FALSE` to write a plumber task file for deployment with a
   hosting environment of your choice.
 
-See the [package reference](https://mhahsler.r-universe.dev/streamConnect)
+See the [package reference](https://michael.hahsler.net/streamConnect/reference/)
 for the full function documentation.
