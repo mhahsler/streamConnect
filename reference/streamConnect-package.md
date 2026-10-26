@@ -9,9 +9,9 @@ deployed on most common cloud services.
 
 Useful links:
 
-- <http://michael.hahsler.net/streamConnect/>
+- <https://michael.hahsler.net/streamConnect/>
 
-- Report bugs at <https://github.com/mhahsler/streamConnect>
+- Report bugs at <https://github.com/mhahsler/streamConnect/issues>
 
 ## Author
 

@@ -48,49 +48,34 @@ Other dsd:
 ## Examples
 
 ``` r
-# find a free port
-port <- httpuv::randomPort()
-port
-#> [1] 30037
+if (has_localhost_server(port = 8000)) {
+  # find a free port
+  port <- httpuv::randomPort()
+  port
 
-# create a background DSD process sending data to the port
-rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
+  # create a background DSD process sending data to the port
+  rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
 
-## use json for the transport layer instead of csv
-# rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", 
-#              port = port, serialize = "json")
-rp1
-#> PROCESS 'R', running, pid 7487.
+  ## use json for the transport layer instead of csv
+  # rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)",
+  #              port = port, serialize = "json")
+  rp1
 
-# create a DSD that connects to the web service
-dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
-dsd
-#> Web Service Data Stream: Gaussian Mixture (d = 3, k = 3)
-#> Served from: http://localhost:30037 
-#> Class: DSD_ReadWebService, DSD_R, DSD 
+  # create a DSD that connects to the web service
+  dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
+  dsd
 
-get_points(dsd, n = 10)
-#> # A tibble: 10 × 4
-#>        X1     X2    X3 .class
-#>     <dbl>  <dbl> <dbl>  <dbl>
-#>  1 0.338  0.722  0.413      2
-#>  2 0.230  0.482  0.525      3
-#>  3 0.185  0.483  0.522      3
-#>  4 0.377  0.826  0.495      2
-#>  5 0.406  0.746  0.471      2
-#>  6 0.367  0.818  0.524      2
-#>  7 0.130  0.418  0.564      3
-#>  8 0.486  0.0457 0.438      1
-#>  9 0.205  0.488  0.520      3
-#> 10 0.0768 0.399  0.628      3
+  get_points(dsd, n = 10)
 
-plot(dsd)
+  plot(dsd)
 
+  # end the DSD process. Note: that closing the connection above
+  # may already kill the process.
+  rp1$kill()
+  rp1
+} else {
+  message("localhost not available, example skipped.")
+}
 
-# end the DSD process. Note: that closing the connection above
-# may already kill the process.
-rp1$kill()
-#> [1] TRUE
-rp1
 #> PROCESS 'R', finished.
 ```

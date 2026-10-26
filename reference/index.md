@@ -25,3 +25,5 @@
 
 - [`retry()`](https://michael.hahsler.net/streamConnect/reference/retry.md)
   : Retry an Expression that Fails
+- [`has_localhost_server()`](https://michael.hahsler.net/streamConnect/reference/has_localhost_server.md)
+  : Check Whether a Localhost Server Can Be Used

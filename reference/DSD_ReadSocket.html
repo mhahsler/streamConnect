@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">streamConnect</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,47 +78,34 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># find a free port</span></span></span>
-<span class="r-in"><span><span class="va">port</span> <span class="op">&lt;-</span> <span class="fu">httpuv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/httpuv/reference/randomPort.html" class="external-link">randomPort</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">port</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16725</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="has_localhost_server.html">has_localhost_server</a></span><span class="op">(</span>port <span class="op">=</span> <span class="fl">8000</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># find a free port</span></span></span>
+<span class="r-in"><span>  <span class="va">port</span> <span class="op">&lt;-</span> <span class="fu">httpuv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/httpuv/reference/randomPort.html" class="external-link">randomPort</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">port</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># create a background DSD process sending data to the port</span></span></span>
-<span class="r-in"><span><span class="va">rp1</span> <span class="op">&lt;-</span> <span class="fu">DSD_Gaussians</span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, d <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="publish_DSD_via_Socket.html">publish_DSD_via_Socket</a></span><span class="op">(</span>port <span class="op">=</span> <span class="va">port</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">rp1</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PROCESS 'R', running, pid 7456.</span>
+<span class="r-in"><span>  <span class="co"># create a background DSD process sending data to the port</span></span></span>
+<span class="r-in"><span>  <span class="va">rp1</span> <span class="op">&lt;-</span> <span class="fu">DSD_Gaussians</span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, d <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="publish_DSD_via_Socket.html">publish_DSD_via_Socket</a></span><span class="op">(</span>port <span class="op">=</span> <span class="va">port</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">rp1</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># create a DSD that connects to the socket. Note that we need to </span></span></span>
-<span class="r-in"><span><span class="co"># specify the column names of the stream</span></span></span>
-<span class="r-in"><span><span class="va">dsd</span> <span class="op">&lt;-</span> <span class="fu">DSD_ReadSocket</span><span class="op">(</span>port <span class="op">=</span> <span class="va">port</span>, col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span>, <span class="st">".class"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dsd</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data Stream from Connection (d = 3, k = NA) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Class: DSD_ReadStream, DSD_R, DSD </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> connection: -&gt;localhost:16725 (opened)</span>
+<span class="r-in"><span>  <span class="co"># create a DSD that connects to the socket. Note that we need to</span></span></span>
+<span class="r-in"><span>  <span class="co"># specify the column names of the stream</span></span></span>
+<span class="r-in"><span>  <span class="va">dsd</span> <span class="op">&lt;-</span> <span class="fu">DSD_ReadSocket</span><span class="op">(</span>port <span class="op">=</span> <span class="va">port</span>, col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span>, <span class="st">".class"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">dsd</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_points</span><span class="op">(</span><span class="va">dsd</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            x         y         z .class</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.4658657 0.4604973 0.9296295      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.7774414 0.7195617 0.9330988      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.8118455 0.6286028 0.8818273      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  0.7942356 0.6071393 0.9607249      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  0.8022842 0.6991123 0.9313996      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  0.8000235 0.6214970 0.8433864      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  0.3637159 0.1501603 0.5301324      2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  0.4878353 0.4743403 0.9498714      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  0.8184675 0.5979035 0.8849015      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 0.4307048 0.4037073 0.9727788      3</span>
+<span class="r-in"><span>  <span class="fu">get_points</span><span class="op">(</span><span class="va">dsd</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dsd</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dsd</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">close_stream</span><span class="op">(</span><span class="va">dsd</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># end the DSD process. Note: that closing the connection above</span></span></span>
+<span class="r-in"><span>  <span class="co"># may already kill the process.</span></span></span>
+<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="va">rp1</span><span class="op">$</span><span class="fu">is_alive</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="va">rp1</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">rp1</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"localhost not available, example skipped."</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-plt img"><img src="DSD_ReadSocket-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">close_stream</span><span class="op">(</span><span class="va">dsd</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># end the DSD process. Note: that closing the connection above</span></span></span>
-<span class="r-in"><span><span class="co"># may already kill the process.</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">rp1</span><span class="op">$</span><span class="fu">is_alive</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="va">rp1</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="va">rp1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> PROCESS 'R', finished.</span>
 </code></pre></div>
     </div>

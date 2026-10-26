@@ -96,77 +96,56 @@ Other dsc:
 ## Examples
 
 ``` r
-# find a free port
-port <- httpuv::randomPort()
-port
-#> [1] 19558
+if (has_localhost_server(port = 8000)) {
+  # find a free port
+  port <- httpuv::randomPort()
+  port
 
-# Deploy a clustering process listening for data on the port
-rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
-rp1
-#> PROCESS 'R', running, pid 8212.
+  # Deploy a clustering process listening for data on the port
+  rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
+  rp1
 
-# look at ? DSC_WebService for a convenient interface. 
-# Here we we show how to connect to the port and send data manually.
-library(httr)
+  # look at ? DSC_WebService for a convenient interface.
+  # Here we we show how to connect to the port and send data manually.
+  library(httr)
+
+  # the info verb returns some basic information about the clusterer.
+  resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
+  d <- content(resp, show_col_types = FALSE)
+  d
+
+  # create a local data stream and send it to the clusterer using the update verb.
+  dsd <- DSD_Gaussians(k = 3, d = 2, noise = 0.05)
+
+  tmp <- tempfile()
+  stream::write_stream(dsd, tmp, n = 500, header = TRUE)
+  resp <- POST(paste0("http://localhost:", port, "/update"),
+    body = list(upload = upload_file(tmp)))
+  unlink(tmp)
+  resp
+
+  # retrieve the cluster centers using the get_centers verb
+  resp <- GET(paste0("http://localhost:", port, "/get_centers"))
+  d <- content(resp, show_col_types = FALSE)
+  head(d)
+
+  plot(dsd, n = 100)
+  points(d, col = "red", pch = 3, lwd = 3)
+
+  # kill the process.
+  rp1$kill()
+  rp1
+
+  # Debug the interface (run the service and start a web interface)
+  if (interactive())
+    publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)",
+           port = port, debug = TRUE)
+} else {
+  message("localhost not available, example skipped.")
+}
 #> 
 #> Attaching package: ‘httr’
 #> The following object is masked from ‘package:stream’:
 #> 
 #>     write_stream
-
-# the info verb returns some basic information about the clusterer.
-resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
-d <- content(resp, show_col_types = FALSE)
-d
-#> # A tibble: 1 × 3
-#>   description class                               clusters
-#>   <chr>       <chr>                                  <dbl>
-#> 1 DBSTREAM    DSC_DBSTREAM, DSC_Micro, DSC_R, DSC        0
-
-# create a local data stream and send it to the clusterer using the update verb.
-dsd <- DSD_Gaussians(k = 3, d = 2, noise = 0.05)
-
-tmp <- tempfile()
-stream::write_stream(dsd, tmp, n = 500, header = TRUE)
-resp <- POST(paste0("http://localhost:", port, "/update"), 
-  body = list(upload = upload_file(tmp)))
-unlink(tmp)
-resp
-#> Response [http://localhost:19558/update]
-#>   Date: 2026-10-23 00:44
-#>   Status: 200
-#>   Content-Type: text/csv; charset=UTF-8
-#>   Size: 17 B
-#> result
-#> Update OK
-
-# retrieve the cluster centers using the get_centers verb
-resp <- GET(paste0("http://localhost:", port, "/get_centers"))
-d <- content(resp, show_col_types = FALSE)
-head(d)
-#> # A tibble: 6 × 2
-#>       X1       X2
-#>    <dbl>    <dbl>
-#> 1 0.504   0.412  
-#> 2 0.126  -0.00704
-#> 3 0.701   0.984  
-#> 4 0.610   0.959  
-#> 5 0.718   0.938  
-#> 6 0.0769  0.0995 
-
-plot(dsd, n = 100)
-points(d, col = "red", pch = 3, lwd = 3)
-
-
-# kill the process.
-rp1$kill()
-#> [1] TRUE
-rp1
-#> PROCESS 'R', finished.
-
-# Debug the interface (run the service and start a web interface)
-if (interactive())
-  publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", 
-         port = port, debug = TRUE)
 ```

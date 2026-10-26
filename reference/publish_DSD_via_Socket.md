@@ -63,43 +63,33 @@ Other dsd:
 ## Examples
 
 ``` r
-# find a free port
-port <- httpuv::randomPort()
-port
-#> [1] 29544
+if (has_localhost_server(port = 8000)) {
+  # find a free port
+  port <- httpuv::randomPort()
+  port
 
-# create a background DSD process sending data to the port
-rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
-rp1
-#> PROCESS 'R', running, pid 8307.
+  # create a background DSD process sending data to the port
+  rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
+  rp1
 
-# connect to the port (retry waits for the socket to establish)
-con <- retry(socketConnection(port = port, open = 'r'))
-dsd <- retry(DSD_ReadStream(con, col.names = c("x", "y", "z", ".class")))
+  # connect to the port (retry waits for the socket to establish)
+  con <- retry(socketConnection(port = port, open = 'r'))
+  dsd <- retry(DSD_ReadStream(con, col.names = c("x", "y", "z", ".class")))
 
-get_points(dsd, n = 10)
-#>                x         y         z .class
-#> 1   6.750260e-01 0.7116773 0.2719570      2
-#> 2   6.998397e-01 0.7608361 0.3096556      2
-#> 3   6.754921e-01 0.7622970 0.3362161      2
-#> 4   9.105200e-01 1.0172110 0.4091886      1
-#> 5  -6.416382e-05 0.4341110 0.3518518      3
-#> 6   4.826232e-02 0.4695758 0.3738895      3
-#> 7   4.255207e-02 0.4368928 0.3328016      3
-#> 8   6.613346e-01 0.6926976 0.2718554      2
-#> 9   6.763353e-02 0.4857952 0.3153578      3
-#> 10  8.771443e-02 0.4132825 0.2584315      3
+  get_points(dsd, n = 10)
 
-plot(dsd)
+  plot(dsd)
 
+  # close connection
+  close_stream(dsd)
 
-# close connection
-close_stream(dsd)
+  # end the DSD process. Note: that closing the connection above
+  # may already kill the process.
+  rp1$kill()
+  rp1
+} else {
+  message("localhost not available, example skipped.")
+}
 
-# end the DSD process. Note: that closing the connection above
-# may already kill the process.
-rp1$kill()
-#> [1] TRUE
-rp1
 #> PROCESS 'R', finished.
 ```

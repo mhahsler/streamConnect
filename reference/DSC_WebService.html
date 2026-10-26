@@ -11,7 +11,7 @@ retried with httr::RETRY() if it fails the first time."><meta property="og:image
 
     <a class="navbar-brand me-2" href="../index.html">streamConnect</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,62 +81,41 @@ retried with <code><a href="https://httr.r-lib.org/reference/RETRY.html" class="
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># find a free port</span></span></span>
-<span class="r-in"><span><span class="va">port</span> <span class="op">&lt;-</span> <span class="fu">httpuv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/httpuv/reference/randomPort.html" class="external-link">randomPort</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">port</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 11336</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="has_localhost_server.html">has_localhost_server</a></span><span class="op">(</span>port <span class="op">=</span> <span class="fl">8000</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># find a free port</span></span></span>
+<span class="r-in"><span>  <span class="va">port</span> <span class="op">&lt;-</span> <span class="fu">httpuv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/httpuv/reference/randomPort.html" class="external-link">randomPort</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">port</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># deploy a clustering process listening for data on the port</span></span></span>
-<span class="r-in"><span><span class="va">rp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="publish_DSC_via_WebService.html">publish_DSC_via_WebService</a></span><span class="op">(</span><span class="st">"DSC_DBSTREAM(r = .05)"</span>, port <span class="op">=</span> <span class="va">port</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">rp1</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PROCESS 'R', running, pid 7246.</span>
+<span class="r-in"><span>  <span class="co"># deploy a clustering process listening for data on the port</span></span></span>
+<span class="r-in"><span>  <span class="va">rp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="publish_DSC_via_WebService.html">publish_DSC_via_WebService</a></span><span class="op">(</span><span class="st">"DSC_DBSTREAM(r = .05)"</span>, port <span class="op">=</span> <span class="va">port</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">rp1</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># get a local DSC interface</span></span></span>
-<span class="r-in"><span><span class="va">dsc</span> <span class="op">&lt;-</span> <span class="fu">DSC_WebService</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://localhost"</span>, <span class="st">":"</span>, <span class="va">port</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>, config <span class="op">=</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/verbose.html" class="external-link">verbose</a></span><span class="op">(</span>info <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># get a local DSC interface</span></span></span>
+<span class="r-in"><span>  <span class="va">dsc</span> <span class="op">&lt;-</span> <span class="fu">DSC_WebService</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://localhost"</span>, <span class="st">":"</span>, <span class="va">port</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    verbose <span class="op">=</span> <span class="cn">TRUE</span>, config <span class="op">=</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/verbose.html" class="external-link">verbose</a></span><span class="op">(</span>info <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">dsc</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># cluster</span></span></span>
+<span class="r-in"><span>  <span class="va">dsd</span> <span class="op">&lt;-</span> <span class="fu">DSD_Gaussians</span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, d <span class="op">=</span> <span class="fl">2</span>, noise <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">dsc</span>, <span class="va">dsd</span>, <span class="fl">500</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">get_centers</span><span class="op">(</span><span class="va">dsc</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">get_weights</span><span class="op">(</span><span class="va">dsc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dsc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># kill the background clustering process.</span></span></span>
+<span class="r-in"><span>  <span class="va">rp1</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">rp1</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"localhost not available, example skipped."</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Connecting to DSC Web service at http://localhost:11336</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Success</span>
-<span class="r-in"><span><span class="va">dsc</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Web Service Data Stream Clusterer: DBSTREAM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Served from: http://localhost:11336 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Class: DSC_WebService, DSC_R, DSC </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of micro-clusters: 0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of macro-clusters: 0 </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># cluster</span></span></span>
-<span class="r-in"><span><span class="va">dsd</span> <span class="op">&lt;-</span> <span class="fu">DSD_Gaussians</span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, d <span class="op">=</span> <span class="fl">2</span>, noise <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">dsc</span>, <span class="va">dsd</span>, <span class="fl">500</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_centers</span><span class="op">(</span><span class="va">dsc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 21 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       X1      X2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0.339 -<span style="color: #BB0000;">0.030</span><span style="color: #BB0000; text-decoration: underline;">4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0.416  0.023<span style="text-decoration: underline;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.176  0.969 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0.391  0.064<span style="text-decoration: underline;">0</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.375  0.589 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.367  0.019<span style="text-decoration: underline;">3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 0.333  0.607 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 0.209  0.937 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 0.311  0.648 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 0.398  0.544 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 11 more rows</span></span>
-<span class="r-in"><span><span class="fu">get_weights</span><span class="op">(</span><span class="va">dsc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 40.258396 45.175064 76.547455 71.563789 62.850884 83.223908 84.640713</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] 66.549164 43.433155 12.030671  9.596734 48.131107 44.900907 47.570942</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] 38.225420 28.742240 15.678864 23.593335  5.413009  6.732637  3.805923</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dsc</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="DSC_WebService-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># kill the background clustering process.</span></span></span>
-<span class="r-in"><span><span class="va">rp1</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="va">rp1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> PROCESS 'R', finished.</span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

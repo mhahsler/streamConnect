@@ -19,7 +19,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">streamConnect</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,7 @@ reader.</p>
 <span>  port <span class="op">=</span> <span class="va">port</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">socket_process</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; PROCESS 'R', running, pid 8637.</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; PROCESS 'R', running, pid 7996.</span></span></code></pre>
 <p>Connect a local <code>DSD</code> reader and request points from the
 stream:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -107,13 +107,13 @@ stream:</p>
 <span></span>
 <span><span class="va">points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/stream/man/get_points.html" class="external-link">get_points</a></span><span class="op">(</span><span class="va">socket_dsd</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">points</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt;           x           y .class</span></span>
-<span><span class="co">#&gt; 1 0.3715665  0.66089384      1</span></span>
-<span><span class="co">#&gt; 2 0.3745540  0.03023631      3</span></span>
-<span><span class="co">#&gt; 3 0.3854969  0.53483843      1</span></span>
-<span><span class="co">#&gt; 4 0.3518352 -0.01849124      3</span></span>
-<span><span class="co">#&gt; 5 0.3367859  0.54765735      1</span></span>
-<span><span class="co">#&gt; 6 0.3868021  0.03655485      3</span></span></code></pre>
+<pre><code><span><span class="co">#&gt;           x          y .class</span></span>
+<span><span class="co">#&gt; 1 0.3316778 0.03803245      3</span></span>
+<span><span class="co">#&gt; 2 0.1605888 0.91799695      2</span></span>
+<span><span class="co">#&gt; 3 0.4606180 0.08785682      3</span></span>
+<span><span class="co">#&gt; 4 0.3115893 0.02342845      3</span></span>
+<span><span class="co">#&gt; 5 0.3790946 0.03606870      3</span></span>
+<span><span class="co">#&gt; 6 0.3056986 0.64449405      1</span></span></code></pre>
 <p>Close the reader and stop the publisher when finished:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stream/man/close_stream.html" class="external-link">close_stream</a></span><span class="op">(</span><span class="va">socket_dsd</span><span class="op">)</span></span>
@@ -192,16 +192,16 @@ by default; JSON and RDS serialization are also available through the
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span></span>
 <span><span class="co">#&gt;       X1    X2 .class</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0.782 0.182      2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 0.565 0.662      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.952 0.501      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.864 0.197      2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.541 0.601      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 0.837 0.200      2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 0.930 0.518      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.831 0.133      2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 0.920 0.483      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 0.908 0.483      1</span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0.922 0.120      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 1.05  0.464      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.974 0.408      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.890 0.400      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.265 0.429      2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 0.998 0.496      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 0.970 0.408      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.873 0.118      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 0.972 0.100      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 0.201 0.394      2</span></span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">source_process</span><span class="op">$</span><span class="fu">is_alive</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="va">source_process</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; [1] TRUE</span></span></code></pre>
