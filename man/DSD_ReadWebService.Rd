@@ -24,30 +24,34 @@ format. The request is
 retried with \code{\link[httr:RETRY]{httr::RETRY()}} if it fails the first time.
 }
 \examples{
-# find a free port
-port <- httpuv::randomPort()
-port
+if (has_localhost_server(port = 8000)) {
+  # find a free port
+  port <- httpuv::randomPort()
+  port
 
-# create a background DSD process sending data to the port
-rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
+  # create a background DSD process sending data to the port
+  rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
 
-## use json for the transport layer instead of csv
-# rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", 
-#              port = port, serialize = "json")
-rp1
+  ## use json for the transport layer instead of csv
+  # rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)",
+  #              port = port, serialize = "json")
+  rp1
 
-# create a DSD that connects to the web service
-dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
-dsd
+  # create a DSD that connects to the web service
+  dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
+  dsd
 
-get_points(dsd, n = 10)
+  get_points(dsd, n = 10)
 
-plot(dsd)
+  plot(dsd)
 
-# end the DSD process. Note: that closing the connection above
-# may already kill the process.
-rp1$kill()
-rp1
+  # end the DSD process. Note: that closing the connection above
+  # may already kill the process.
+  rp1$kill()
+  rp1
+} else {
+  message("localhost not available, example skipped.")
+}
 }
 \seealso{
 Other WebService:

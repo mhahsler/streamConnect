@@ -55,59 +55,63 @@ task script file is generated for deployment.
 A convenient reader for stream data over web services is available as \link{DSD_ReadWebService}.
 }
 \examples{
-# find a free port
-port <- httpuv::randomPort()
-port
+if (has_localhost_server(port = 8000)) {
+  # find a free port
+  port <- httpuv::randomPort()
+  port
 
-# create a background DSD process sending data to the port
-rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
-rp1
+  # create a background DSD process sending data to the port
+  rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
+  rp1
 
-# connect to the port and read manually. See DSD_ReadWebService for
-# a more convenient way to connect to the WebService in R.
-library("httr")
+  # connect to the port and read manually. See DSD_ReadWebService for
+  # a more convenient way to connect to the WebService in R.
+  library("httr")
 
-# we use RETRY to give the server time to spin up
-resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
-d <- content(resp, show_col_types = FALSE)
-d
+  # we use RETRY to give the server time to spin up
+  resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
+  d <- content(resp, show_col_types = FALSE)
+  d
 
-# example: Get 100 points and plot them
-resp <- GET(paste0("http://localhost:", port, "/get_points?n=100"))
-d <- content(resp, show_col_types = FALSE)
-head(d)
+  # example: Get 100 points and plot them
+  resp <- GET(paste0("http://localhost:", port, "/get_points?n=100"))
+  d <- content(resp, show_col_types = FALSE)
+  head(d)
 
-dsd <- DSD_Memory(d)
-dsd
-plot(dsd, n = -1)
+  dsd <- DSD_Memory(d)
+  dsd
+  plot(dsd, n = -1)
 
-# end the DSD process. Note: that closing the connection above
-# may already kill the process.
-rp1$kill()
-rp1
+  # end the DSD process. Note: that closing the connection above
+  # may already kill the process.
+  rp1$kill()
+  rp1
 
-# Publish using json
+  # Publish using json
 
-rp2 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", 
-           port = port, serializer = "json")
-rp2
+  rp2 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)",
+             port = port, serializer = "json")
+  rp2
 
-# connect to the port and read
-# we use RETRY to give the server time to spin up
-resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
-content(resp, as = "text")
+  # connect to the port and read
+  # we use RETRY to give the server time to spin up
+  resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
+  content(resp, as = "text")
 
-resp <- GET(paste0("http://localhost:", port, "/get_points?n=5"))
-content(resp, as = "text")
+  resp <- GET(paste0("http://localhost:", port, "/get_points?n=5"))
+  content(resp, as = "text")
 
-# cleanup
-rp2$kill()
-rp2
+  # cleanup
+  rp2$kill()
+  rp2
 
-# Debug the interface (run the service and start a web interface)
-if (interactive())
-  publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port, 
-         debug = TRUE)
+  # Debug the interface (run the service and start a web interface)
+  if (interactive())
+    publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port,
+           debug = TRUE)
+} else {
+  message("localhost not available, example skipped.")
+}
 }
 \seealso{
 Other WebService:

@@ -13,8 +13,8 @@ Adds functionality to connect stream mining components from the stream package u
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://michael.hahsler.net/streamConnect/}
-  \item Report bugs at \url{https://github.com/mhahsler/streamConnect}
+  \item \url{https://michael.hahsler.net/streamConnect/}
+  \item Report bugs at \url{https://github.com/mhahsler/streamConnect/issues}
 }
 
 }

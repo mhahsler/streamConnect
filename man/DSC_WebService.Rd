@@ -23,33 +23,37 @@ Provides a DSC front-end for a clusterer running as a web service. The methods
 retried with \code{\link[httr:RETRY]{httr::RETRY()}} if it fails the first time.
 }
 \examples{
-# find a free port
-port <- httpuv::randomPort()
-port
+if (has_localhost_server(port = 8000)) {
+  # find a free port
+  port <- httpuv::randomPort()
+  port
 
-# deploy a clustering process listening for data on the port
-rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
-rp1
+  # deploy a clustering process listening for data on the port
+  rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
+  rp1
 
-# get a local DSC interface
-dsc <- DSC_WebService(paste0("http://localhost", ":", port), 
-  verbose = TRUE, config = httr::verbose(info = TRUE))
-dsc
+  # get a local DSC interface
+  dsc <- DSC_WebService(paste0("http://localhost", ":", port),
+    verbose = TRUE, config = httr::verbose(info = TRUE))
+  dsc
 
-# cluster
-dsd <- DSD_Gaussians(k = 3, d = 2, noise = 0.05)
+  # cluster
+  dsd <- DSD_Gaussians(k = 3, d = 2, noise = 0.05)
 
-update(dsc, dsd, 500)
+  update(dsc, dsd, 500)
 
-get_centers(dsc)
-get_weights(dsc)
+  get_centers(dsc)
+  get_weights(dsc)
 
-plot(dsc)
+  plot(dsc)
 
-# kill the background clustering process.
-rp1$kill()
-rp1
+  # kill the background clustering process.
+  rp1$kill()
+  rp1
 
+} else {
+  message("localhost not available, example skipped.")
+}
 }
 \seealso{
 Other WebService:

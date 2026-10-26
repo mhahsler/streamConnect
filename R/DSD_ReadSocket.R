@@ -13,29 +13,33 @@
 #' @returns A [stream::DSD] object.
 #'
 #' @examples
-#' # find a free port
-#' port <- httpuv::randomPort()
-#' port
-#' 
-#' # create a background DSD process sending data to the port
-#' rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
-#' rp1
+#' if (has_localhost_server(port = 8000)) {
+#'   # find a free port
+#'   port <- httpuv::randomPort()
+#'   port
 #'
-#' # create a DSD that connects to the socket. Note that we need to 
-#' # specify the column names of the stream
-#' dsd <- DSD_ReadSocket(port = port, col.names = c("x", "y", "z", ".class"))
-#' dsd
+#'   # create a background DSD process sending data to the port
+#'   rp1 <- DSD_Gaussians(k = 3, d = 3) %>% publish_DSD_via_Socket(port = port)
+#'   rp1
 #'
-#' get_points(dsd, n = 10)
-#' 
-#' plot(dsd)
+#'   # create a DSD that connects to the socket. Note that we need to
+#'   # specify the column names of the stream
+#'   dsd <- DSD_ReadSocket(port = port, col.names = c("x", "y", "z", ".class"))
+#'   dsd
 #'
-#' close_stream(dsd)
+#'   get_points(dsd, n = 10)
 #'
-#' # end the DSD process. Note: that closing the connection above
-#' # may already kill the process.
-#' if (rp1$is_alive()) rp1$kill()
-#' rp1
+#'   plot(dsd)
+#'
+#'   close_stream(dsd)
+#'
+#'   # end the DSD process. Note: that closing the connection above
+#'   # may already kill the process.
+#'   if (rp1$is_alive()) rp1$kill()
+#'   rp1
+#' } else {
+#'   message("localhost not available, example skipped.")
+#' }
 #' @export
 DSD_ReadSocket <- function(host = "localhost", port, retry_args = NULL, ...) {
   con <- do.call(retry, 

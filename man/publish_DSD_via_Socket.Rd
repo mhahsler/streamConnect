@@ -33,29 +33,33 @@ and then uses a \code{\link[stream:write_stream]{stream::write_stream()}} to wri
 This method does not provide a header for the data.
 }
 \examples{
-# find a free port
-port <- httpuv::randomPort()
-port
+if (has_localhost_server(port = 8000)) {
+  # find a free port
+  port <- httpuv::randomPort()
+  port
 
-# create a background DSD process sending data to the port
-rp1 <- DSD_Gaussians(k = 3, d = 3) \%>\% publish_DSD_via_Socket(port = port)
-rp1
+  # create a background DSD process sending data to the port
+  rp1 <- DSD_Gaussians(k = 3, d = 3) \%>\% publish_DSD_via_Socket(port = port)
+  rp1
 
-# connect to the port (retry waits for the socket to establish)
-con <- retry(socketConnection(port = port, open = 'r'))
-dsd <- retry(DSD_ReadStream(con, col.names = c("x", "y", "z", ".class")))
+  # connect to the port (retry waits for the socket to establish)
+  con <- retry(socketConnection(port = port, open = 'r'))
+  dsd <- retry(DSD_ReadStream(con, col.names = c("x", "y", "z", ".class")))
 
-get_points(dsd, n = 10)
+  get_points(dsd, n = 10)
 
-plot(dsd)
+  plot(dsd)
 
-# close connection
-close_stream(dsd)
+  # close connection
+  close_stream(dsd)
 
-# end the DSD process. Note: that closing the connection above
-# may already kill the process.
-rp1$kill()
-rp1
+  # end the DSD process. Note: that closing the connection above
+  # may already kill the process.
+  rp1$kill()
+  rp1
+} else {
+  message("localhost not available, example skipped.")
+}
 }
 \seealso{
 Other Socket:

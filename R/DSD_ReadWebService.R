@@ -16,30 +16,34 @@
 #' @returns A [stream::DSD] object.
 #' 
 #' @examples
-#' # find a free port
-#' port <- httpuv::randomPort()
-#' port
-#' 
-#' # create a background DSD process sending data to the port
-#' rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
-#' 
-#' ## use json for the transport layer instead of csv
-#' # rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", 
-#' #              port = port, serialize = "json")
-#' rp1
+#' if (has_localhost_server(port = 8000)) {
+#'   # find a free port
+#'   port <- httpuv::randomPort()
+#'   port
 #'
-#' # create a DSD that connects to the web service
-#' dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
-#' dsd
+#'   # create a background DSD process sending data to the port
+#'   rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port)
 #'
-#' get_points(dsd, n = 10)
+#'   ## use json for the transport layer instead of csv
+#'   # rp1 <- publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)",
+#'   #              port = port, serialize = "json")
+#'   rp1
 #'
-#' plot(dsd)
+#'   # create a DSD that connects to the web service
+#'   dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
+#'   dsd
 #'
-#' # end the DSD process. Note: that closing the connection above
-#' # may already kill the process.
-#' rp1$kill()
-#' rp1
+#'   get_points(dsd, n = 10)
+#'
+#'   plot(dsd)
+#'
+#'   # end the DSD process. Note: that closing the connection above
+#'   # may already kill the process.
+#'   rp1$kill()
+#'   rp1
+#' } else {
+#'   message("localhost not available, example skipped.")
+#' }
 #' @export
 DSD_ReadWebService <- function(url, verbose = FALSE, ...) {
   # trailing / for url

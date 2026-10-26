@@ -15,33 +15,37 @@
 #' @returns A [stream::DSC] object.
 #' 
 #' @examples
-#' # find a free port
-#' port <- httpuv::randomPort()
-#' port
-#' 
-#' # deploy a clustering process listening for data on the port
-#' rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
-#' rp1
+#' if (has_localhost_server(port = 8000)) {
+#'   # find a free port
+#'   port <- httpuv::randomPort()
+#'   port
 #'
-#' # get a local DSC interface
-#' dsc <- DSC_WebService(paste0("http://localhost", ":", port), 
-#'   verbose = TRUE, config = httr::verbose(info = TRUE))
-#' dsc
+#'   # deploy a clustering process listening for data on the port
+#'   rp1 <- publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)", port = port)
+#'   rp1
 #'
-#' # cluster
-#' dsd <- DSD_Gaussians(k = 3, d = 2, noise = 0.05)
+#'   # get a local DSC interface
+#'   dsc <- DSC_WebService(paste0("http://localhost", ":", port),
+#'     verbose = TRUE, config = httr::verbose(info = TRUE))
+#'   dsc
 #'
-#' update(dsc, dsd, 500)
+#'   # cluster
+#'   dsd <- DSD_Gaussians(k = 3, d = 2, noise = 0.05)
 #'
-#' get_centers(dsc)
-#' get_weights(dsc)
+#'   update(dsc, dsd, 500)
 #'
-#' plot(dsc)
+#'   get_centers(dsc)
+#'   get_weights(dsc)
 #'
-#' # kill the background clustering process.
-#' rp1$kill()
-#' rp1
+#'   plot(dsc)
 #'
+#'   # kill the background clustering process.
+#'   rp1$kill()
+#'   rp1
+#'
+#' } else {
+#'   message("localhost not available, example skipped.")
+#' }
 #' @export
 DSC_WebService <- function(url, verbose = FALSE, ...) {
   # trailing / for url
