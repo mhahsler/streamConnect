@@ -96,7 +96,7 @@ reader.</p>
 <span>  port <span class="op">=</span> <span class="va">port</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">socket_process</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; PROCESS 'R', running, pid 7996.</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; PROCESS 'R', running, pid 8317.</span></span></code></pre>
 <p>Connect a local <code>DSD</code> reader and request points from the
 stream:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -108,12 +108,12 @@ stream:</p>
 <span><span class="va">points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/stream/man/get_points.html" class="external-link">get_points</a></span><span class="op">(</span><span class="va">socket_dsd</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">points</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt;           x          y .class</span></span>
-<span><span class="co">#&gt; 1 0.3316778 0.03803245      3</span></span>
-<span><span class="co">#&gt; 2 0.1605888 0.91799695      2</span></span>
-<span><span class="co">#&gt; 3 0.4606180 0.08785682      3</span></span>
-<span><span class="co">#&gt; 4 0.3115893 0.02342845      3</span></span>
-<span><span class="co">#&gt; 5 0.3790946 0.03606870      3</span></span>
-<span><span class="co">#&gt; 6 0.3056986 0.64449405      1</span></span></code></pre>
+<span><span class="co">#&gt; 1 0.4317160 0.07363821      3</span></span>
+<span><span class="co">#&gt; 2 0.2023140 0.96183217      2</span></span>
+<span><span class="co">#&gt; 3 0.3892170 0.02812433      3</span></span>
+<span><span class="co">#&gt; 4 0.2150092 0.95687083      2</span></span>
+<span><span class="co">#&gt; 5 0.3598144 0.01449326      3</span></span>
+<span><span class="co">#&gt; 6 0.3791551 0.03286669      3</span></span></code></pre>
 <p>Close the reader and stop the publisher when finished:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stream/man/close_stream.html" class="external-link">close_stream</a></span><span class="op">(</span><span class="va">socket_dsd</span><span class="op">)</span></span>
@@ -148,25 +148,32 @@ centers and weights through the local interface:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">clusterer</span>, <span class="va">stream</span>, n <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/stream/man/DSC.html" class="external-link">get_centers</a></span><span class="op">(</span><span class="va">clusterer</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 21 × 2</span></span></span>
-<span><span class="co">#&gt;       X1    X2</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0.533 0.536</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 0.846 0.920</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.923 0.985</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.649 0.292</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.592 0.554</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 0.769 0.861</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 0.532 0.590</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.728 0.244</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 0.806 0.898</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 0.878 0.959</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 11 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 18 × 2</span></span></span>
+<span><span class="co">#&gt;       X1       X2</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0.912  0.504  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 0.554  0.665  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.242  0.068<span style="text-decoration: underline;">6</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.948  0.595  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.581  0.714  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 0.911  0.550  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 0.247  0.015<span style="text-decoration: underline;">3</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.298 -<span style="color: #BB0000;">0.009</span><span style="color: #BB0000; text-decoration: underline;">09</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 0.850  0.499  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 0.196  0.070<span style="text-decoration: underline;">9</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 0.283  0.048<span style="text-decoration: underline;">8</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> 0.985  0.624  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> 0.630  0.715  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> 0.514  0.641  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> 0.204  0.130  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> 0.602  0.662  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> 0.956  0.537  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> 0.284 -<span style="color: #BB0000;">0.058</span><span style="color: #BB0000; text-decoration: underline;">4</span></span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stream/man/DSC.html" class="external-link">get_weights</a></span><span class="op">(</span><span class="va">clusterer</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt;  [1] 59.328817 90.077228 46.834077 36.829638 39.436172 13.175782 51.902178</span></span>
-<span><span class="co">#&gt;  [8] 70.557389 54.903441 74.497302 54.144887 20.563491 17.794179 51.368460</span></span>
-<span><span class="co">#&gt; [15]  4.452388  8.345200 48.207425  4.439208 29.068291 10.179184  7.647577</span></span></code></pre>
+<pre><code><span><span class="co">#&gt;  [1] 58.365646 71.920920 74.630887 60.992149 74.360894 89.673484 54.582404</span></span>
+<span><span class="co">#&gt;  [8] 29.568905 13.720000 43.746145 54.109393 17.041666 38.361624 24.469960</span></span>
+<span><span class="co">#&gt; [15] 22.513467 37.922865 39.908855  5.657336</span></span></code></pre>
 <p>Stop the service process when the work is complete:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">clusterer_process</span><span class="op">$</span><span class="fu">is_alive</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="va">clusterer_process</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -192,16 +199,16 @@ by default; JSON and RDS serialization are also available through the
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span></span>
 <span><span class="co">#&gt;       X1    X2 .class</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0.922 0.120      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 1.05  0.464      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.974 0.408      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.890 0.400      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.265 0.429      2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 0.998 0.496      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 0.970 0.408      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.873 0.118      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 0.972 0.100      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 0.201 0.394      2</span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0.910 0.635      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 0.987 0.695      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.655 0.819      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.588 0.870      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.622 0.792      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 0.618 0.810      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 0.688 0.839      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.748 0.845      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 1.02  0.711      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 0.784 0.386      2</span></span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">source_process</span><span class="op">$</span><span class="fu">is_alive</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="va">source_process</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; [1] TRUE</span></span></code></pre>

@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   streamConnect: streamConnect.html
-last_built: 2026-10-26T16:59Z
+last_built: 2026-10-27T00:39Z
 urls:
   reference: https://michael.hahsler.net/streamConnect/reference
   article: https://michael.hahsler.net/streamConnect/articles

@@ -1,8 +1,6 @@
 # Changelog
 
-## streamConnect 0.1.0 (10/26/2026)
-
-CRAN release: 2026-10-23
+## streamConnect 0.1.1 (10/26/2026)
 
 - skip man page examples and vignettes when localhost is unavailable.
 
