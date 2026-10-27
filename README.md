@@ -19,15 +19,16 @@ deployed on most common cloud services.
 
 To cite package ‘streamConnect’ in publications use:
 
-> Hahsler M (????). *streamConnect: Connecting Stream Mining Components
-> Using Sockets and Web Services*. R package version 0.0.7,
-> <http://michael.hahsler.net/streamConnect/>.
+> Hahsler M (2026). *streamConnect: Connecting Stream Mining Components
+> Using Sockets and Web Services*. R package version 0.1.1,
+> <https://michael.hahsler.net/streamConnect/>.
 
     @Manual{,
       title = {streamConnect: Connecting Stream Mining Components Using Sockets and Web Services},
       author = {Michael Hahsler},
-      note = {R package version 0.0.7},
-      url = {http://michael.hahsler.net/streamConnect/},
+      year = {2026},
+      note = {R package version 0.1.1},
+      url = {https://michael.hahsler.net/streamConnect/},
     }
 
 ## Installation
