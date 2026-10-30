@@ -109,7 +109,7 @@ reader.</p>
 <span>  port <span class="op">=</span> <span class="va">port</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">socket_process</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; PROCESS 'R', running, pid 8026.</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; PROCESS 'R', running, pid 7806.</span></span></code></pre>
 <p>Connect a local <code>DSD</code> reader and request points from the
 stream:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -120,13 +120,13 @@ stream:</p>
 <span></span>
 <span><span class="va">points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/stream/man/get_points.html" class="external-link">get_points</a></span><span class="op">(</span><span class="va">socket_dsd</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">points</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt;           x            y .class</span></span>
-<span><span class="co">#&gt; 1 0.3027910  0.610707372      1</span></span>
-<span><span class="co">#&gt; 2 0.2441749  0.960364120      2</span></span>
-<span><span class="co">#&gt; 3 0.1751205  0.965338470      2</span></span>
-<span><span class="co">#&gt; 4 0.3405278  0.615312227      1</span></span>
-<span><span class="co">#&gt; 5 0.1726735  0.954757539      2</span></span>
-<span><span class="co">#&gt; 6 0.3939217 -0.004860281      3</span></span></code></pre>
+<pre><code><span><span class="co">#&gt;           x           y .class</span></span>
+<span><span class="co">#&gt; 1 0.4029945  0.04264998      3</span></span>
+<span><span class="co">#&gt; 2 0.2621596 -0.01166418      3</span></span>
+<span><span class="co">#&gt; 3 0.3417764  0.62789476      1</span></span>
+<span><span class="co">#&gt; 4 0.1939027  0.93876223      2</span></span>
+<span><span class="co">#&gt; 5 0.3764350 -0.02689335      3</span></span>
+<span><span class="co">#&gt; 6 0.3515353  0.01544449      3</span></span></code></pre>
 <p>Close the reader and stop the publisher when finished:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stream/man/close_stream.html" class="external-link">close_stream</a></span><span class="op">(</span><span class="va">socket_dsd</span><span class="op">)</span></span>
@@ -200,18 +200,18 @@ by default; JSON and RDS serialization are also available through the
 <span><span class="va">remote_stream</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/DSD_ReadWebService.html">DSD_ReadWebService</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://127.0.0.1:"</span>, <span class="va">port</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/stream/man/get_points.html" class="external-link">get_points</a></span><span class="op">(</span><span class="va">remote_stream</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span></span>
-<span><span class="co">#&gt;       X1    X2 .class</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0.323 0.717      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 0.354 0.691      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.606 0.621      2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.295 0.606      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.289 0.700      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 0.377 0.297      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 0.617 0.564      2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.293 0.712      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 0.368 0.681      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 0.321 0.694      3</span></span></code></pre>
+<span><span class="co">#&gt;        X1    X2 .class</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0.641  0.728      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 0.572  0.815      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.950  0.132      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.543  0.819      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.951  0.135      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 0.064<span style="text-decoration: underline;">8</span> 0.522      2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 0.563  0.823      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.098<span style="text-decoration: underline;">3</span> 0.499      2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 0.524  0.875      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 0.034<span style="text-decoration: underline;">6</span> 0.522      2</span></span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">source_process</span><span class="op">$</span><span class="fu">is_alive</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="va">source_process</span><span class="op">$</span><span class="fu">kill</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; [1] TRUE</span></span></code></pre>

@@ -2,6 +2,10 @@
 
 ## streamConnect 0.1.2 (10/30/2026)
 
+- Expanded tests cover local socket and web service streaming,
+  unavailable-port examples, HTTP failures, upload cleanup, and retry
+  limits. Tests involving local ports or localhost examples are skipped
+  on CRAN.
 - Local connections use `127.0.0.1` (the IPv4 loopback address for
   localhost) by default, avoiding hostname resolution. Examples use the
   same address.

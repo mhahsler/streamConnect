@@ -34,7 +34,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="streamconnect-012-10302026">streamConnect 0.1.2 (10/30/2026)<a class="anchor" aria-label="anchor" href="#streamconnect-012-10302026"></a></h2>
-<ul><li>Local connections use <code>127.0.0.1</code> (the IPv4 loopback address for localhost) by default, avoiding hostname resolution. Examples use the same address.</li>
+<ul><li>Expanded tests cover local socket and web service streaming, unavailable-port examples, HTTP failures, upload cleanup, and retry limits. Tests involving local ports or localhost examples are skipped on CRAN.</li>
+<li>Local connections use <code>127.0.0.1</code> (the IPv4 loopback address for localhost) by default, avoiding hostname resolution. Examples use the same address.</li>
 <li>Man page examples catch local connection warnings and errors; the vignette skips port-dependent code when ports are unavailable.</li>
 <li>Removed <code>has_localhost_server()</code>; examples now handle connection failures directly.</li>
 </ul></div>
