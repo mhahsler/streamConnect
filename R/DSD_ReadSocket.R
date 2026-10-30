@@ -5,7 +5,8 @@
 #' @family Socket
 #' @family dsd
 #' 
-#' @param host hostname.
+#' @param host hostname or IP address. Defaults to `"127.0.0.1"`, the IPv4
+#'   loopback address for localhost.
 #' @param port host port.
 #' @param retry_args a list with arguments for [retry()].
 #' @param ... further arguments are passed on to [stream::DSD_ReadStream()].
@@ -13,7 +14,8 @@
 #' @returns A [stream::DSD] object.
 #'
 #' @examples
-#' if (has_localhost_server(port = 8000)) {
+#' # tryCatch is used to catch connection errors
+#' tryCatch({
 #'   # find a free port
 #'   port <- httpuv::randomPort()
 #'   port
@@ -37,11 +39,13 @@
 #'   # may already kill the process.
 #'   if (rp1$is_alive()) rp1$kill()
 #'   rp1
-#' } else {
-#'   message("localhost not available, example skipped.")
-#' }
+#' }, warning = function(w) {
+#'   message("localhost warning: ", w)
+#' }, error = function(e) {
+#'   message("localhost error: ", e)
+#' })
 #' @export
-DSD_ReadSocket <- function(host = "localhost", port, retry_args = NULL, ...) {
+DSD_ReadSocket <- function(host = "127.0.0.1", port, retry_args = NULL, ...) {
   con <- do.call(retry, 
                  args = c(list(
                    f = quote(socketConnection(host, port, server = FALSE, open = 'r')),

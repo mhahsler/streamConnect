@@ -35,13 +35,24 @@ Load the package and select an available local port for the examples:
 library(streamConnect)
 ```
 
-```{r no_localhost_guard, include=FALSE}
-# skip the examples when localhost is unavailable
-localhost_available <- has_localhost_server(port = 8000)
-if (!localhost_available) {
-  message("localhost not available, example skipped.")
-}
+We will use the same free server port throughout this vignette. Some systems do
+not allow the use of local ports, then the code in this vignette will not be
+executed.
+
+```{r find-socket}
+run_code <- TRUE
+tryCatch({
+  port <- httpuv::randomPort()
+
+  }, warning = function(w) {
+    message("Ports unavailable: ", w)
+    run_code <<- FALSE
+  }, error = function(e) {
+    message("Ports unavailable: ", e)
+    run_code <<- FALSE
+})
 ```
+
 
 ## Read a data stream over a socket
 
@@ -49,9 +60,7 @@ Start a background process that publishes a stream. The publisher opens a
 socket server and writes data in blocks. Since the socket format does not
 include column names, provide them when creating the reader.
 
-```{r socket-publish, eval=localhost_available}
-port <- httpuv::randomPort()
-
+```{r socket-publish, eval=run_code}
 socket_process <- publish_DSD_via_Socket(
   DSD_Gaussians(k = 3, d = 2),
   port = port
@@ -61,7 +70,7 @@ socket_process
 
 Connect a local `DSD` reader and request points from the stream:
 
-```{r socket-read, eval=localhost_available}
+```{r socket-read, eval=run_code}
 socket_dsd <- DSD_ReadSocket(
   port = port,
   col.names = c("x", "y", ".class")
@@ -73,7 +82,7 @@ head(points)
 
 Close the reader and stop the publisher when finished:
 
-```{r socket-stop, eval=localhost_available}
+```{r socket-stop, eval=run_code}
 close_stream(socket_dsd)
 if (socket_process$is_alive()) socket_process$kill()
 ```
@@ -83,22 +92,20 @@ if (socket_process$is_alive()) socket_process$kill()
 Web services also support request and response operations. Start a clusterer
 in a background process, then create a local `DSC` interface for it:
 
-```{r webservice-start, eval=localhost_available}
-web_port <- httpuv::randomPort()
-
+```{r webservice-start, eval=run_code}
 clusterer_process <- publish_DSC_via_WebService(
   "DSC_DBSTREAM(r = .05)",
-  port = web_port
+  port = port
 )
 
-clusterer <- DSC_WebService(paste0("http://localhost:", web_port))
+clusterer <- DSC_WebService(paste0("http://127.0.0.1:", port))
 clusterer
 ```
 
 Send a batch of points to the remote clusterer and retrieve its centers and
 weights through the local interface:
 
-```{r webservice-update, eval=localhost_available}
+```{r webservice-update, eval=run_code}
 stream <- DSD_Gaussians(k = 3, d = 2, noise = 0.05)
 update(clusterer, stream, n = 500)
 
@@ -108,7 +115,7 @@ get_weights(clusterer)
 
 Stop the service process when the work is complete:
 
-```{r webservice-stop, eval=localhost_available}
+```{r webservice-stop, eval=run_code}
 if (clusterer_process$is_alive()) clusterer_process$kill()
 ```
 
@@ -118,19 +125,17 @@ To expose a data source over HTTP, publish a `DSD` and read it with
 `DSD_ReadWebService()`. The service returns CSV by default; JSON and RDS
 serialization are also available through the `serializer` argument.
 
-```{r webservice-stream, eval=localhost_available}
-port <- httpuv::randomPort()
-
+```{r webservice-stream, eval=run_code}
 source_process <- publish_DSD_via_WebService(
   "DSD_Gaussians(k = 3, d = 2)",
   port = port
 )
 
-remote_stream <- DSD_ReadWebService(paste0("http://localhost:", port))
+remote_stream <- DSD_ReadWebService(paste0("http://127.0.0.1:", port))
 get_points(remote_stream, n = 10)
 ```
 
-```{r webservice-stream2, eval=localhost_available}
+```{r webservice-stream2, eval=run_code}
 if (source_process$is_alive()) source_process$kill()
 ```
 

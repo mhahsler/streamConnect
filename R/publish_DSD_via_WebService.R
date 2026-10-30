@@ -5,8 +5,8 @@
 #' The function writes a plumber task script file and starts the web server to serve
 #' the content of the stream using the endpoints 
 #' 
-#' * `http://localhost:port/get_points?n=100` and
-#' * `http://localhost:port/info`.
+#' * `http://127.0.0.1:port/get_points?n=100` and
+#' * `http://127.0.0.1:port/info`.
 #'
 #' APIs generated using plumber can be easily deployed. See: [Hosting](https://www.rplumber.io/articles/hosting.html). By setting a `task_file` and `serve = FALSE` a plumber
 #' task script file is generated for deployment.
@@ -33,7 +33,8 @@
 #'  unexpectedly). 
 #'
 #' @examples
-#' if (has_localhost_server(port = 8000)) {
+#' # tryCatch is used to catch connection errors
+#' tryCatch({
 #'   # find a free port
 #'   port <- httpuv::randomPort()
 #'   port
@@ -47,12 +48,12 @@
 #'   library("httr")
 #'
 #'   # we use RETRY to give the server time to spin up
-#'   resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
+#'   resp <- RETRY("GET", paste0("http://127.0.0.1:", port, "/info"))
 #'   d <- content(resp, show_col_types = FALSE)
 #'   d
 #'
 #'   # example: Get 100 points and plot them
-#'   resp <- GET(paste0("http://localhost:", port, "/get_points?n=100"))
+#'   resp <- GET(paste0("http://127.0.0.1:", port, "/get_points?n=100"))
 #'   d <- content(resp, show_col_types = FALSE)
 #'   head(d)
 #'
@@ -73,10 +74,10 @@
 #'
 #'   # connect to the port and read
 #'   # we use RETRY to give the server time to spin up
-#'   resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
+#'   resp <- RETRY("GET", paste0("http://127.0.0.1:", port, "/info"))
 #'   content(resp, as = "text")
 #'
-#'   resp <- GET(paste0("http://localhost:", port, "/get_points?n=5"))
+#'   resp <- GET(paste0("http://127.0.0.1:", port, "/get_points?n=5"))
 #'   content(resp, as = "text")
 #'
 #'   # cleanup
@@ -87,9 +88,11 @@
 #'   if (interactive())
 #'     publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port,
 #'            debug = TRUE)
-#' } else {
-#'   message("localhost not available, example skipped.")
-#' }
+#' }, warning = function(w) {
+#'   message("localhost warning: ", w)
+#' }, error = function(e) {
+#'   message("localhost error: ", e)
+#' })
 #' @export
 publish_DSD_via_WebService <-
   function(dsd,

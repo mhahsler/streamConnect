@@ -18,4 +18,3 @@ reference:
   - title: Utilities
     contents:
       - retry
-      - has_localhost_server

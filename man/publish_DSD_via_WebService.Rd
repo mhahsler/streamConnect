@@ -45,8 +45,8 @@ Uses the package plumber to publish a data stream as a web service.
 The function writes a plumber task script file and starts the web server to serve
 the content of the stream using the endpoints
 \itemize{
-\item \verb{http://localhost:port/get_points?n=100} and
-\item \verb{http://localhost:port/info}.
+\item \verb{http://127.0.0.1:port/get_points?n=100} and
+\item \verb{http://127.0.0.1:port/info}.
 }
 
 APIs generated using plumber can be easily deployed. See: \href{https://www.rplumber.io/articles/hosting.html}{Hosting}. By setting a \code{task_file} and \code{serve = FALSE} a plumber
@@ -55,7 +55,8 @@ task script file is generated for deployment.
 A convenient reader for stream data over web services is available as \link{DSD_ReadWebService}.
 }
 \examples{
-if (has_localhost_server(port = 8000)) {
+# tryCatch is used to catch connection errors
+tryCatch({
   # find a free port
   port <- httpuv::randomPort()
   port
@@ -69,12 +70,12 @@ if (has_localhost_server(port = 8000)) {
   library("httr")
 
   # we use RETRY to give the server time to spin up
-  resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
+  resp <- RETRY("GET", paste0("http://127.0.0.1:", port, "/info"))
   d <- content(resp, show_col_types = FALSE)
   d
 
   # example: Get 100 points and plot them
-  resp <- GET(paste0("http://localhost:", port, "/get_points?n=100"))
+  resp <- GET(paste0("http://127.0.0.1:", port, "/get_points?n=100"))
   d <- content(resp, show_col_types = FALSE)
   head(d)
 
@@ -95,10 +96,10 @@ if (has_localhost_server(port = 8000)) {
 
   # connect to the port and read
   # we use RETRY to give the server time to spin up
-  resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
+  resp <- RETRY("GET", paste0("http://127.0.0.1:", port, "/info"))
   content(resp, as = "text")
 
-  resp <- GET(paste0("http://localhost:", port, "/get_points?n=5"))
+  resp <- GET(paste0("http://127.0.0.1:", port, "/get_points?n=5"))
   content(resp, as = "text")
 
   # cleanup
@@ -109,9 +110,11 @@ if (has_localhost_server(port = 8000)) {
   if (interactive())
     publish_DSD_via_WebService("DSD_Gaussians(k = 3, d = 3)", port = port,
            debug = TRUE)
-} else {
-  message("localhost not available, example skipped.")
-}
+}, warning = function(w) {
+  message("localhost warning: ", w)
+}, error = function(e) {
+  message("localhost error: ", e)
+})
 }
 \seealso{
 Other WebService:

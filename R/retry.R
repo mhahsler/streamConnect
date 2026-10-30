@@ -44,5 +44,4 @@ retry <- function(f, times = 5, wait = 1, verbose = FALSE, operation = NULL) {
     paste0(". Last error: ", conditionMessage(last_error))
 
   stop(operation, " failed after ", times, " tries", error_message, ".")
-  
 }

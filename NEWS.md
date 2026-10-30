@@ -1,6 +1,13 @@
-# streamConnect 0.1.1 (10/26/2026)
+# streamConnect 0.1.2 (10/30/2026)
+* Local connections use `127.0.0.1` (the IPv4 loopback address for localhost)
+  by default, avoiding hostname resolution. Examples use the same address.
+* Man page examples catch local connection warnings and errors; the vignette
+  skips port-dependent code when ports are unavailable.
+* Removed `has_localhost_server()`; examples now handle connection failures directly.
 
-* skip man page examples and vignettes when localhost is unavailable.
+# streamConnect 0.1.1 (10/26/2026)
+* prevent examples to be executed when localhost is unavailable 
+  (during CRAN testing).
 
 # streamConnect 0.1.0 (10/22/2026)
 

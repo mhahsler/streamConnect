@@ -8,6 +8,7 @@
 #' @family dsc
 #'
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
+#'   For localhost, use `127.0.0.1`, the default IPv4 loopback address.
 #' @param verbose logical; display connection information.
 #' @param ... further arguments are passed on to [httr::RETRY()]. Pass 
 #'   [httr::verbose()] as parameter `config` to get detailed connection info.
@@ -15,7 +16,8 @@
 #' @returns A [stream::DSC] object.
 #' 
 #' @examples
-#' if (has_localhost_server(port = 8000)) {
+#' # tryCatch is used to catch connection errors
+#' tryCatch({
 #'   # find a free port
 #'   port <- httpuv::randomPort()
 #'   port
@@ -25,7 +27,7 @@
 #'   rp1
 #'
 #'   # get a local DSC interface
-#'   dsc <- DSC_WebService(paste0("http://localhost", ":", port),
+#'   dsc <- DSC_WebService(paste0("http://127.0.0.1", ":", port),
 #'     verbose = TRUE, config = httr::verbose(info = TRUE))
 #'   dsc
 #'
@@ -43,9 +45,11 @@
 #'   rp1$kill()
 #'   rp1
 #'
-#' } else {
-#'   message("localhost not available, example skipped.")
-#' }
+#' }, warning = function(w) {
+#'   message("localhost warning: ", w)
+#' }, error = function(e) {
+#'   message("localhost error: ", e)
+#' })
 #' @export
 DSC_WebService <- function(url, verbose = FALSE, ...) {
   # trailing / for url
@@ -55,7 +59,6 @@ DSC_WebService <- function(url, verbose = FALSE, ...) {
     message("Connecting to DSC Web service at ", url)
   
   # we retry to give the server time to spin up
-  #resp <- httr::GET(paste0(url, "/info"))
   resp <-
     httr::RETRY("GET", stringr::str_interp("${url}/info"), 
                 quiet = !verbose, ...)

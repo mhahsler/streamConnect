@@ -9,6 +9,7 @@
 #' @family dsd
 #' 
 #' @param url endpoint URI address in the format `http://host:port/<optional_path>`.
+#'   For localhost, use `127.0.0.1`, the default IPv4 loopback address.
 #' @param verbose logical; display connection information.
 #' @param ... further arguments are passed on to [httr::RETRY()]. Pass 
 #'   [httr::verbose()] as parameter `config` to get detailed connection info.
@@ -16,7 +17,8 @@
 #' @returns A [stream::DSD] object.
 #' 
 #' @examples
-#' if (has_localhost_server(port = 8000)) {
+#' # tryCatch is used to catch connection errors
+#' tryCatch({
 #'   # find a free port
 #'   port <- httpuv::randomPort()
 #'   port
@@ -30,7 +32,7 @@
 #'   rp1
 #'
 #'   # create a DSD that connects to the web service
-#'   dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
+#'   dsd <- DSD_ReadWebService(paste0("http://127.0.0.1", ":", port))
 #'   dsd
 #'
 #'   get_points(dsd, n = 10)
@@ -41,9 +43,11 @@
 #'   # may already kill the process.
 #'   rp1$kill()
 #'   rp1
-#' } else {
-#'   message("localhost not available, example skipped.")
-#' }
+#' }, warning = function(w) {
+#'   message("localhost warning: ", w)
+#' }, error = function(e) {
+#'   message("localhost error: ", e)
+#' })
 #' @export
 DSD_ReadWebService <- function(url, verbose = FALSE, ...) {
   # trailing / for url
@@ -53,7 +57,6 @@ DSD_ReadWebService <- function(url, verbose = FALSE, ...) {
     message("Connecting to DSD at ", url)
   
   # we retry to give the server time to spin up
-  #resp <- httr::GET(paste0(url, "/info"))
   resp <- httr::RETRY("GET", paste0(url, "/info"), quiet = !verbose, ...)
   httr::stop_for_status(resp)
   d <- as.data.frame(

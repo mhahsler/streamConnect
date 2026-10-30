@@ -60,7 +60,7 @@ run_plumber_task_file <-
       
       # check if we can get a response for info on the port.
       resp <-
-        httr::RETRY("GET", stringr::str_interp("http://localhost:${port}/info"), 
+        httr::RETRY("GET", stringr::str_interp("http://127.0.0.1:${port}/info"),
                     quiet = TRUE)
       if (httr::http_error(resp)) {
         response_error <- tryCatch(

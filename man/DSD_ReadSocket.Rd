@@ -4,10 +4,11 @@
 \alias{DSD_ReadSocket}
 \title{A DSD That Reads from a Server Port}
 \usage{
-DSD_ReadSocket(host = "localhost", port, retry_args = NULL, ...)
+DSD_ReadSocket(host = "127.0.0.1", port, retry_args = NULL, ...)
 }
 \arguments{
-\item{host}{hostname.}
+\item{host}{hostname or IP address. Defaults to \code{"127.0.0.1"}, the IPv4
+loopback address for localhost.}
 
 \item{port}{host port.}
 
@@ -22,7 +23,8 @@ A \link[stream:DSD]{stream::DSD} object.
 Creates a \code{DSD_ReadStream} that reads from a port.
 }
 \examples{
-if (has_localhost_server(port = 8000)) {
+# tryCatch is used to catch connection errors
+tryCatch({
   # find a free port
   port <- httpuv::randomPort()
   port
@@ -46,9 +48,11 @@ if (has_localhost_server(port = 8000)) {
   # may already kill the process.
   if (rp1$is_alive()) rp1$kill()
   rp1
-} else {
-  message("localhost not available, example skipped.")
-}
+}, warning = function(w) {
+  message("localhost warning: ", w)
+}, error = function(e) {
+  message("localhost error: ", e)
+})
 }
 \seealso{
 Other Socket:

@@ -57,7 +57,8 @@ APIs generated using plumber can be easily deployed. See: \href{https://www.rplu
 task script file is generated for deployment.
 }
 \examples{
-if (has_localhost_server(port = 8000)) {
+# tryCatch is used to catch connection errors
+tryCatch({
   # find a free port
   port <- httpuv::randomPort()
   port
@@ -71,7 +72,7 @@ if (has_localhost_server(port = 8000)) {
   library(httr)
 
   # the info verb returns some basic information about the clusterer.
-  resp <- RETRY("GET", paste0("http://localhost:", port, "/info"))
+  resp <- RETRY("GET", paste0("http://127.0.0.1:", port, "/info"))
   d <- content(resp, show_col_types = FALSE)
   d
 
@@ -80,13 +81,13 @@ if (has_localhost_server(port = 8000)) {
 
   tmp <- tempfile()
   stream::write_stream(dsd, tmp, n = 500, header = TRUE)
-  resp <- POST(paste0("http://localhost:", port, "/update"),
+  resp <- POST(paste0("http://127.0.0.1:", port, "/update"),
     body = list(upload = upload_file(tmp)))
   unlink(tmp)
   resp
 
   # retrieve the cluster centers using the get_centers verb
-  resp <- GET(paste0("http://localhost:", port, "/get_centers"))
+  resp <- GET(paste0("http://127.0.0.1:", port, "/get_centers"))
   d <- content(resp, show_col_types = FALSE)
   head(d)
 
@@ -101,9 +102,11 @@ if (has_localhost_server(port = 8000)) {
   if (interactive())
     publish_DSC_via_WebService("DSC_DBSTREAM(r = .05)",
            port = port, debug = TRUE)
-} else {
-  message("localhost not available, example skipped.")
-}
+}, warning = function(w) {
+  message("localhost warning: ", w)
+}, error = function(e) {
+  message("localhost error: ", e)
+})
 }
 \seealso{
 Other WebService:

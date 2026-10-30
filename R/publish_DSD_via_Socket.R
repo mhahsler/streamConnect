@@ -22,7 +22,8 @@
 #'  unexpectedly).
 #'
 #' @examples
-#' if (has_localhost_server(port = 8000)) {
+#' # tryCatch is used to catch connection errors
+#' tryCatch({
 #'   # find a free port
 #'   port <- httpuv::randomPort()
 #'   port
@@ -32,7 +33,7 @@
 #'   rp1
 #'
 #'   # connect to the port (retry waits for the socket to establish)
-#'   con <- retry(socketConnection(port = port, open = 'r'))
+#'   con <- retry(socketConnection(host = "127.0.0.1", port = port, open = 'r'))
 #'   dsd <- retry(DSD_ReadStream(con, col.names = c("x", "y", "z", ".class")))
 #'
 #'   get_points(dsd, n = 10)
@@ -46,9 +47,11 @@
 #'   # may already kill the process.
 #'   rp1$kill()
 #'   rp1
-#' } else {
-#'   message("localhost not available, example skipped.")
-#' }
+#' }, warning = function(w) {
+#'   message("localhost warning: ", w)
+#' }, error = function(e) {
+#'   message("localhost error: ", e)
+#' })
 #' @export
 publish_DSD_via_Socket <- function(dsd,
                                    port,

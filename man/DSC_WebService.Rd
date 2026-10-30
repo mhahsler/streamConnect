@@ -7,7 +7,8 @@
 DSC_WebService(url, verbose = FALSE, ...)
 }
 \arguments{
-\item{url}{endpoint URI address in the format \verb{http://host:port/<optional_path>}.}
+\item{url}{endpoint URI address in the format \verb{http://host:port/<optional_path>}.
+For localhost, use \verb{127.0.0.1}, the default IPv4 loopback address.}
 
 \item{verbose}{logical; display connection information.}
 
@@ -23,7 +24,8 @@ Provides a DSC front-end for a clusterer running as a web service. The methods
 retried with \code{\link[httr:RETRY]{httr::RETRY()}} if it fails the first time.
 }
 \examples{
-if (has_localhost_server(port = 8000)) {
+# tryCatch is used to catch connection errors
+tryCatch({
   # find a free port
   port <- httpuv::randomPort()
   port
@@ -33,7 +35,7 @@ if (has_localhost_server(port = 8000)) {
   rp1
 
   # get a local DSC interface
-  dsc <- DSC_WebService(paste0("http://localhost", ":", port),
+  dsc <- DSC_WebService(paste0("http://127.0.0.1", ":", port),
     verbose = TRUE, config = httr::verbose(info = TRUE))
   dsc
 
@@ -51,9 +53,11 @@ if (has_localhost_server(port = 8000)) {
   rp1$kill()
   rp1
 
-} else {
-  message("localhost not available, example skipped.")
-}
+}, warning = function(w) {
+  message("localhost warning: ", w)
+}, error = function(e) {
+  message("localhost error: ", e)
+})
 }
 \seealso{
 Other WebService:
