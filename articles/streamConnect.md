@@ -30,6 +30,25 @@ library(streamConnect)
 
     #> Loading required package: stream
 
+We will use the same free server port throughout this vignette. Some
+systems do not allow the use of local ports, then the code in this
+vignette will not be executed.
+
+``` r
+
+run_code <- TRUE
+tryCatch({
+  port <- httpuv::randomPort()
+
+  }, warning = function(w) {
+    message("Ports unavailable: ", w)
+    run_code <<- FALSE
+  }, error = function(e) {
+    message("Ports unavailable: ", e)
+    run_code <<- FALSE
+})
+```
+
 ## Read a data stream over a socket
 
 Start a background process that publishes a stream. The publisher opens
@@ -38,8 +57,6 @@ not include column names, provide them when creating the reader.
 
 ``` r
 
-port <- httpuv::randomPort()
-
 socket_process <- publish_DSD_via_Socket(
   DSD_Gaussians(k = 3, d = 2),
   port = port
@@ -47,7 +64,7 @@ socket_process <- publish_DSD_via_Socket(
 socket_process
 ```
 
-    #> PROCESS 'R', running, pid 8317.
+    #> PROCESS 'R', running, pid 8026.
 
 Connect a local `DSD` reader and request points from the stream:
 
@@ -62,13 +79,13 @@ points <- get_points(socket_dsd, n = 10)
 head(points)
 ```
 
-    #>           x          y .class
-    #> 1 0.4317160 0.07363821      3
-    #> 2 0.2023140 0.96183217      2
-    #> 3 0.3892170 0.02812433      3
-    #> 4 0.2150092 0.95687083      2
-    #> 5 0.3598144 0.01449326      3
-    #> 6 0.3791551 0.03286669      3
+    #>           x            y .class
+    #> 1 0.3027910  0.610707372      1
+    #> 2 0.2441749  0.960364120      2
+    #> 3 0.1751205  0.965338470      2
+    #> 4 0.3405278  0.615312227      1
+    #> 5 0.1726735  0.954757539      2
+    #> 6 0.3939217 -0.004860281      3
 
 Close the reader and stop the publisher when finished:
 
@@ -88,19 +105,17 @@ for it:
 
 ``` r
 
-web_port <- httpuv::randomPort()
-
 clusterer_process <- publish_DSC_via_WebService(
   "DSC_DBSTREAM(r = .05)",
-  port = web_port
+  port = port
 )
 
-clusterer <- DSC_WebService(paste0("http://localhost:", web_port))
+clusterer <- DSC_WebService(paste0("http://127.0.0.1:", port))
 clusterer
 ```
 
     #> Web Service Data Stream Clusterer: DBSTREAM
-    #> Served from: http://localhost:26595 
+    #> Served from: http://127.0.0.1:11336 
     #> Class: DSC_WebService, DSC_R, DSC 
     #> Number of micro-clusters: 0 
     #> Number of macro-clusters: 0
@@ -116,36 +131,30 @@ update(clusterer, stream, n = 500)
 get_centers(clusterer)
 ```
 
-    #> # A tibble: 18 × 2
+    #> # A tibble: 24 × 2
     #>       X1       X2
     #>    <dbl>    <dbl>
-    #>  1 0.912  0.504  
-    #>  2 0.554  0.665  
-    #>  3 0.242  0.0686 
-    #>  4 0.948  0.595  
-    #>  5 0.581  0.714  
-    #>  6 0.911  0.550  
-    #>  7 0.247  0.0153 
-    #>  8 0.298 -0.00909
-    #>  9 0.850  0.499  
-    #> 10 0.196  0.0709 
-    #> 11 0.283  0.0488 
-    #> 12 0.985  0.624  
-    #> 13 0.630  0.715  
-    #> 14 0.514  0.641  
-    #> 15 0.204  0.130  
-    #> 16 0.602  0.662  
-    #> 17 0.956  0.537  
-    #> 18 0.284 -0.0584
+    #>  1 0.332  0.292  
+    #>  2 0.470  0.933  
+    #>  3 0.634  0.120  
+    #>  4 0.271  0.288  
+    #>  5 0.232  0.314  
+    #>  6 0.453  0.886  
+    #>  7 0.601  0.0798 
+    #>  8 0.700 -0.00260
+    #>  9 0.644  0.0666 
+    #> 10 0.652  0.00159
+    #> # ℹ 14 more rows
 
 ``` r
 
 get_weights(clusterer)
 ```
 
-    #>  [1] 58.365646 71.920920 74.630887 60.992149 74.360894 89.673484 54.582404
-    #>  [8] 29.568905 13.720000 43.746145 54.109393 17.041666 38.361624 24.469960
-    #> [15] 22.513467 37.922865 39.908855  5.657336
+    #>  [1] 50.364869 62.925534 17.643684 94.970135 62.171627 57.319254 13.376050
+    #>  [8] 28.404639 60.600800 29.533323 30.663367 48.203102 13.982802  5.231117
+    #> [15] 12.220861  8.834957 33.911419 45.884032 35.707734 27.142056  6.202858
+    #> [22]  8.310432 30.521944  6.727164
 
 Stop the service process when the work is complete:
 
@@ -165,30 +174,28 @@ available through the `serializer` argument.
 
 ``` r
 
-port <- httpuv::randomPort()
-
 source_process <- publish_DSD_via_WebService(
   "DSD_Gaussians(k = 3, d = 2)",
   port = port
 )
 
-remote_stream <- DSD_ReadWebService(paste0("http://localhost:", port))
+remote_stream <- DSD_ReadWebService(paste0("http://127.0.0.1:", port))
 get_points(remote_stream, n = 10)
 ```
 
     #> # A tibble: 10 × 3
     #>       X1    X2 .class
     #>    <dbl> <dbl>  <dbl>
-    #>  1 0.910 0.635      1
-    #>  2 0.987 0.695      1
-    #>  3 0.655 0.819      3
-    #>  4 0.588 0.870      3
-    #>  5 0.622 0.792      3
-    #>  6 0.618 0.810      3
-    #>  7 0.688 0.839      3
-    #>  8 0.748 0.845      3
-    #>  9 1.02  0.711      1
-    #> 10 0.784 0.386      2
+    #>  1 0.323 0.717      3
+    #>  2 0.354 0.691      3
+    #>  3 0.606 0.621      2
+    #>  4 0.295 0.606      3
+    #>  5 0.289 0.700      3
+    #>  6 0.377 0.297      1
+    #>  7 0.617 0.564      2
+    #>  8 0.293 0.712      3
+    #>  9 0.368 0.681      3
+    #> 10 0.321 0.694      3
 
 ``` r
 

@@ -17,6 +17,7 @@ DSD_ReadWebService(url, verbose = FALSE, ...)
 - url:
 
   endpoint URI address in the format `http://host:port/<optional_path>`.
+  For localhost, use `127.0.0.1`, the default IPv4 loopback address.
 
 - verbose:
 
@@ -48,7 +49,8 @@ Other dsd:
 ## Examples
 
 ``` r
-if (has_localhost_server(port = 8000)) {
+# tryCatch is used to catch connection errors
+tryCatch({
   # find a free port
   port <- httpuv::randomPort()
   port
@@ -62,7 +64,7 @@ if (has_localhost_server(port = 8000)) {
   rp1
 
   # create a DSD that connects to the web service
-  dsd <- DSD_ReadWebService(paste0("http://localhost", ":", port))
+  dsd <- DSD_ReadWebService(paste0("http://127.0.0.1", ":", port))
   dsd
 
   get_points(dsd, n = 10)
@@ -73,9 +75,11 @@ if (has_localhost_server(port = 8000)) {
   # may already kill the process.
   rp1$kill()
   rp1
-} else {
-  message("localhost not available, example skipped.")
-}
+}, warning = function(w) {
+  message("localhost warning: ", w)
+}, error = function(e) {
+  message("localhost error: ", e)
+})
 
 #> PROCESS 'R', finished.
 ```

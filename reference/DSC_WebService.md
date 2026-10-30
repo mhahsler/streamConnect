@@ -17,6 +17,7 @@ DSC_WebService(url, verbose = FALSE, ...)
 - url:
 
   endpoint URI address in the format `http://host:port/<optional_path>`.
+  For localhost, use `127.0.0.1`, the default IPv4 loopback address.
 
 - verbose:
 
@@ -46,7 +47,8 @@ Other dsc:
 ## Examples
 
 ``` r
-if (has_localhost_server(port = 8000)) {
+# tryCatch is used to catch connection errors
+tryCatch({
   # find a free port
   port <- httpuv::randomPort()
   port
@@ -56,7 +58,7 @@ if (has_localhost_server(port = 8000)) {
   rp1
 
   # get a local DSC interface
-  dsc <- DSC_WebService(paste0("http://localhost", ":", port),
+  dsc <- DSC_WebService(paste0("http://127.0.0.1", ":", port),
     verbose = TRUE, config = httr::verbose(info = TRUE))
   dsc
 
@@ -74,10 +76,12 @@ if (has_localhost_server(port = 8000)) {
   rp1$kill()
   rp1
 
-} else {
-  message("localhost not available, example skipped.")
-}
-#> Connecting to DSC Web service at http://localhost:11336
+}, warning = function(w) {
+  message("localhost warning: ", w)
+}, error = function(e) {
+  message("localhost error: ", e)
+})
+#> Connecting to DSC Web service at http://127.0.0.1:11336
 #> Success
 
 #> PROCESS 'R', finished.

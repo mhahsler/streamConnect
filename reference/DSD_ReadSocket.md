@@ -5,14 +5,15 @@ Creates a `DSD_ReadStream` that reads from a port.
 ## Usage
 
 ``` r
-DSD_ReadSocket(host = "localhost", port, retry_args = NULL, ...)
+DSD_ReadSocket(host = "127.0.0.1", port, retry_args = NULL, ...)
 ```
 
 ## Arguments
 
 - host:
 
-  hostname.
+  hostname or IP address. Defaults to `"127.0.0.1"`, the IPv4 loopback
+  address for localhost.
 
 - port:
 
@@ -45,7 +46,8 @@ Other dsd:
 ## Examples
 
 ``` r
-if (has_localhost_server(port = 8000)) {
+# tryCatch is used to catch connection errors
+tryCatch({
   # find a free port
   port <- httpuv::randomPort()
   port
@@ -69,9 +71,11 @@ if (has_localhost_server(port = 8000)) {
   # may already kill the process.
   if (rp1$is_alive()) rp1$kill()
   rp1
-} else {
-  message("localhost not available, example skipped.")
-}
+}, warning = function(w) {
+  message("localhost warning: ", w)
+}, error = function(e) {
+  message("localhost error: ", e)
+})
 
 #> PROCESS 'R', finished.
 ```
